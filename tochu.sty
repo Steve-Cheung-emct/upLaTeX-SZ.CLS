@@ -1,0 +1,241 @@
+﻿% tochu.sty by Shinsaku Fujita 1998/08/30
+% Copyright (C) 1998 by Shinsaku Fujita, All rights reserved. 
+%
+%  縦書における頭注命令
+%
+%  作成者: 藤田眞作
+%          fujitas@chem.kit.ac.jp
+%
+%   藤田眞作著「続LaTeX2e階梯(縦書編)」所載
+%
+%   無保証
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\j@urnalname{tochu}
+\def\versi@ndate{August 30, 1998}
+\def\versi@nno{ver1.00}
+\def\copyrighth@lder{SF} % Shinsaku Fujita
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\typeout{Option Style `\j@urnalname' (\versi@nno) <\versi@ndate>\space 
+[\copyrighth@lder]}
+%
+% 頭注のレイアウト
+%  \handurawidth
+%  \textwidth
+%  \marginparsep　より
+%  \marginparwidth (計算)
+%
+\RequirePackage{plext}
+\newdimen\handurawidth
+\def\settochuu{%
+  \setlength\@tempdima{\handurawidth}
+  \addtolength\@tempdima{-\textwidth}
+  \addtolength\headsep{\@tempdima}
+  \addtolength\headsep{\maxdepth}
+  \addtolength\@tempdima{-\marginparsep}
+  \setlength\marginparwidth{\@tempdima}
+  \@settopoint\marginparwidth}
+%
+% 脚注・頭注番号のカウンター
+%
+\@ifundefined{c@kcbango}{\newcounter{kcbango}}{}
+\newif\ifchuukanjibango \chuukanjibangofalse
+%
+%漢数字を使うときのスイッチ
+%    
+\def\kanjichuu{\chuukanjibangotrue
+%\def\thekcbango{{\gt\Kanji{kcbango}}}%
+\def\thekcbango{{\mcfamily\ltseries\Kanji{kcbango}}}%
+\let\chuuRef=\ref}
+%
+% アラビア数字を使うときのスイッチ
+%
+\def\arabicchuu{\chuukanjibangofalse
+%\def\chuuRef##1{\kansuji{\ref{##1}}}}
+\def\chuuRef##1{\rensuji{\ref{##1}}}}
+%
+%デフォルトはアラビア数字
+%
+\arabicchuu
+%\kanjichuu
+%
+% 内部命令(本文中への脚注番号の出力形式)
+%
+\def\@maketatekcmark#1{%
+  \hbox to\z@{\hskip-.25zw\raise.9zh\hbox{%
+  \kanjiskip=0pt plus.5pt minus.4pt%added by SF 1998/11/06
+  \hbox{\scriptsize \chuuRef{#1}}}\hss}}
+\def\@makeyokokcmark#1{\hbox{%
+  \kanjiskip=0pt plus.5pt minus.4pt%added by SF 1998/11/06
+  \@textsuperscript{\normalfont\chuuRef{#1}}}}
+%
+% 脚注(頭注)番号を本文へ出力
+% \kyakuchumark{参照キー}
+%
+\def\zmark#1{%
+%  \refstepcounter{kcbango}\label{#1}%
+  \leavevmode
+  \ifhmode\edef\@x@sf{\the\spacefactor}\nobreak\fi
+  \ifydir\@makeyokokcmark{#1}\else\@maketatekcmark{#1}\fi
+  \ifhmode\spacefactor\@x@sf\fi\relax}
+%
+% 脚注(頭注)への通し番号の出力形態(内部命令)
+%
+\def\@zbango#1{\leavevmode
+ \refstepcounter{kcbango}\label{#1}%
+ \hbox to0pt{\hss\ifchuukanjibango\thekcbango\else
+  \rensuji{\thekcbango}\fi \kern5pt}}
+%
+%脚注(頭注)の内容
+% \kyakuchutext{参照キー}{内容}
+%
+\def\ztxt#1#2{\marginpar{\fontsize{10pt}{13pt}\mc\selectfont\@zbango{#1}#2}} 
+\reversemarginpar
+\endinput
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%例文
+% chutest.tex
+% 藤田眞作「続LaTeX2e階梯(縦組編)」
+%
+\documentclass{tarticle}
+\usepackage{furiknkt}
+\usepackage{tochu}
+%\usepackage{kyakuchu}
+
+\textwidth=39zw
+\handurawidth=49zw
+\marginparsep=2zw
+%\setkyakuchu%脚注領域の計算
+\settochuu%頭注領域の計算
+
+%\kanjichuu
+
+\begin{document}
+
+歌枕として、
+%
+\ztxt{A1}{福島県白河市にあった奥州街道の関所。}
+\ztxt{A2}{%
+芭蕉「おくのほそ道」
+萩原 恭男 校注、岩波文庫七九 (一九九一)。}
+\ztxt{A3}{%
+蓑笠庵 梨一「奥細道菅菰抄」(おくのほそみちすがもしょう。
+文献\ref{A2}に付録として掲載)の注釈が、
+典拠を明らかにしている。}
+%%%%%%%%%%%%%%%%%%%%
+\zmark{A1}白河の関は古来有名である。
+ここより外は\Kanakt{陸奥}{みちのく}として、
+人々の旅情をかきたてる場所であった。
+松尾芭蕉\zmark{A2}「奥の細道」
+の白河(白川)の関の条には、この歌枕を読み込んだ
+\zmark{A3}古歌の一節がさりげなく引用されている。
+
+\vspace{.5\baselineskip}
+みちのくにの白河関こえ侍りけるに
+\hfill \zmark{A4}平兼盛
+\ztxt{A4}{たいらのかねもり。\rensuji{?}～九九〇。
+平安前期の歌人。三十六歌仙の一人。従五位下駿河守。
+家集に「兼盛集」がある。}
+\begin{verse}
+\zmark{A5}%
+たよりあらばいかで都へつげやらむけふしら川の関はこえぬと
+\end{verse}
+\ztxt{A5}{「拾遺集」別?三三九}
+
+\vspace{.5\baselineskip}
+陸奥に修行してまかりけるに、白河の関にとまりて、
+ところがらにや、常よりも月おもしろくあはれにて、
+能因が「秋風ぞ吹く」と申しけむ折、いつなりけむ
+と思ひ出でられて、余波多くおぼえければ、
+関屋の柱に書きつけける
+\hfill\zmark{A6}西行法師
+\ztxt{A6}{さいぎょうほうし。一一一八～一一九〇。
+平安時代末期の歌人。}
+\begin{verse}
+\zmark{A7}%
+白河の関屋を月の洩るからに人の心をとむるなりけり
+\end{verse}
+\ztxt{A7}{「山家集」。
+%「新拾遺集」羇旅。
+ここでは、「西行物語」桑原博史全訳注、
+講談社学術文庫(一九八一)より引用。}%
+
+\vspace{.5\baselineskip}
+みちのくににまかりだりけるに、しら川の関にてよみ侍りける
+\hfill\zmark{A8}能因法師
+\ztxt{A8}{のういんほうし。九八八～\rensuji{?}。
+平安時代中期の歌人。三十六歌仙の一人。}
+\begin{verse}
+\zmark{A9}%
+宮こをば霞とともに立ちしかど秋風ぞふくしら川の関
+\end{verse}
+\ztxt{A9}{「後拾遺集」羇旅?五一八番。}
+
+\mbox{}\hfill 左大弁親宗
+\begin{verse}
+\zmark{B1}%
+もみぢばの皆紅にちりしけば名のみなりけり白川の関
+\end{verse}
+\ztxt{B1}{「千載集」秋歌下?三六四}
+
+\vspace{.5\baselineskip}
+\ztxt{C4}{「詞歌和歌集」秋?一三〇番。}%
+宇治前太政大臣、白河にて見行客といふ事をよめる
+\hfill 堀河右大臣
+\begin{verse}
+\zmark{C4}%
+関こゆる人に問ばやみちのくのあだちのまゆみ紅葉しにきや
+\end{verse}
+
+\mbox{}\hfill\zmark{B2}源頼政
+%%%%%%%%%%%%%%
+\ztxt{B2}{みなもとのよりまさ。
+一一〇四一一八〇。従三位頼政。
+平安時代末期の武将?歌人。
+保元?平治の乱に功があった。
+のち、以仁王をたてて
+平家追討を企てたが敗れた。
+家集に「源従三位頼政卿集」がある。}
+\ztxt{B3}{「千載集」秋歌下?三六五}
+%%%%%%%%%%%
+\begin{verse}
+\zmark{B3}%
+都にはまだ青葉にて見しかども紅葉散りしく白川の関
+\end{verse}
+
+\vspace{.5\baselineskip}
+白川院鳥羽殿におわしましける時、をのこども歌合し侍りけるに、\\
+卯花をよめる \hfill 藤原季通朝臣
+\begin{verse}
+\zmark{C1}%
+\ztxt{C1}{「千載集」夏歌?一四二}%
+見て過ぐる人しなければ卯花のさける垣ねや白川の関
+\end{verse}
+
+\vspace{.5\baselineskip}
+羇中歳暮といへる心をよめる \hfill 僧都印性
+\begin{verse}
+\zmark{C2}%
+\ztxt{C2}{「千載集」羇旅歌?五四三}%
+東路も年も末にやなりぬらむ雪ふりにける白川の関
+\end{verse}
+
+\mbox{} \hfill 後久我太政大臣通光
+\begin{verse}
+\zmark{C3}%
+\ztxt{C3}{「夫木集」巻十一}%
+白河の関の秋とは聞きしかど初雪わくる山のべの道
+\end{verse}
+
+\vspace{.5\baselineskip}
+芭蕉は、白河の関を訪ねたが、この歌枕を前にして、
+不思議なことに俳句を残していない。
+弟子の曽良の句を「奥の細道」に書き留めている。
+
+\vspace{.5\baselineskip}
+\begin{verse}
+卯の花をかざしに関の晴着かな
+\end{verse}
+\end{document}

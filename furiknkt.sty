@@ -1,0 +1,917 @@
+% furiknkt.sty by Shinsaku Fujita v1.01 2000/02/11
+% furiknkt.sty by Shinsaku Fujita v1.00 1998/08/18
+% Copyright (C) 1998, 2000 by Shinsaku Fujita, All rights reserved. 
+%
+%  縦組みの肩ツキルビを自動的に組むためのマクロです．
+%
+%  作成者: 藤田眞作
+%          fujitas@chem.kit.ac.jp
+%
+%   藤田眞作著「続\LaTeX2e階梯・縦組編」所載
+%
+%
+%  (縦組みの中ツキルビは横組み用のfurikana.styを流用することが
+%   できます。
+%
+%  \kanakt[原則]{親文字}{ルビ}
+
+%     <原則> オプション0-4 (省略時は1)を指定
+%       0 親文字とルビの長いほうにあわせて肩付き、短い方を均等割
+%       1 原則1 肩ツキルビが長いときに下端に、後の文を陥入(ルビ一字分)
+%       2 原則2 肩ツキルビが長いときに下端に、後の文を陥入(ルビ二分)
+%       3 原則3 肩ツキルビが長いときに下端に、後の文の陥入なし
+%       4 原則4 ルビが長いときの例外　ex. 轟津 (とどろきのつ)
+%     <親文字> ベタで漢字を指定
+%     <ルビ> ベタでふりがなを指定
+%  
+%  \Kanakt[原則]{親文字1,親文字2,...}{ルビ1,ルビ2,...}
+%  
+%     <原則> オプション0-4 (省略時は1)を指定
+%       0 親文字とルビの長いほうにあわせて肩付き、短い方を均等割
+%       1 原則1 肩ツキルビが長いときに下端に、後の文を陥入(ルビ一字分)
+%       2 原則2 肩ツキルビが長いときに下端に、後の文を陥入(ルビ二分)
+%       3 原則3 肩ツキルビが長いときに下端に、後の文の陥入なし
+%       4 原則4 ルビが長いときの例外　ex. 轟津 (とどろきのつ)
+%     <親文字1,...> ベタで漢字を指定 (ルビと対応させて列挙
+%     <ルビ1,...> ベタでふりがなを指定
+%
+% \KANAkt{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+% \KANAktorig{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}に改名
+%     <正味幅> 出来上がったルビ付き文字の幅 (非陥入部分)
+%     <箱幅>   箱幅(均等割に延ばすべき幅)
+%     <ルビ幅> ルビ幅(均等割に延ばすべき幅)
+%     <親文字> ベタで漢字を指定
+%     <ルビ>   ベタでふりがなを指定
+%
+% 2000/02/11 v1.01 by Shinsaku Fujita
+% \KANAkttop{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+% ルビの高さなし
+%   藤田眞作著「入門・縦横文書術」所載
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\j@urnalname{furiknkt}
+%\def\versi@ndate{August 18, 1998}
+%\def\versi@nno{ver1.00}
+%\def\copyrighth@lder{SF} % Shinsaku Fujita
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\j@urnalname{furiknkt}
+\def\versi@ndate{February 11, 2000}
+\def\versi@nno{ver1.01}
+\def\copyrighth@lder{S. Fujita} % Shinsaku Fujita
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\typeout{Option Style `\j@urnalname' (\versi@nno) <\versi@ndate>\space 
+[\copyrighth@lder]}
+\typeout{藤田眞作著「続\LaTeX2e階梯・縦組編」所載}
+\typeout{藤田眞作著「入門・縦横文書術」所載}
+% ********
+% * 警告 *
+% ********
+% ルビ活字は、本文活字の1/2のものを用いるのが原則です。
+% 原則をはずれる場合もなんとか対処できるようにしてありますが、
+% 最初に警告を出しておきます。
+%
+\setbox0=\hbox{漢}
+\setbox1=\hbox{\tiny あ}
+\dimen0=\wd0 \divide\dimen0 by2\relax
+\dimen1=\dimen0
+\advance\dimen0 by.01zw
+\advance\dimen1 by-.01zw
+\ifdim\wd1<\dimen1\relax
+\typeout{ルビの活字が小さすぎます。}\fi
+\ifdim\wd1>\dimen0\relax
+\typeout{ルビの活字が大きすぎます。}\fi
+%
+% ルビの活字の大きさ
+%
+\let\rubykatuji=\tiny
+%
+% ルビと親文字との間隔
+% 標準は0pt。さらに開けたい場合は、プリアンブルで変更。
+%
+\@ifundefined{furikanaaki}{%furikana.styと併用のとき
+\newdimen\furikanaaki
+\furikanaaki=0pt}{}
+%
+%
+%
+% \nakakintou{長さ}{文字列}
+%
+%   均等割 (ただし，1文字の場合は中央揃えにする)
+%
+\@ifundefined{nakakintou}{%furikana.styと併用のとき
+\def\nakakintou#1#2{\hbox to#1{%
+ \hss\kanjiskip=0pt plus 1fill minus 1fill
+ \xkanjiskip=\kanjiskip #2\hss}}%
+}{}
+%
+% \katatsukiK{長さ}{文字列}
+%
+%   文字列を肩ツキで、広げる
+%
+\def\katatsukiK#1#2{\hbox to#1{%
+\kanjiskip=0pt plus 1fill%%minus 1fill
+\xkanjiskip=0pt\hbox{}#2\hss}}
+%
+% \katatsukiR{長さ}{文字列}
+%
+%   文字列を肩ツキで、詰める
+%
+\def\katatsukiR#1#2{\hbox to#1{#2\hss}}
+%
+% \KANA{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+%   手動の振り仮名 (横組みのときと同じ)
+%
+\@ifundefined{KANA}{%furikana.styと併用のとき
+\def\KANA#1#2#3#4#5{%
+ \def\@rubykatuji{\rubykatuji}%
+ \hbox to#1{\vbox{%
+ \hbox to#1{\hss\nakakintou{#3}{\hss\@rubykatuji #5\hss}\hss}%
+ \kern\furikanaaki
+ \nointerlineskip
+ \hbox to#1{\hss\nakakintou{#2}{#4}\hss}}}}
+}{}
+%
+% \KANAkt{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+% \KANAktorig{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+%   手動の振り仮名
+%   ルビを詰める(ルビが長いとき)
+%
+\def\KANAktorig#1#2#3#4#5{%
+ \def\@rubykatuji{\rubykatuji}%
+ \hbox to#1{\vbox{%
+ \hbox to#1{\katatsukiR{#3}{\@rubykatuji #5\hss}\hss}%
+ \kern\furikanaaki
+ \nointerlineskip
+ \hbox to#1{\katatsukiK{#2}{#4}\hss}}}}
+%
+% \KANAktS{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+% \KANAktSorig{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+%   手動の振り仮名
+%   ルビを広げる(ルビが短いとき)
+%
+\def\KANAktSorig#1#2#3#4#5{%
+ \def\@rubykatuji{\rubykatuji}%
+ \hbox to#1{\vbox{%
+ \hbox to#1{\katatsukiK{#3}{\@rubykatuji #5\hss}\hss}%
+ \kern\furikanaaki
+ \nointerlineskip
+ \hbox to#1{\katatsukiK{#2}{#4}\hss}}}}
+%
+% \KANAkttop{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+%   手動の振り仮名
+%   ルビを詰める(ルビが長いとき)、ルビ高さなし
+%   2000/2/11 by Shinsaku Fujita
+%
+\def\KANAkttop#1#2#3#4#5{%
+ \def\@rubykatuji{\rubykatuji}%
+ \hbox to#1{\vbox{%
+ \setbox6=\hbox{\katatsukiR{#3}{\@rubykatuji #5\hss}}%
+ \setbox6=\hbox to#1{\raise\dp6\hbox{\box6}\hss}%
+ \hbox{\ht6=0pt\dp6=0pt\box6}%
+ \kern\furikanaaki
+ \nointerlineskip
+ \hbox to#1{\katatsukiK{#2}{#4}\hss}}}}
+%
+% \KANAktStop{正味幅}{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+%   手動の振り仮名
+%   ルビを広げる(ルビが短いとき)、ルビ高さなし
+%   2000/2/11 by Shinsaku Fujita
+%
+\def\KANAktStop#1#2#3#4#5{%
+ \def\@rubykatuji{\rubykatuji}%
+ \hbox to#1{\vbox{%
+ \setbox6=\hbox{\katatsukiK{#3}{\@rubykatuji #5\hss}}%
+ \setbox6=\hbox to#1{\raise\dp6\hbox{\box6}\hss}%
+ \hbox{\ht6=0pt\dp6=0pt\box6}%
+ \kern\furikanaaki
+ \nointerlineskip
+ \hbox to#1{\katatsukiK{#2}{#4}\hss}}}}
+%
+% ルビ高さ、標準はあり
+%
+\def\kanaktdashioff{\let\KANAkt=\KANAktorig
+\let\KANAktS=\KANAktSorig}
+\def\kanaktdashion{\let\KANAkt=\KANAkttop
+\let\KANAktS=\KANAktStop}
+\kanaktdashioff
+%
+%  \k@n@kt[原則]{親文字}{ルビ}
+%
+%   メインマクロ
+%  
+%     <原則> オプション0-4 (省略時は1)を指定
+%       0 親文字とルビの長いほうにあわせて肩付き、短い方を均等割
+%       1 原則1 肩ツキルビが長いときに下端に、後の文を陥入(ルビ一字分)
+%       2 原則2 肩ツキルビが長いときに下端に、後の文を陥入(ルビ二分)
+%       3 原則3 肩ツキルビが長いときに下端に、後の文の陥入なし
+%       4 原則4 ルビが長いときの例外　ex. 轟津 (とどろきのつ)
+%     <親文字> ベタで漢字を指定
+%     <ルビ> ベタでふりがなを指定
+%
+\def\kanakt{\@ifnextchar[{\k@n@kt}{\k@n@kt[1]}}
+\def\k@n@kt[#1]#2#3{\leavevmode%
+\ifhmode\edef\@x@sf{\the\spacefactor}\fi
+　\kern-1zw%全角の空白
+\hbox{%
+%全体を伸ばしの設定にしておく
+\kanjiskip=0pt plus 1fill minus 1fill
+\xkanjiskip=0pt
+%
+\def\@rubykatuji{\rubykatuji}%
+\ifx\#2\empty\else%
+\ifx\#3\empty\else%
+\setbox0=\hbox{#2}%
+\setbox1=\hbox{\@rubykatuji #3}%
+\ifcase#1 \ifdim\wd0>\wd1\relax
+ \KANAktS{\wd0}{\wd0}{\wd0}{#2}{#3}\else
+ \KANAkt{\wd1}{\wd1}{\wd1}{#2}{#3}\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\or%#1=1 (原則1--default)
+ \ifdim\wd0<1.3zw%
+  \iKThonji{\wd0}{\wd1}{#2}{#3}%親文字1字
+\else
+\ifdim\wd0<2.3zw%
+  \iKThonjii{\wd0}{\wd1}{#2}{#3}%親文字2字
+\else
+\ifdim\wd0<3.3zw%
+  \iKThonjiii{\wd0}{\wd1}{#2}{#3}%親文字3字
+\else
+\ifdim\wd0<4.4zw%
+  \iKThonjiv{\wd0}{\wd1}{#2}{#3}%親文字4字
+\else
+%\ifdim\wd0<5.4zw%
+  \iKThonjv{\wd0}{\wd1}{#2}{#3}%親文字5字以上
+\fi\fi\fi\fi%\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\or%#1=2 (原則2--option)
+ \ifdim\wd0<1.3zw 
+   \iiKThonji{\wd0}{\wd1}{#2}{#3}%親文字1字
+ \else
+  \ifdim\wd0<2.3zw 
+   \iiKThonjii{\wd0}{\wd1}{#2}{#3}%親文字2字
+ \else
+  \ifdim\wd0<3.3zw 
+   \iiKThonjiii{\wd0}{\wd1}{#2}{#3}%親文字3字
+ \else
+  \ifdim\wd0<4.4zw 
+   \iiKThonjiv{\wd0}{\wd1}{#2}{#3}%親文字4字
+  \else
+   \iiKThonjv{\wd0}{\wd1}{#2}{#3}%親文字5字以上
+\fi\fi\fi\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\or%#1=3(原則3--option)
+ \ifdim\wd0<1.3zw 
+   \iiiKThonji{\wd0}{\wd1}{#2}{#3}%親文字1字
+ \else
+  \ifdim\wd0<2.3zw 
+   \iiiKThonjii{\wd0}{\wd1}{#2}{#3}%親文字2字
+ \else
+  \ifdim\wd0<3.3zw 
+   \iiiKThonjiii{\wd0}{\wd1}{#2}{#3}%親文字3字
+ \else
+  \ifdim\wd0<4.4zw 
+   \iiiKThonjiv{\wd0}{\wd1}{#2}{#3}%親文字4字
+  \else
+   \iiiKThonjv{\wd0}{\wd1}{#2}{#3}%親文字5字以上
+\fi\fi\fi\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\or%#1=4 (原則4--option)
+ \ifdim\wd0<1.3zw 
+   \ivKThonji{\wd0}{\wd1}{#2}{#3}%親文字1字
+ \else
+  \ifdim\wd0<2.3zw 
+   \ivKThonjii{\wd0}{\wd1}{#2}{#3}%親文字2字
+ \else
+  \ifdim\wd0<3.3zw 
+   \ivKThonjiii{\wd0}{\wd1}{#2}{#3}%親文字3字
+ \else
+  \ifdim\wd0<4.4zw 
+   \ivKThonjiv{\wd0}{\wd1}{#2}{#3}%親文字4字
+  \else
+   \ivKThonjv{\wd0}{\wd1}{#2}{#3}%親文字5字以上
+\fi\fi\fi\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\or%for further treatment
+\fi\ifhmode\spacefactor\@x@sf\fi\fi\fi}%
+\kern-1zw　%全角の空白
+}
+%
+% ***************
+% * 通常[1]処理 *
+% ***************
+%
+% 親文字1文字
+%
+% \iKThonji{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iKThonji#1#2#3#4{%
+ %親文字1字
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KANAkt{#1}{#1}{#1}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTkanjinobashi{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTkanjinobashi (1文字)
+%
+%　　親文字1文字で、ルビが長い
+%
+\def\KTkanjinobashi#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<0.95zw%詰め組み (ルビ約3字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+     \else%
+      \ifdim\dimen0<1.95zw%本文詰め組み(ルビ約5字まで)
+       \dimen1=#2 \advance\dimen1 by-.5zw%
+       \KANAkt{\dimen1}{#1}{#2}{#3}{#4}%
+      \else%本文詰め組み
+       \dimen1=#2 \advance\dimen1 by-.5zw%
+      \KANAkt{\dimen1}{#1}{#2}{#3}{#4}%
+\fi\fi}
+%
+% 親文字2文字
+%
+% \iKThonjii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iKThonjii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTkanjinobashii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \kananobashii (2文字)
+%　　親文字2文字で、親文字がルビより長い
+%
+ \def\KTkananobashii#1#2#3#4{%
+  \dimen0=#1\relax \advance\dimen0 by-#2\relax
+  \ifdim\dimen0<.55zw%親文字2文字，ルビ3文字
+   \KANAkt{#1}{#1}{#1}{#3}{#4}%詰め組み
+  \else
+  \ifdim\dimen0<1.1zw%親文字2文字，ルビ2文字
+   \dimen1=#1 \advance\dimen1 by-.5zw
+   \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%肩付き
+   \else 
+   \ifdim\dimen0<1.55zw%親文字2文字，ルビ1文字
+   \dimen1=#1 \advance\dimen1 by-.5zw
+   \KANA{#1}{#1}{\dimen1}{#3}{#4}%元のまま(例外)
+   \else %なし
+   \dimen1=#2 \advance\dimen1 by-.5zw
+   \KANAkt{#1}{#1}{\dimen1}{#3}{#4}%
+  \fi\fi\fi}
+%
+% \kanjinobashii (2文字)
+%　　親文字2文字で、親文字がルビより短い
+%
+\def\KTkanjinobashii#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<0.55zw%詰め組み (ルビ5字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+   \else
+   \ifdim\dimen0<1.45zw%少しひらく (ルビ6字まで)
+     \dimen2=#2 \advance\dimen2-0.5zw
+     \dimen1=\dimen2 \advance\dimen1-0.25zw
+       \KANAkt{\dimen2}{\dimen1}{#2}{#3}{#4}%
+     \else%本文末端二分アキ
+       \dimen2=#2\relax \advance\dimen2 by-.5zw%
+       \dimen1=\dimen2\relax \advance\dimen1 by-.5zw%
+      \KANAkt{\dimen2}{\dimen1}{#2}{#3}{#4}%
+\fi\fi}
+%
+% 親文字3文字
+%
+% \iKThonjiii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iKThonjiii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTkanjinobashiii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTkananobashiii (3文字)
+%　　親文字3文字で、親文字がルビより長い
+%
+\def\KTkananobashiii#1#2#3#4{%
+  \dimen0=#1\relax \advance\dimen0 by-#2\relax
+  \ifdim\dimen0<.5zw%親文字3文字，ルビ5文字
+   \KANAkt{#1}{#1}{#1}{#3}{#4}%
+  \else
+  \ifdim\dimen0<1zw%親文字3文字，ルビ4文字
+   \dimen1=#1\relax \advance\dimen1 by-.25zw
+   \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+   \else 
+   \ifdim\dimen0<2zw%親文字3文字，ルビ3文字
+    \dimen1=#1\relax \advance\dimen1 by-.5zw
+    \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+   \else
+    \ifdim\dimen0<2.2zw%親文字3文字，ルビ2文字
+    \dimen1=#1\relax \advance\dimen1 by-.5zw
+    \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+   \else %親文字3文字，ルビ1文字
+    \dimen1=#1\relax \advance\dimen1 by-1zw
+    \KANA{#1}{#1}{\dimen1}{#3}{#4}%
+\fi\fi\fi\fi}
+%
+% \KTkanjinobashiii (3文字)
+%　　親文字3文字で、親文字がルビより短い
+%
+\def\KTkanjinobashiii#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<1zw%詰め組み (ルビ約7字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+     \else%
+      \ifdim\dimen0<2zw%本文後四分アキ(ルビ約9字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.5zw%
+       \dimen2=\dimen1\relax \advance\dimen2 by-.25zw%
+       \KANAkt{\dimen1}{\dimen2}{#2}{#3}{#4}%KKKK
+     \else%
+      \ifdim\dimen0<3zw%本文後二分アキ(ルビ約11字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.5zw%
+       \dimen2=\dimen1\relax \advance\dimen2 by-.5zw%
+       \KANAkt{\dimen1}{\dimen2}{#2}{#3}{#4}%KKKK
+      \else%ルビ両袖に二分陥入
+       \dimen1=#1\relax \advance\dimen1 by1zw%
+       \dimen2=#2\relax \advance\dimen2 by-1zw%
+      \KANAkt{\dimen2}{\dimen1}{#2}{#3}{#4}%
+\fi\fi\fi}
+%
+% 親文字4文字
+%
+% \iKThonjiv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iKThonjiv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTkanjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \kananobashiv (4文字)
+%　　親文字4文字で、親文字がルビより長い
+%
+ \def\KTkananobashiv#1#2#3#4{%
+  \dimen0=#1\relax \advance\dimen0 by-#2\relax
+  \ifdim\dimen0<.6zw%親文字4文字，ルビ8, 7文字
+   \KANAkt{#1}{#1}{#1}{#3}{#4}%
+  \else
+  \ifdim\dimen0<1.2zw%親文字4文字，ルビ6文字
+   \dimen1=#1\relax \advance\dimen1 by-.5zw
+   \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+   \else 
+   \ifdim\dimen0<1.6zw%親文字4文字，ルビ5, 4文字
+    \dimen1=#1\relax \advance\dimen1 by-.5zw
+    \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+   \else 
+    \ifdim\dimen0<2.6zw%親文字4文字，ルビ3文字以下
+     \dimen1=#1\relax \advance\dimen1 by-.5zw
+     \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+   \else 
+    \ifdim\dimen0<3.2zw%親文字4文字，ルビ2文字以下
+     \dimen1=#1\relax \advance\dimen1 by-.5zw
+     \KANAktS{#1}{#1}{\dimen1}{#3}{#4}%
+    \else
+    \dimen1=#1\relax \advance\dimen1 by-1.5zw
+    \KANA{#1}{#1}{\dimen1}{#3}{#4}%
+  \fi\fi\fi\fi\fi}
+%
+% \KTkanjinobashiv (4文字)
+%　　親文字4文字で、親文字がルビより短い
+%
+ \def\KTkanjinobashiv#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<.6zw%詰め組み (ルビ約9字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+   \else%
+     \ifdim\dimen0<1.2zw%本文後四分アキ(ルビ約10字まで)
+       \dimen1=#1\relax \advance\dimen1 by.25zw
+       \dimen2=\dimen1\relax \advance\dimen2 by.25zw
+       \KANAkt{\dimen2}{\dimen1}{#2}{#3}{#4}%
+     \else%
+      \ifdim\dimen0<1.6zw%本文後四分アキ(ルビ約11字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.5zw%
+       \dimen2=#1\relax \advance\dimen2 by.75zw
+       \KANAkt{\dimen1}{\dimen2}{#2}{#3}{#4}%
+      \else%
+      \ifdim\dimen0<2.2zw%本文後四分アキ(ルビ約12字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.5zw%
+       \dimen2=#1\relax \advance\dimen2 by1.25zw
+       \KANAkt{\dimen1}{\dimen2}{#2}{#3}{#4}%
+      \else%ルビ両袖に二分陥入
+       \dimen1=#1\relax \advance\dimen1 by1zw%
+       \dimen2=#2\relax \advance\dimen2 by-1zw%
+      \KANAkt{\dimen2}{\dimen1}{#2}{#3}{#4}%
+    \fi\fi\fi\fi}
+%
+% 親文字5文字
+%
+% \iKThonjv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+% 代用
+%
+\def\iKThonjv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTkanjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% ***************
+% * 特殊[2]処理 *
+% ***************
+%
+% 親文字1文字
+%
+% \iiKThonji{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiKThonji#1#2#3#4{%
+ %親文字1字
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KANAkt{#1}{#1}{#1}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKanjinobashi{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKanjinobashi (1文字)
+%
+%　　親文字1文字で、ルビが長い
+%    (原則)本文前後四分アキ
+%
+\def\KTKanjinobashi#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<.5zw%詰め組み (ルビ約2字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+   \else%
+     \ifdim\dimen0<.95zw%本文前後八分アキ(ルビ約3字まで)
+       \dimen1=#1 \advance\dimen1 by.25zw
+       \KANAkt{\dimen1}{#1}{#2}{#3}{#4}%
+      \else%ルビ両袖に四分陥入
+       \dimen1=#2 \advance\dimen1 by-.25zw%
+      \KANAkt{\dimen1}{#1}{#2}{#3}{#4}%
+\fi\fi}
+%
+% 親文字2文字
+%
+% \iiKThonjii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiKThonjii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKanjinobashii{#1}{#2}{#3}{#4}%
+\fi}
+%
+% \KTKanjinobashii (2文字)
+%　　親文字2文字で、親文字がルビより短い
+%    (原則)本文後四分アキ
+%
+\def\KTKanjinobashii#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<0.1zw%詰め組み (ルビ約4字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+   \else
+   \ifdim\dimen0<.95zw%詰め組み (ルビ約5字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.25zw%
+       \dimen2=\dimen1\relax \advance\dimen2 by-.25zw%
+       \KANAkt{\dimen1}{\dimen2}{#2}{#3}{#4}%
+   \else%本文後四分アキ
+       \dimen1=#2\relax \advance\dimen1 by-.25zw%
+       \dimen2=\dimen1\relax \advance\dimen2 by-.5zw%
+       \KANAkt{\dimen1}{\dimen2}{#2}{#3}{#4}%
+\fi\fi}
+%
+%
+% 親文字3文字
+%
+% \iiKThonjiii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiKThonjiii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKanjinobashiii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKanjinobashiii (3文字)
+%　　親文字3文字で、親文字がルビより短い
+%    (原則)本文前後四分アキ
+%
+\let\KTKanjinobashiii=\KTKanjinobashii
+%
+% 親文字4文字
+%
+% \iiKThonjiv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiKThonjiv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKanjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \Kanjinobashiv (4文字)
+%　　親文字4文字で、親文字がルビより短い
+%
+\let\KTKanjinobashiv=\KTKanjinobashii
+%
+% 親文字5文字
+%
+% \iiKThonjv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+% 代用
+%
+\def\iiKThonjv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKanjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% ***************
+% * 特殊[3]処理 *
+% ***************
+%
+% 親文字1文字
+%
+% \iiiKThonji{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiiKThonji#1#2#3#4{%
+ %親文字1字
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KANAkt{#1}{#1}{#1}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKAnjinobashi{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KAnjinobashi (1文字)
+%
+%　　親文字1文字で、ルビが長い
+%    (原則)本文前後二分アキ
+%
+\def\KTKAnjinobashi#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<.45zw%詰め組み (ルビ約2字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+     \else%%前後文陥入なし
+       \KANAkt{#2}{#1}{#2}{#3}{#4}%
+\fi}
+%
+%
+% 親文字2文字
+%
+% \iiiKThonjii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiiKThonjii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKAnjinobashii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKAnjinobashii (2文字)
+%　　親文字2文字で、親文字がルビより短い
+%    (原則)本文前後二分アキ
+%
+ \def\KTKAnjinobashii#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<.2zw%詰め組み (ルビ約4字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+   \else%
+    \ifdim\dimen0<.6zw%詰め組み (ルビ約5字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.25zw%
+       \KANAkt{#2}{\dimen1}{#2}{#3}{#4}%
+    \else%本文前二分アキ
+       \dimen1=#2\relax \advance\dimen1 by-.5zw%
+      \KANAkt{#2}{\dimen1}{#2}{#3}{#4}%
+\fi\fi}
+%
+% 親文字3文字
+%
+% \iiiKThonjiii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiiKThonjiii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKAnjinobashiii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKAnjinobashiii (3文字)
+%　　親文字3文字で、親文字がルビより短い
+%    (原則)本文前後二分アキ
+%
+\let\KTKAnjinobashiii=\KTKAnjinobashii
+%
+% 親文字4文字
+%
+% \iiiKThonjiv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\iiiKThonjiv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKAnjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KAnjinobashiv (4文字)
+%　　親文字4文字で、親文字がルビより短い
+%
+\let\KTKAnjinobashiv=\KTKAnjinobashii
+%
+% 親文字5文字
+%
+% \iiiKThonjv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+% 代用
+%
+\def\iiiKThonjv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKAnjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% ***************
+% * 特殊[4]処理 *
+% ***************
+%
+% 親文字1文字
+%
+% \ivKThonji{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\ivKThonji#1#2#3#4{%
+ %親文字1字
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KANAkt{#1}{#1}{#1}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKANjinobashi{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKANjinobashi (1文字)
+%
+%　　親文字1文字で、ルビが長い
+%    (原則)本文後アキ
+%
+\let\KTKANjinobashi=\KTKanjinobashi
+%
+% 親文字2文字
+%
+% \ivKThonjii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\ivKThonjii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKANjinobashii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKANjinobashii (2文字)
+%　　親文字2文字で、親文字がルビより短い
+%    (原則)本文後アキなし
+%
+%
+ \def\KTKANjinobashii#1#2#3#4{%
+   \dimen0=#2\relax \advance\dimen0 by-#1\relax%親文字とルビの差で判断
+   \ifdim\dimen0<0.2zw%詰め組み (ルビ約4字まで)
+       \KANAkt{#1}{#1}{#2}{#3}{#4}%
+   \else
+   \ifdim\dimen0<0.9zw%本文後八分アケ (ルビ約5字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.25zw
+       \KANAkt{\dimen1}{\dimen1}{#2}{#3}{#4}%
+   \else%
+     \ifdim\dimen0<1.2zw%本文前後四分アキ(ルビ約6字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.25zw
+       \KANAkt{\dimen1}{\dimen1}{#2}{#3}{#4}%
+     \else%
+      \ifdim\dimen0<1.6zw%本文前後二分アキ(ルビ約7字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.25zw%
+       \KANAkt{\dimen1}{\dimen1}{#2}{#3}{#4}%
+     \else%
+      \ifdim\dimen0<2.2zw%本文前後二分アキ(ルビ約8字まで)
+       \dimen1=#2\relax \advance\dimen1 by-.25zw%
+       \KANAkt{\dimen1}{\dimen1}{#2}{#3}{#4}%
+     \else%ルビ両袖に二分陥入
+       \dimen1=#2\relax \advance\dimen1 by-.25zw%
+       \KANAkt{\dimen1}{\dimen1}{#2}{#3}{#4}%
+    \fi\fi\fi\fi\fi}
+%
+%
+% 親文字3文字
+%
+% \ivKThonjiii{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\ivKThonjiii#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiii{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKANjinobashiii{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKANjinobashiii (3文字)
+%　　親文字3文字で、親文字がルビより短い
+%    (原則)本文前後四分アキ
+%
+\let\KTKANjinobashiii=\KTKanjinobashii
+%
+% 親文字4文字
+%
+% \ivKThonjiv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+\def\ivKThonjiv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKANjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%
+% \KTKANjinobashiv (4文字)
+%　　親文字4文字で、親文字がルビより短い
+%
+\let\KTKANjinobashiv=\KTKanjinobashii
+%
+% 親文字5文字
+%
+% \ivKThonjv{箱幅}{ルビ幅}{親文字}{ルビ}
+%
+% 代用
+%
+\def\ivKThonjv#1#2#3#4{%
+   \ifdim#1>#2\relax%
+   %親文字のほうが長い
+    \KTkananobashiv{#1}{#2}{#3}{#4}%
+   \else
+   %親文字のほうが短い
+    \KTKANjinobashiv{#1}{#2}{#3}{#4}%
+   \fi}
+%%%%%%%%%%%%%
+%
+%  \Kanakt[原則]{親文字1,親文字2,...}{ルビ1,ルビ2,...}
+%  
+%     <原則> オプション0-3 (省略時は1)を指定
+%              0 親文字とルビの長いほうにあわせて均等割
+%              1 原則1 ルビが長いときに両端に前後の文を陥入(陥入度大)
+%              2 原則2 ルビが長いときに両端に前後の文を陥入(陥入度小)
+%              3 原則3 ルビが長いときに両端に前後の文を陥入なし
+%              4 原則4 ルビが長いときの例外　ex. 轟津 (とどろきのつ)
+%     <親文字1,...> ベタで漢字を指定 (ルビと対応させて列挙
+%     <ルビ1,...> ベタでふりがなを指定
+%
+\newcount\TestCnt
+\newcount\TestCNT
+\def\Kanakt{\@ifnextchar[{\@Kanakt}{\@Kanakt[1]}}
+\def\@Kanakt[#1]#2#3{\leavevmode\TestCnt=\z@
+\@for\member:=#2\do{\advance\TestCnt\@ne\TestCNT=\z@
+\@for\Member:=#3\do{\advance\TestCNT\@ne
+\ifnum\TestCnt=\TestCNT\relax%
+\k@n@kt[#1]{\member}{\Member}\fi}}}
+
+
+
+
+
+\endinput
+
+
