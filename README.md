@@ -27,3 +27,7 @@ I have made only a version of Chinese manual.
 
 
 Commercial allowed (signature reserved); copy freely.
+
+説明書下載：
+
+https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
