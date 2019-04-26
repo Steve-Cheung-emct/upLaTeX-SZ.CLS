@@ -18,6 +18,8 @@ It will compiled by {up\LaTeX} or {Up\TeX} on a Mac.
 
 This Template origined from Shigaku Zasshi（小川 弘和）, Department of Economics, Kumamoto Gakuen University.
 
+Website:http://www2.kumagaku.ac.jp/teacher/herogw/
+
 目前説明文件僅有一套中文版。
 
 I have made only a version of Chinese manual.
