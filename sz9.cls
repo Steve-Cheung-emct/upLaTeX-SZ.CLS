@@ -5,7 +5,7 @@
 %   Modified date:    2019/01/25 -- today 2019/04/24
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/04/03 v1.0b ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz9}[2019/04/03 v1.0b ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -102,8 +102,8 @@
   \def\n@baseline{15}%
 %
 %% 定義正文字號
-\renewcommand{\normalsize}{% \normalsize=10pt@18pt
-    \@setfontsize\normalsize\@xpt{18}%
+\renewcommand{\normalsize}{% \normalsize = 9pt@18pt
+    \@setfontsize\normalsize{9.86pt}{19.715}%
   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
   \abovedisplayshortskip \z@ \@plus3\p@
   \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
@@ -114,11 +114,11 @@
 \kanjiencoding{\kanjiencodingdefault}%
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{\ht0}
-\setlength\Cdp{\dp0}
-\setlength\Cwd{\wd0}
-\setlength\Cvs{\baselineskip}
-\setlength\Chs{\wd0}
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
 
 %%%古典字體設置
 \DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
@@ -134,8 +134,8 @@
 \DeclareRobustCommand*{\mit}{\@fontswitch\relax\mathnormal}
 
 % 字號設定
-\newcommand{\small}{%
-  \@setfontsize\small\@ixpt{11}%
+\newcommand{\small}{%  \small = 8 pt @12pt
+  \@setfontsize\small{8.76pt}{13.143}%
   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -145,8 +145,8 @@
               \itemsep \parsep}%
   \belowdisplayskip \abovedisplayskip}
 
-\newcommand{\footnotesize}{%
-  \@setfontsize\footnotesize\@viiipt{10}%
+\newcommand{\footnotesize}{% \footnotesize = 7 pt@12pt
+  \@setfontsize\footnotesize{7.667pt}{13.143}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -157,22 +157,22 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny\@viipt\@ixpt}					    %\tiny= 7pt@9pt
+\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{9.858}}					    %\tiny = 6 pt@9pt
 
-\newcommand{\scriptsize}{\@setfontsize\scriptsize\@xipt\@xiipt} %\scriptsize=11pt@12pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{10.95pt}{13.143}} %\scriptsize=10pt@12pt
 
-\newcommand{\large}{\@setfontsize\large\@xiipt{18}}				      %\large= 12pt@18pt
-\newcommand{\Large}{\@setfontsize\Large\@xivpt{22}}				      %\Large= 14pt@22pt
+\newcommand{\large}{\@setfontsize\large{12.05pt}{19.715}}				      %\large = 11pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{14.24pt}{24.096}}				      %\Large = 13pt@22pt
 
 %\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{30}}  			    %\LARGE= 17pt@30pt
+\newcommand{\LARGE}{\@setfontsize\LARGE{16.43pt}{30.67}}  			    %\LARGE = 15pt@28pt
 																																%因正文夾注排版需要
 																																%特將此設定爲2倍行距为宜
 %\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
-\newcommand{\huge}{\@setfontsize\huge\@xxpt{30}}    				    %\huge= 20pt@30pt
+\newcommand{\huge}{\@setfontsize\huge{18.62pt}{32.86}}    				    %\huge = 17pt@30pt
 
 %\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
-\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{36}}   				    %\Huge= 25pt@36pt
+\newcommand{\Huge}{\@setfontsize\Huge{21.91pt}{32.86}}   				    %\Huge = 20pt@30pt
 
 \newcommand{\liuhao}{\@setfontsize\liuhao{6.572pt}{10}} % 六號
 \newcommand{\xiaowu}{\@setfontsize\xiaowu{9.895pt}{13.143}} % 小五
@@ -840,7 +840,7 @@
 \newenvironment{verse}
   {\let\\\@centercr
    \list{}{\itemsep\z@ \itemindent -1.5em%
-           \listparindent\itemindent \mcfamily %注意！！
+           \listparindent\itemindent \mcfamily %注意
            \rightmargin\leftmargin \advance\leftmargin 1.5em}%
            \item\relax}{\endlist}
 %引文環境（前後均有縮進、首行縮進）
@@ -856,7 +856,7 @@
 \newenvironment{hanging}
   {\let\\\@centercr
    \list{}{\itemsep\z@ \itemindent -5em%
-           \listparindent\itemindent \mcfamily %注意！！
+           \listparindent\itemindent \mcfamily %注意
            \rightmargin\leftmargin \advance\leftmargin 1.5em}%
            \item\relax}{\endlist}
 
@@ -1189,8 +1189,8 @@
 % \UTF{FE35}\hbox{\yoko\expandafter\ajTumesuji\expandafter*\expandafter{\number\@theenmark}}\UTF{FE36}}
  \UTF{FE35}\hbox{\kansuji\number\@theenmark}\UTF{FE36}\hskip3pt} %2019/01/25 \UTF{FE35}\UTF{FE36} 全角括號
 % \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt} %2019/04/02
-%\def\enotesize{\normalsize}
-\def\enotesize{\large}
+\def\enotesize{\normalsize}
+%\def\enotesize{\large}
 
 \newlength\chuskip
 \setlength\chuskip{1zw}  							 %在正文中設置可覆蓋此句
@@ -1251,6 +1251,5 @@
 \newcommand{\初号}{\chuhao}
 
 \endinput
-
 
 

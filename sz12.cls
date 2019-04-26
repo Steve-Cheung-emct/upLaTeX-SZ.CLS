@@ -5,7 +5,7 @@
 %   Modified date:    2019/01/25 -- today 2019/04/24
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/04/03 v1.0b ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz10}[2019/04/03 v1.0b ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -102,8 +102,8 @@
   \def\n@baseline{15}%
 %
 %% 定義正文字號
-\renewcommand{\normalsize}{% \normalsize=10pt@18pt
-    \@setfontsize\normalsize\@xpt{18}%
+\renewcommand{\normalsize}{% \normalsize = 12pt@18pt
+    \@setfontsize\normalsize{13.143pt}{19.715}%
   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
   \abovedisplayshortskip \z@ \@plus3\p@
   \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
@@ -114,11 +114,11 @@
 \kanjiencoding{\kanjiencodingdefault}%
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{\ht0}
-\setlength\Cdp{\dp0}
-\setlength\Cwd{\wd0}
-\setlength\Cvs{\baselineskip}
-\setlength\Chs{\wd0}
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
 
 %%%古典字體設置
 \DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
@@ -134,8 +134,8 @@
 \DeclareRobustCommand*{\mit}{\@fontswitch\relax\mathnormal}
 
 % 字號設定
-\newcommand{\small}{%
-  \@setfontsize\small\@ixpt{11}%
+\newcommand{\small}{%  \small = 11 pt @12pt
+  \@setfontsize\small{12.05pt}{13.143}%
   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -145,8 +145,8 @@
               \itemsep \parsep}%
   \belowdisplayskip \abovedisplayskip}
 
-\newcommand{\footnotesize}{%
-  \@setfontsize\footnotesize\@viiipt{10}%
+\newcommand{\footnotesize}{% \footnotesize = 10 pt@12pt
+  \@setfontsize\footnotesize{10.95pt}{13.143}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -157,22 +157,23 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny\@viipt\@ixpt}					    %\tiny= 7pt@9pt
+\newcommand{\tiny}{\@setfontsize\tiny{8.76pt}{9.13}}					    %\tiny = 8 pt @ 10 pt
 
-\newcommand{\scriptsize}{\@setfontsize\scriptsize\@xipt\@xiipt} %\scriptsize=11pt@12pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{14.24pt}{19.715}} %\scriptsize=13pt@18pt
 
-\newcommand{\large}{\@setfontsize\large\@xiipt{18}}				      %\large= 12pt@18pt
-\newcommand{\Large}{\@setfontsize\Large\@xivpt{22}}				      %\Large= 14pt@22pt
+\newcommand{\large}{\@setfontsize\large{15.334pt}{19.715}}				      %\large = 14pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{18.62pt}{30.67}}				      %\Large = 17pt@28pt
 
 %\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{30}}  			    %\LARGE= 17pt@30pt
-																																%因正文夾注排版需要
-																																%特將此設定爲2倍行距为宜
+\newcommand{\LARGE}{\@setfontsize\LARGE{21.91pt}{32.86}}  			    %\LARGE = 20pt@30pt
+
+	%		因正文夾注排版需要特將此設定爲2倍行距为宜
+
 %\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
-\newcommand{\huge}{\@setfontsize\huge\@xxpt{30}}    				    %\huge= 20pt@30pt
+\newcommand{\huge}{\@setfontsize\huge{26.29pt}{32.86}}    				    %\huge = 24pt@30pt
 
 %\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
-\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{36}}   				    %\Huge= 25pt@36pt
+\newcommand{\Huge}{\@setfontsize\Huge{30.67pt}{39.43}}   				    %\Huge = 28pt@36pt
 
 \newcommand{\liuhao}{\@setfontsize\liuhao{6.572pt}{10}} % 六號
 \newcommand{\xiaowu}{\@setfontsize\xiaowu{9.895pt}{13.143}} % 小五
@@ -614,19 +615,19 @@
     \addcontentsline{toc}{part}{#1}%
   \fi
   \markboth{}{}%
-  { \Huge\bfseries
+  { \LARGE\bfseries
    \interlinepenalty\@M\normalfont
    \ifnum \c@secnumdepth >-2\relax
    \rule{0pt}{30pt}
     \rule{30pt}{0pt}\prepartname\thepart\postpartname
      \par\vskip20\p@
    \fi
-    \rule{48pt}{0pt}\Huge\bfseries#2\par}%
+    \rule{48pt}{0pt}\LARGE\bfseries#2\par}%
    \@endpart}
 \def\@spart#1{{%
   \centering
   \interlinepenalty\@M\normalfont
-  \Huge\bfseries#1\par}%
+  \LARGE\bfseries#1\par}%
   \@endpart}
 \def\@endpart{\vfil\newpage
   \if@twoside
@@ -673,10 +674,10 @@
   \@makechapterhead{#2}\@afterheading}
 \def\@makechapterhead#1{\hbox{}%
   \vskip.5\Cvs
-  {  \hbox{\huge\textcolor{purple}{\mcfamily\bfseries  \@maintitle 巻之} }
+  {  \hbox{\LARGE\textcolor{purple}{\mcfamily\bfseries  \@maintitle 巻之} }
     											 % 在此處加入書籍名稱 \CID{1512}\CID{3309}  巻之
    \vskip1\Cvs
-     \par \noindent \huge\mcfamily\bfseries
+     \par \noindent \LARGE\mcfamily\bfseries
    \raggedright
    \leavevmode
    \ifnum \c@secnumdepth >\m@ne
@@ -698,7 +699,7 @@
   \vskip1\Cvs
   {\parindent\z@
    \raggedright
-   \normalfont\huge\bfseries
+   \normalfont\LARGE\bfseries
    \leavevmode
    \setlength\@tempdima{\linewidth}%
    \vtop{\hsize\@tempdima#1}}\vskip2\Cvs}
@@ -840,7 +841,7 @@
 \newenvironment{verse}
   {\let\\\@centercr
    \list{}{\itemsep\z@ \itemindent -1.5em%
-           \listparindent\itemindent \mcfamily %注意！！
+           \listparindent\itemindent \mcfamily %注意
            \rightmargin\leftmargin \advance\leftmargin 1.5em}%
            \item\relax}{\endlist}
 %引文環境（前後均有縮進、首行縮進）
@@ -856,7 +857,7 @@
 \newenvironment{hanging}
   {\let\\\@centercr
    \list{}{\itemsep\z@ \itemindent -5em%
-           \listparindent\itemindent \mcfamily %注意！！
+           \listparindent\itemindent \mcfamily %注意
            \rightmargin\leftmargin \advance\leftmargin 1.5em}%
            \item\relax}{\endlist}
 
@@ -1190,7 +1191,7 @@
  \UTF{FE35}\hbox{\kansuji\number\@theenmark}\UTF{FE36}\hskip3pt} %2019/01/25 \UTF{FE35}\UTF{FE36} 全角括號
 % \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt} %2019/04/02
 %\def\enotesize{\normalsize}
-\def\enotesize{\large}
+\def\enotesize{\small}
 
 \newlength\chuskip
 \setlength\chuskip{1zw}  							 %在正文中設置可覆蓋此句
@@ -1229,6 +1230,7 @@
 \def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\@Kanji{#3}}}
 }
 
+
 \newcommand{\六號}{\liuhao}
 \newcommand{\六号}{\liuhao}
 \newcommand{\小五}{\xiaowu}
@@ -1251,6 +1253,5 @@
 \newcommand{\初号}{\chuhao}
 
 \endinput
-
 
 
