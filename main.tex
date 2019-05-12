@@ -1,7 +1,13 @@
 % As a sample.tex gernerate by uplatex				%請使用uplatex編譯
 % uplatex mysample && ptex2pdf -l -u -ot "-kanji=utf8 " -od "-p B5"  mysample
 
-\documentclass[pdfm,b5paper]{sz10x}
+\documentclass[pdfm,b5paper,sz]{sz}
+
+%	pdfm 為必選參數
+% 紙張默認為 JIS B5
+% 字體字號默認為 10pt(real size printed on paper)
+% 詳見 説明書：https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
+
 \usepackage{tikz}
 %%%%%%	自定義的水印命令
 \usepackage{eso-pic}
@@ -57,26 +63,26 @@
 % 載入正文
 \LARGE \mc\pagestyle{plain}
 
-% 正文9pt 選擇 sz.cls 
-%\input{TESTTEXT/testtext}
+% 正文9pt 選擇 sz 選項
+\input{TESTTEXT/testtext}
 
-% 正文9pt 選擇 sz9.cls
+% 正文9pt 選擇 szix 選項
 %\input{TESTTEXT/testtext9}
 
-% 正文10pt 選擇 sz10.cls
+% 正文10pt 選擇 szx 選項
 %\input{TESTTEXT/testtext10}
 
 
-% 正文11pt 選擇 sz11.cls
+% 正文11pt 選擇 szxi 選項
 %\input{TESTTEXT/testtext11}
 
 
-% 正文12pt 選擇 sz12.cls
+% 正文12pt 選擇 szxii 選項
 %\input{TESTTEXT/testtext12}
 
 
-% 正文 五號字（10.5pt) 選擇 sz10x.cls
-\input{TESTTEXT/testtext10x}
+% 正文 五號字（10.5pt) 選擇 xz 選項
+%\input{TESTTEXT/testtext10x}
 
 
 %%%%%% 自定義的封底
