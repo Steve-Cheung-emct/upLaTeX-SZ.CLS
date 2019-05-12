@@ -33,3 +33,6 @@ Commercial allowed (signature reserved); copy freely.
 説明書下載：
 
 https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
+
+
+關於該模板及説明書的疏漏之處，敬請愛好者們積極反饋，不吝賜教。
