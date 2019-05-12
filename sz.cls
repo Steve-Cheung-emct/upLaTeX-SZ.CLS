@@ -2,10 +2,10 @@
 %   First released:   2004/03/12 v0.2  小川 弘和
 %		website:					http://www2.kumagaku.ac.jp/teacher/herogw/
 %   Modified by:      Steve Cheung 子 康
-%   Modified date:    2019/01/25 -- today 2019/04/24
+%   Modified date:    2019/01/25 -- today 2019/05/12
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/04/03 v1.0b ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2019/05/12 v1.1b ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -86,6 +86,27 @@
                    \adjustbaseline}%
 }
 
+\newcounter{@fonsize}
+\newif\if@setfonsizesc \@setfonsizescfalse				% 定義  9 pt(fake) 為正文字號基準，設置 mag 為 913
+\newif\if@setfonsizeix \@setfonsizeixfalse				% 定義  9 pt 為正文字號基準，設置 mag 為 913
+\newif\if@setfonsizex \@setfonsizexfalse					% 定義 10 pt 為正文字號基準，設置 mag 為 913
+\newif\if@setfonsizexi \@setfonsizexifalse				% 定義 11 pt 為正文字號基準，設置 mag 為 913
+\newif\if@setfonsizexii \@setfonsizexiifalse			% 定義 12 pt 為正文字號基準，設置 mag 為 913
+\newif\if@setfonsizexz \@setfonsizexzfalse				% 定義  小四 為正文字號基準，設置 mag 為 913
+
+\DeclareOption{sz}{\setcounter{@fonsize}{1}%  9 pt @ fake
+\@setfonsizesctrue}
+\DeclareOption{szix}{\setcounter{@fonsize}{2}%  9 pt @ real
+\@setfonsizeixtrue}
+\DeclareOption{szx}{\setcounter{@fonsize}{3}% 10 pt 默認
+\@setfonsizextrue}
+\DeclareOption{szxi}{\setcounter{@fonsize}{4}%  11 pt
+\@setfonsizexitrue}
+\DeclareOption{szxii}{\setcounter{@fonsize}{5}% 12 pt
+\@setfonsizexiitrue}
+\DeclareOption{xz}{\setcounter{@fonsize}{6}% 小四
+\@setfonsizexztrue}
+
 \DeclareOption{pdfm}{\@pdfmtrue}
 \DeclareOption{openright}{\@openrighttrue\@openleftfalse}
 \DeclareOption{openleft}{\@openlefttrue\@openrightfalse}
@@ -95,12 +116,29 @@
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
 \ExecuteOptions{pdfm,b5paper,final,openleft,tate,twoside,onecolumn}
 \ProcessOptions\relax
+
+%定義的編碼方式：JT2 表示縱書字體
+\def\kanjiencodingdefault{JT2}%
+\kanjiencoding{\kanjiencodingdefault}%
 % 版面縮放至0.913倍
   \mag 913 % formerly 900
   \setlength\paperwidth{1.09529\paperwidth}%
   \setlength\paperheight{1.09529\paperheight}%
   \def\n@baseline{15}%
 %
+
+% 判斷字號選項，如未指定，則默認為 10 pt
+\if@setfonsizesc  \else%
+ \if@setfonsizeix  \else%
+ 	\if@setfonsizexi  \else%
+ 		\if@setfonsizexii  \else%
+ 			\if@setfonsizex 	\else%
+ 				\if@setfonsizexz  \else%
+ 					\@setfonsizextrue % 10 pt 默認
+ 		\fi	\fi \fi \fi \fi \fi
+
+\if@setfonsizesc % 設置 正文字號基準為 9 pt（fake）
+
 %% 定義正文字號
 \renewcommand{\normalsize}{% \normalsize=10pt@18pt
     \@setfontsize\normalsize\@xpt{18}%
@@ -109,9 +147,7 @@
   \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    \belowdisplayskip \abovedisplayskip
    \let\@listi\@listI}
-%定義的編碼方式：JT2表示縱書字體
-\def\kanjiencodingdefault{JT2}%
-\kanjiencoding{\kanjiencodingdefault}%
+
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
 \setlength\Cht{\ht0}
@@ -119,19 +155,6 @@
 \setlength\Cwd{\wd0}
 \setlength\Cvs{\baselineskip}
 \setlength\Chs{\wd0}
-
-%%%古典字體設置
-\DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
-\DeclareOldFontCommand{\gt}{\normalfont\gtfamily}{\mathgt}
-\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
-\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
-\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
-\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
-\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
-\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
-\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
-\DeclareRobustCommand*{\cal}{\@fontswitch\relax\mathcal}
-\DeclareRobustCommand*{\mit}{\@fontswitch\relax\mathnormal}
 
 % 字號設定
 \newcommand{\small}{%
@@ -158,22 +181,295 @@
 
 % 字號設定
 \newcommand{\tiny}{\@setfontsize\tiny\@viipt\@ixpt}					    %\tiny= 7pt@9pt
-
 \newcommand{\scriptsize}{\@setfontsize\scriptsize\@xipt\@xiipt} %\scriptsize=11pt@12pt
-
 \newcommand{\large}{\@setfontsize\large\@xiipt{18}}				      %\large= 12pt@18pt
 \newcommand{\Large}{\@setfontsize\Large\@xivpt{22}}				      %\Large= 14pt@22pt
-
 %\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
 \newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{30}}  			    %\LARGE= 17pt@30pt
-																																%因正文夾注排版需要
-																																%特將此設定爲2倍行距为宜
+
+	%		因正文夾注排版需要特將此設定爲2倍行距为宜
+
 %\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
 \newcommand{\huge}{\@setfontsize\huge\@xxpt{30}}    				    %\huge= 20pt@30pt
-
 %\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
 \newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{36}}   				    %\Huge= 25pt@36pt
 
+\fi % from \if@setfonsizesc % 設置 正文字號基準為 9 pt(fake)
+
+\if@setfonsizeix % 設置 正文字號基準為 9 pt(real)
+%% 定義正文字號
+\renewcommand{\normalsize}{% \normalsize = 9pt@18pt
+    \@setfontsize\normalsize{9.86pt}{19.715}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+   \belowdisplayskip \abovedisplayskip
+   \let\@listi\@listI}
+
+\normalsize
+\setbox0\hbox{\char\euc"A1A1}%
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
+
+% 字號設定
+\newcommand{\small}{%  \small = 8 pt @12pt
+  \@setfontsize\small{8.76pt}{13.143}%
+  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 4\p@ \@plus2\p@ \@minus2\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+\newcommand{\footnotesize}{% \footnotesize = 7 pt@12pt
+  \@setfontsize\footnotesize{7.667pt}{13.143}%
+  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus\p@
+  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 3\p@ \@plus\p@ \@minus\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+% 字號設定
+\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{9.858}}					    %\tiny = 6 pt@9pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{10.95pt}{13.143}} %\scriptsize=10pt@12pt
+\newcommand{\large}{\@setfontsize\large{12.05pt}{19.715}}				      %\large = 11pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{14.24pt}{24.096}}				      %\Large = 13pt@22pt
+%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
+\newcommand{\LARGE}{\@setfontsize\LARGE{16.43pt}{30.67}}  			    %\LARGE = 15pt@28pt
+%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
+\newcommand{\huge}{\@setfontsize\huge{18.62pt}{32.86}}    				    %\huge = 17pt@30pt
+%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
+\newcommand{\Huge}{\@setfontsize\Huge{21.91pt}{32.86}}   				    %\Huge = 20pt@30pt
+
+\fi % from \if@setfonsizeix % 設置 正文字號基準為 9 pt(real)
+
+\if@setfonsizex % 設置 正文字號基準為 10 pt
+%% 定義正文字號
+\renewcommand{\normalsize}{% \normalsize = 10pt@18pt
+    \@setfontsize\normalsize{10.953pt}{19.715}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+   \belowdisplayskip \abovedisplayskip
+   \let\@listi\@listI}
+
+\normalsize
+\setbox0\hbox{\char\euc"A1A1}%
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
+
+% 字號設定
+\newcommand{\small}{%  \small = 9 pt @12pt
+  \@setfontsize\small{9.86pt}{13.143}%
+  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 4\p@ \@plus2\p@ \@minus2\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+\newcommand{\footnotesize}{% \footnotesize = 8 pt@12pt
+  \@setfontsize\footnotesize{8.76pt}{13.143}%
+  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus\p@
+  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 3\p@ \@plus\p@ \@minus\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+% 字號設定
+\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{9.858}}					 			   %\tiny = 6 pt@9pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{12.049pt}{13.143}}		 %\scriptsize=11pt@12pt
+\newcommand{\large}{\@setfontsize\large{13.143pt}{19.715}}				   	   %\large = 12pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{15.334pt}{24.096}}				   	   %\Large = 14pt@22pt
+%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
+\newcommand{\LARGE}{\@setfontsize\LARGE{18.62pt}{32.86}}  			  			 %\LARGE = 17pt@30pt
+%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
+\newcommand{\huge}{\@setfontsize\huge{21.906pt}{32.86}}    				 			 %\huge = 20pt@30pt
+%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
+\newcommand{\Huge}{\@setfontsize\Huge{27.382pt}{39.43}}   						   %\Huge = 25pt@36pt
+
+\fi % from \if@setfonsizex % 設置 正文字號基準為 10 pt （默認）
+
+\if@setfonsizexi % 設置 正文字號基準為 11 pt
+
+%% 定義正文字號
+\renewcommand{\normalsize}{% \normalsize = 11pt@18pt
+    \@setfontsize\normalsize{12.05pt}{19.715}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+   \belowdisplayskip \abovedisplayskip
+   \let\@listi\@listI}
+
+\normalsize
+\setbox0\hbox{\char\euc"A1A1}%
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
+
+% 字號設定
+\newcommand{\small}{%  \small = 10 pt @12pt
+  \@setfontsize\small{10.953pt}{13.143}%
+  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 4\p@ \@plus2\p@ \@minus2\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+\newcommand{\footnotesize}{% \footnotesize = 9 pt@12pt
+  \@setfontsize\footnotesize{9.86pt}{13.143}%
+  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus\p@
+  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 3\p@ \@plus\p@ \@minus\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+% 字號設定
+\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{10}}								    %\tiny = 6 pt@9.13pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{13.143pt}{13.143}} 	%\scriptsize=12pt@12pt
+\newcommand{\large}{\@setfontsize\large{14.24pt}{19.715}}				      %\large = 13pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{16.43pt}{24.096}}				      %\Large = 15pt@22pt
+%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
+\newcommand{\LARGE}{\@setfontsize\LARGE{18.62pt}{32.86}}  			 		  %\LARGE = 17pt@30pt
+\newcommand{\huge}{\@setfontsize\huge{21.906pt}{32.86}}    				    %\huge = 20pt@30pt
+\newcommand{\Huge}{\@setfontsize\Huge{27.382pt}{39.43}}   				    %\Huge = 25pt@36pt
+
+\fi % from \if@setfonsizexi % 設置 正文字號基準為 11 pt
+
+\if@setfonsizexii  % 設置 正文字號基準為 12 pt
+%% 定義正文字號
+\renewcommand{\normalsize}{% \normalsize = 12pt@18pt
+    \@setfontsize\normalsize{13.143pt}{19.715}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+   \belowdisplayskip \abovedisplayskip
+   \let\@listi\@listI}
+
+\normalsize
+\setbox0\hbox{\char\euc"A1A1}%
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
+
+% 字號設定
+\newcommand{\small}{%  \small = 11 pt @12pt
+  \@setfontsize\small{12.05pt}{13.143}%
+  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 4\p@ \@plus2\p@ \@minus2\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+\newcommand{\footnotesize}{% \footnotesize = 10 pt@12pt
+  \@setfontsize\footnotesize{10.95pt}{13.143}%
+  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus\p@
+  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 3\p@ \@plus\p@ \@minus\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+% 字號設定
+\newcommand{\tiny}{\@setfontsize\tiny{8.76pt}{9.13}}					    %\tiny = 8 pt @ 10 pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{14.24pt}{19.715}} %\scriptsize=13pt@18pt
+\newcommand{\large}{\@setfontsize\large{15.334pt}{19.715}}				      %\large = 14pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{18.62pt}{30.67}}				      %\Large = 17pt@28pt
+%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
+\newcommand{\LARGE}{\@setfontsize\LARGE{21.91pt}{32.86}}  			    %\LARGE = 20pt@30pt
+\newcommand{\huge}{\@setfontsize\huge{26.29pt}{32.86}}    				    %\huge = 24pt@30pt
+\newcommand{\Huge}{\@setfontsize\Huge{30.67pt}{39.43}}   				    %\Huge = 28pt@36pt
+
+\fi % from \if@setfonsizexii  % 設置 正文字號基準為 12 pt
+
+\if@setfonsizexz  % 設置 正文字號基準為 小四
+
+%% 定義正文字號
+\renewcommand{\normalsize}{% \normalsize = 10.53937pt@18pt（五號）
+    \@setfontsize\normalsize{11.544pt}{19.715}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+   \belowdisplayskip \abovedisplayskip
+   \let\@listi\@listI}
+
+\normalsize
+\setbox0\hbox{\char\euc"A1A1}%
+\setlength\Cht{1.09529\ht0}
+\setlength\Cdp{1.09529\dp0}
+\setlength\Cwd{1.09529\wd0}
+\setlength\Cvs{1.09529\baselineskip}
+\setlength\Chs{1.09529\wd0}
+
+% 字號設定
+\newcommand{\small}{%  \small = 9.03374 pt @12pt （小五）
+  \@setfontsize\small{9.895pt}{13.143}%
+  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus2\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 4\p@ \@plus2\p@ \@minus2\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+\newcommand{\footnotesize}{% \footnotesize = 8 pt@12pt
+  \@setfontsize\footnotesize{9pt}{13.143}%
+  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus\p@
+  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+              \topsep 3\p@ \@plus\p@ \@minus\p@
+              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip}
+
+% 字號設定
+\newcommand{\tiny}{\@setfontsize\tiny{8.245pt}{10.95}}					     %\tiny = 7.52812 pt@10pt（六號）
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{8.762pt}{13.143}}	 %\scriptsize=8pt@12pt
+\newcommand{\large}{\@setfontsize\large{13.193pt}{24.644}}	  		   %\large = 12.045pt@22.5pt（小四）
+\newcommand{\Large}{\@setfontsize\Large{15.392pt}{24.644}}	  		   %\Large = 14.05249pt@22.5pt（四號）
+\newcommand{\LARGE}{\@setfontsize\LARGE{16.49pt}{24.644}}  				   %\LARGE = 15.05624pt@22.5pt（小三）
+%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
+\newcommand{\huge}{\@setfontsize\huge{17.59pt}{24.644}}    				   %\huge = 16.06pt@22.5pt（三號）
+%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
+\newcommand{\Huge}{\@setfontsize\Huge{19.789pt}{27.38}}   				   %\Huge = 18.06749pt@25pt（小二）
+
+\fi % from \if@setfonsizexz  % 設置 正文字號基準為 小四
+
+
+% 額外定義的 小四 基準
 \newcommand{\liuhao}{\@setfontsize\liuhao{6.572pt}{10}} % 六號
 \newcommand{\xiaowu}{\@setfontsize\xiaowu{9.895pt}{13.143}} % 小五
 \newcommand{\wuhao}{\@setfontsize\wuhao{11.544pt}{19.715}} % 五號
@@ -194,13 +490,27 @@
 \newcommand{\tlarge}{\@setfontsize\tlarge{39.43}{52.57}}
 \newcommand{\ularge}{\@setfontsize\ularge{32.86}{52.57}}
 
-\newcommand{\szlarge}{%
+\newcommand{\szlarge}{%  特定的兩倍行距正文基準， \szlarge = 17 pt @ 30 pt
 		\@setfontsize\szlarge{18.62pt}{32.86}%
   	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
   	\abovedisplayshortskip \z@ \@plus3\p@
   	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    	\belowdisplayskip \abovedisplayskip%
    	\let\@listi\@listI}
+
+%%%古典字體設置
+\DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
+\DeclareOldFontCommand{\gt}{\normalfont\gtfamily}{\mathgt}
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\DeclareRobustCommand*{\cal}{\@fontswitch\relax\mathcal}
+\DeclareRobustCommand*{\mit}{\@fontswitch\relax\mathnormal}
+
 
 \RequirePackage{multicol} %多欄
 \RequirePackage{type1cm} %字體
@@ -1104,6 +1414,9 @@
 \newcommand{\contentsname}{目\quad 次}
 \newcommand{\listfigurename}{圖\quad 目\quad 次}
 \newcommand{\listtablename}{表\quad 目\quad 次}
+\newcommand{\refname}{参考文献}
+\newcommand{\bibname}{参考文献}
+\newcommand{\indexname}{索\quad 引}
 \newcommand{\figurename}{圖}
 \newcommand{\tablename}{表}
 \newcommand{\appendixname}{附\quad 録}
