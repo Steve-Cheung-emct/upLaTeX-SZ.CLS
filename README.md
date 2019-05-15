@@ -35,4 +35,16 @@ Commercial allowed (signature reserved); copy freely.
 https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
 
+
+注意：
+
+該模板雙欄下割注必出錯。雙欄下頭注也必出錯。
+欲排割注及頭注請使用單欄模式。
+
+Notice:
+
+Do not use ``twocolumn'' or ``\begin{multicols}{2}'' to produce tochu or warichu.
+
+U have to use onecolumn rather than two.
+
 關於該模板及説明書的疏漏之處，敬請愛好者們積極反饋，不吝賜教。
