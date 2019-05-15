@@ -10,21 +10,26 @@ This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）�
 
 I pulled it on Github to share with upLaTeX users Now.
 
-#模板的編譯
+# 模板的編譯
+
 ## How to
 
 本模板使用{up\LaTeX}或者{Up\TeX}進行編譯。
 ​
 It will compiled by {up\LaTeX} or {Up\TeX} on a Mac.
 ​
-##Example
-``chcp 65001
-uplatex main
-ptex2pdf -l -u -ot "-kanji=utf8 " -od "-p B5 " main``
+##  Example
+
+``chcp 65001``
+
+``uplatex main``
+
+``ptex2pdf -l -u -ot "-kanji=utf8 " -od "-p B5 " main``
 
 
-#模板來源
-##Where it came from?
+# 模板來源
+
+## Where it came from?
 
 本模板來自熊本學園大學院經濟學部小川 弘和 老師（Shigaku Zasshi）。
 
@@ -32,32 +37,32 @@ This Template origined from Shigaku Zasshi（小川 弘和）, Department of Eco
 
 Website:	http://www2.kumagaku.ac.jp/teacher/herogw/
 
-##言語
-##Language
+## 言語
+## Language
 
 目前説明文件僅有一套中文版。
 
 I have made only a version of Chinese manual.
 
-#許可
+# 許可
 ## Copyright
 
 商用允許(保留署名)；轉載自由。
 
 Commercial allowed (signature reserved); copy freely.
 
-#説明書下載
+# 説明書下載
 ## Manual of SZ.CLS
 
 https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
-#注意事項​
+# 注意事項​
 
 該模板雙欄下割注必出錯。雙欄下頭注也必出錯。
 
 欲排割注及頭注請使用單欄模式。
 
-​##Notice:
+​## Notice:
 
 Do not use ``twocolumn`` or ``\begin{multicols}{2}`` to produce tochu(headnote) or warichu(a kind of note which cut off lines).
 
