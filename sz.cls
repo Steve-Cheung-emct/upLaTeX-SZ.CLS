@@ -653,18 +653,18 @@
   \let\cleardoublepage\pltx@cleartorightpage
 \fi\fi
 
-\RequirePackage{plext}									% 縱組顓用
-\RequirePackage{plautopatch}						% 為 platex 打補丁
-\RequirePackage{zhnumber}								% 將數字轉化為帶單位，如 \zhnumber{9999}，得九千九百九十九
-%\setlength\columnsep{3\Cwd}            % 欄間距
-\setlength\columnsep{2\Cwd}             % 中文縱書：欄間距 2 個全角字
-\setlength\columnseprule{0\p@}          % 雙欄 欄綫設定（無欄綫）
-\setlength\lineskip{1\p@}               % 行間距 1 pt
-\setlength\normallineskip{1\p@}         % 正文行間距 1 pt
-\renewcommand{\baselinestretch}{}       % 置空基綫距離縮放因子
-\setlength\parskip{0\p@ \@plus \p@}     % 段間距 1 pt
-\setlength\parindent{1\Cwd}             % 退格1個全角字(此處設定不會對全局縮進產生任何影響)
-\setlength\marginparsep{21.9pt}         % 中文縱書：頭注與正文之間應空格 2 個全角字(即 20 pt)
+\RequirePackage{plext}					% 縱組顓用
+\RequirePackage{plautopatch}			% 為 platex 打補丁
+\RequirePackage{zhnumber}				% 將數字轉化為帶單位，如 \zhnumber{9999}，得九千九百九十九
+%\setlength\columnsep{3\Cwd}			% 欄間距
+\setlength\columnsep{2\Cwd}			% 中文縱書：欄間距 2 個全角字
+\setlength\columnseprule{0\p@}			% 雙欄 欄綫設定（無欄綫）
+\setlength\lineskip{1\p@}				% 行間距 1 pt
+\setlength\normallineskip{1\p@}			% 正文行間距 1 pt
+\renewcommand{\baselinestretch}{}		% 置空基綫距離縮放因子
+\setlength\parskip{0\p@ \@plus \p@}	% 段間距 1 pt
+\setlength\parindent{2\Cwd}				% 退格2個全角字
+\setlength\marginparsep{21.9pt}			% 中文縱書：頭注與正文之間應空格 2 個全角字(即 20 pt)
 \@lowpenalty   51
 \@medpenalty  151
 \@highpenalty 301
@@ -699,11 +699,13 @@
             \dimen@.91\textheight \advance\dimen@\footskip
             \vbox to\dimen@{%
 %               \hbox{\tate \reset@font{\scriptsize\mcfamily \@maintitle （\@authorfn）}}%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \@maintitle（\@authorfn）}}%
+               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \@maintitle%
+               （\@authorfn%
+               			）}}%
                \vfill
 %               \hbox{\tate \reset@font{\small\mc \kansuji\c@page（第%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \kansuji\c@page（第%
-			   \hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
+               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \kansuji\c@page%
+               （第\hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
 %               \hbox{\tate \reset@font{\scriptsize\mc \kansuji\c@page  %  此處刪去括號内頁碼
 			   \vspace{25mm}}}%
 			   }}%
@@ -727,8 +729,8 @@
             \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \rightmark}}%}}% 右邊頁眉設置爲章標題
             \vfill
 %           \hbox{\tate \reset@font{\small\mc \kansuji\c@page（第%
-           \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \kansuji\c@page（第%
-			   \hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
+               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \kansuji\c@page%
+               （第\hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
 %         \hbox{\tate \reset@font{\scriptsize\mc \kansuji\c@page  % 此處仍刪除括號内頁碼
 			   \vspace{25mm}}}}}}\stepcounter{ppage}}%
    \let\@oddhead\@empty
@@ -745,8 +747,8 @@
 %               \hbox{\tate \reset@font{\small\mc \@maintitle（\@authorfn）}}%
                \vfill
 %               \hbox{\tate \reset@font{\small\mc （第\hskip.5zw{\kansuji\c@szpage}\hskip.5zw頁）%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily（第%
-               \hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁）%
+               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily%
+               （第\hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁）%
 			   \vspace{25mm}}}%
 			   }}%
          \hskip5mm}%
@@ -768,8 +770,8 @@
 %            \hbox{\tate \reset@font{\small\mc \rightmark}}%}} % 右邊頁眉設置爲章標題
             \vfill
 %           \hbox{\tate \reset@font{\small\mc （第\hskip.5zw{\kansuji\c@szpage}\hskip.5zw頁） %
-           \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily （第 %
-           \hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁） %
+               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily%
+               （第\hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁）%
 			   \vspace{25mm}}}}}}\stepcounter{szpage}}%
    \let\@oddhead\@empty
    \let\@evenhead\@empty
@@ -784,10 +786,12 @@
          \smash{%
             \dimen@.91\textheight \advance\dimen@\footskip
             \vbox to\dimen@{%
-               \hbox{\tate \reset@font{\scriptsize\mc \@maintitle（\@authorfn）}}%
+               \hbox{\tate \reset@font{\scriptsize\mc \@maintitle%
+               （\@authorfn%
+               			）}}%
                \vfill
-               \hbox{\tate \reset@font{\small\mc \kansuji\c@page（第%
-			   \hskip.5zw\scalebox{0.5}[1]{\kansuji\c@ppage}\hskip.5zw頁）%
+               \hbox{\tate \reset@font{\small\mc \kansuji\c@page%
+               （第\hskip.5zw\scalebox{0.5}[1]{\kansuji\c@ppage}\hskip.5zw頁）%
 			   \vspace{25mm}}}%
 			   }}%
          \hskip5mm}%
@@ -808,8 +812,8 @@
             \vbox to\dimen@{%
                \hbox{\tate \reset@font{\scriptsize\mc \rightmark}}%
                \vfill
-               \hbox{\tate \reset@font{\small\mc \kansuji\c@page（第%
-			   \hskip.5zw\scalebox{0.5}[1]{\kansuji\c@ppage}\hskip.5zw頁）%
+               \hbox{\tate \reset@font{\small\mc \kansuji\c@page%
+               （第\hskip.5zw\scalebox{0.5}[1]{\kansuji\c@ppage}\hskip.5zw頁）%
 			   \vspace{25mm}}}}}}\stepcounter{ppage}}%
    \let\@oddhead\@empty
    \let\@evenhead\@empty
@@ -972,7 +976,7 @@
     \refstepcounter{chapter}%
     \typeout{\@chapapp\space\thechapter\space\@chappos}%
     \addcontentsline{toc}{chapter}%
-      {\protect\numberline{\@chapapp\thechapter\@chappos}#1}%
+      {\protect\numberline{\@chapapp~\thechapter~\@chappos}#1}%
     \else\addcontentsline{toc}{chapter}{#1}\fi
   \else
     \addcontentsline{toc}{chapter}{#1}%
@@ -984,7 +988,7 @@
 \def\@makechapterhead#1{\hbox{}%
   \vskip.5\Cvs
   {  \hbox{\huge\textcolor{purple}{\mcfamily\bfseries  \@maintitle 巻之} }
-    											 % 在此處加入書籍名稱 \CID{1512}\CID{3309}  巻之
+    		 % 在此處加入書籍名稱 \CID{1512}\CID{3309}  巻之；
    \vskip1\Cvs
      \par \noindent \huge\mcfamily\bfseries
    \raggedright
@@ -992,7 +996,7 @@
    \ifnum \c@secnumdepth >\m@ne
      \setlength\@tempdima{\linewidth}%
     \if@mainmatter
-     \setbox\z@\hbox{\@chapapp\thechapter\@chappos\hskip1zw}
+     \setbox\z@\hbox{\@chapapp~\thechapter~\@chappos\hskip1zw}
      \addtolength\@tempdima{-\wd\z@}%
      \unhbox\z@\nobreak
     \fi
@@ -1323,7 +1327,8 @@
     \begingroup
       \parindent\z@ \rightskip\@pnumwidth \parfillskip-\rightskip
       \leavevmode\bfseries
-      \setlength\@lnumwidth{5zw}%
+      \setlength\@lnumwidth{6zw}%	章號小於20時采用
+%      \setlength\@lnumwidth{7zw}%	章號大於21時采用
       \advance\leftskip\@lnumwidth \hskip-\leftskip
       #1\nobreak\hfil\nobreak\hb@xt@\@pnumwidth{\hss#2}\par
       \penalty\@highpenalty
@@ -1366,13 +1371,6 @@
 \newcommand{\subitem}{\@idxitem \hspace*{20\p@}}
 \newcommand{\subsubitem}{\@idxitem \hspace*{30\p@}}
 \newcommand{\indexspace}{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
-\renewcommand{\footnoterule}{%
-  \kern-3\p@
-  \hrule width .4\columnwidth
-  \kern 2.6\p@}
-\@addtoreset{footnote}{chapter}
-\newcommand\@makefntext[1]{\parindent 1zw
-  \noindent\hbox to 2zw{\hss\@makefnmark}#1}
 
 % 定義的西暦/和暦
 \newif\if西暦 \西暦false
@@ -1433,6 +1431,18 @@
 \fi
 \normalmarginpar
 \@mparswitchfalse
+
+% 定義的脚注
+\renewcommand{\footnoterule}{%
+ \leavevmode\kern-25pt\raise-1mm\hbox{\rule{.4\columnwidth}{.25pt} }}
+\@addtoreset{footnote}{chapter}
+\renewcommand\@makefnmark{
+\kern -1zw \raisebox{.8zh}%
+{\tiny \raise.1zh\hbox{(}\kern -.3zw%
+\hbox{\rensuji{\arabic{footnote}}}%
+\kern -.3zw\raise.1zh\hbox{)}}\kern .1zw}
+\long\def\@makefntext#1{\parindent 1zw\noindent
+    \lower .7zh \hb@xt@ 2zw{\hss\@makefnmark}#1}
 
 % 定義的章回後注
 \@definecounter{endnote}

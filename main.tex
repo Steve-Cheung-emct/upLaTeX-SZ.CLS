@@ -1,10 +1,11 @@
 % As a sample.tex gernerate by uplatex				%請使用uplatex編譯
 % uplatex mysample && ptex2pdf -l -u -ot "-kanji=utf8 " -od "-p B5"  mysample
 
-\documentclass[pdfm,b5paper,sz]{sz}
+\documentclass[pdfm,b5paper,szx]{sz}
 
 %	pdfm 為必選參數
 % 紙張默認為 JIS B5
+% 輸出紙張默認為 ISO B5；爲什麽要這樣用，因書眉的对齐問題，暫無法解決。
 % 字體字號默認為 10pt(real size printed on paper)
 % 詳見 説明書：https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
@@ -64,13 +65,13 @@
 \LARGE \mc\pagestyle{plain}
 
 % 正文9pt 選擇 sz 選項
-\input{TESTTEXT/testtext}
+%\input{TESTTEXT/testtext}
 
 % 正文9pt 選擇 szix 選項
 %\input{TESTTEXT/testtext9}
 
 % 正文10pt 選擇 szx 選項
-%\input{TESTTEXT/testtext10}
+\input{TESTTEXT/testtext10}
 
 
 % 正文11pt 選擇 szxi 選項
