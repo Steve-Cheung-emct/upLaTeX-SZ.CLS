@@ -2,10 +2,11 @@
 %   First released:   2004/03/12 v0.2  小川 弘和
 %		website:					http://www2.kumagaku.ac.jp/teacher/herogw/
 %   Modified by:      Steve Cheung 子 康
-%   Modified date:    2019/01/25 -- today 2019/05/12
+%   Modified date:    2019/01/25 -- today 2019/08/15
+%	this version I delet the mag, which could  make muach influence on pagescale.
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/05/12 v1.1b ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2019/08/15 v1.3a ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -16,11 +17,13 @@
   \setlength\paperheight {210mm}
   \setlength\paperwidth  {148mm}}
 \DeclareOption{b4paper}{\setcounter{@paper}{3}%
-  \setlength\paperheight {364mm}
-  \setlength\paperwidth  {257mm}}
-\DeclareOption{b5paper}{\setcounter{@paper}{4}%
-  \setlength\paperheight {257mm}
-  \setlength\paperwidth  {182mm}}
+  \setlength\paperheight {354mm}
+  \setlength\paperwidth  {250mm}}
+\newif\if@bfive \@bfivefalse
+\DeclareOption{b5paper}{\setcounter{@paper}{4}% ISO B5
+  \@bfivetrue
+  \setlength\paperheight {250mm}
+  \setlength\paperwidth  {176mm}}
 \DeclareOption{A4}{\setcounter{@paper}{1}%
   \setlength\paperheight {297mm}%
   \setlength\paperwidth  {210mm}}
@@ -28,18 +31,20 @@
   \setlength\paperheight {210mm}
   \setlength\paperwidth  {148mm}}
 \DeclareOption{B4}{\setcounter{@paper}{3}%
-  \setlength\paperheight {364mm}
-  \setlength\paperwidth  {257mm}}
-\DeclareOption{B5}{\setcounter{@paper}{4}%
-  \setlength\paperheight {257mm}
-  \setlength\paperwidth  {182mm}}
+  \setlength\paperheight {354mm}
+  \setlength\paperwidth  {250mm}}
+\DeclareOption{B5}{\setcounter{@paper}{4}% ISO B5
+  \@b5papertrue
+  \setlength\paperheight {250mm}
+  \setlength\paperwidth  {176mm}}
 \newif\if@test \@testfalse
-\DeclareOption{test}{\@testtrue\setcounter{@paper}{5}%
+\DeclareOption{test}{\setcounter{@paper}{5}% 使用卷子本設定
+\@testtrue
   \setlength\paperheight {257mm}
   \setlength\paperwidth  {5200mm}}
 
 \if@test
-	\setlength{\textheight}{4200 mm}
+	\setlength{\textheight}{4200 mm}	%設置卷子長度為4200mm
 \fi
 
 \DeclareOption{onecolumn}{\@twocolumnfalse}
@@ -53,6 +58,28 @@
   \setlength\@tempdima{\paperheight}%
   \setlength\paperheight{\paperwidth}%
   \setlength\paperwidth{\@tempdima}}
+
+
+\newcounter{@fonsize}
+\newif\if@setfonsizeix \@setfonsizeixfalse	% 定義  9 pt 為正文字號基準，不使用 mag 參數
+\newif\if@setfonsizex \@setfonsizexfalse	% 定義 10 pt 為正文字號基準，不使用 mag 參數
+\newif\if@setfonsizexi \@setfonsizexifalse	% 定義 11 pt 為正文字號基準，不使用 mag 參數
+\newif\if@setfonsizexii\@setfonsizexiifalse	% 定義 12 pt 為正文字號基準，不使用 mag 參數
+\newif\if@setfonsizexz \@setfonsizexzfalse	% 定義  小四 為正文字號基準，不使用 mag 參數
+
+\DeclareOption{sz}{\setcounter{@fonsize}{1}%  9 pt @ real
+\@setfonsizeixtrue}
+\DeclareOption{szix}{\setcounter{@fonsize}{2}%  9 pt @ real
+\@setfonsizeixtrue}
+\DeclareOption{szx}{\setcounter{@fonsize}{3}% 10 pt 默認
+\@setfonsizextrue}
+\DeclareOption{szxi}{\setcounter{@fonsize}{4}%  11 pt
+\@setfonsizexitrue}
+\DeclareOption{szxii}{\setcounter{@fonsize}{5}% 12 pt
+\@setfonsizexiitrue}
+\DeclareOption{xz}{\setcounter{@fonsize}{6}% 小四
+\@setfonsizexztrue}
+
 
 %定義的標題、副標題、作者及作者名字縮寫
 \def\maintitle#1{\gdef\@maintitle{#1}}
@@ -86,27 +113,6 @@
                    \adjustbaseline}%
 }
 
-\newcounter{@fonsize}
-\newif\if@setfonsizesc \@setfonsizescfalse				% 定義  9 pt(fake) 為正文字號基準，設置 mag 為 913
-\newif\if@setfonsizeix \@setfonsizeixfalse				% 定義  9 pt 為正文字號基準，設置 mag 為 913
-\newif\if@setfonsizex \@setfonsizexfalse					% 定義 10 pt 為正文字號基準，設置 mag 為 913
-\newif\if@setfonsizexi \@setfonsizexifalse				% 定義 11 pt 為正文字號基準，設置 mag 為 913
-\newif\if@setfonsizexii \@setfonsizexiifalse			% 定義 12 pt 為正文字號基準，設置 mag 為 913
-\newif\if@setfonsizexz \@setfonsizexzfalse				% 定義  小四 為正文字號基準，設置 mag 為 913
-
-\DeclareOption{sz}{\setcounter{@fonsize}{1}%  9 pt @ fake
-\@setfonsizesctrue}
-\DeclareOption{szix}{\setcounter{@fonsize}{2}%  9 pt @ real
-\@setfonsizeixtrue}
-\DeclareOption{szx}{\setcounter{@fonsize}{3}% 10 pt 默認
-\@setfonsizextrue}
-\DeclareOption{szxi}{\setcounter{@fonsize}{4}%  11 pt
-\@setfonsizexitrue}
-\DeclareOption{szxii}{\setcounter{@fonsize}{5}% 12 pt
-\@setfonsizexiitrue}
-\DeclareOption{xz}{\setcounter{@fonsize}{6}% 小四
-\@setfonsizexztrue}
-
 \DeclareOption{pdfm}{\@pdfmtrue}
 \DeclareOption{openright}{\@openrighttrue\@openleftfalse}
 \DeclareOption{openleft}{\@openlefttrue\@openrightfalse}
@@ -114,39 +120,36 @@
 \DeclareOption{disablejfam}{\@enablejfamfalse}
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
-\ExecuteOptions{pdfm,b5paper,final,openleft,tate,twoside,onecolumn}
+\ExecuteOptions{b5paper,final,openleft,tate,twoside,onecolumn}
 \ProcessOptions\relax
-
-%定義的編碼方式：JT2 表示縱書字體
+% 版面縮放至0.913倍
+%  \mag 913 % formerly 900
+%  \setlength\paperwidth{1.09529\paperwidth}%
+%  \setlength\paperheight{1.09529\paperheight}%
+  \def\n@baseline{18}%
+%
+%定義的編碼方式：JT2表示縱書字體
 \def\kanjiencodingdefault{JT2}%
 \kanjiencoding{\kanjiencodingdefault}%
-% 版面縮放至0.913倍
-  \mag 913 % formerly 900
-  \setlength\paperwidth{1.09529\paperwidth}%
-  \setlength\paperheight{1.09529\paperheight}%
-  \def\n@baseline{15}%
-%
 
 % 判斷字號選項，如未指定，則默認為 10 pt
-\if@setfonsizesc  \else%
- \if@setfonsizeix  \else%
+\if@setfonsizeix  \else%
  	\if@setfonsizexi  \else%
  		\if@setfonsizexii  \else%
  			\if@setfonsizex 	\else%
  				\if@setfonsizexz  \else%
  					\@setfonsizextrue % 10 pt 默認
- 		\fi	\fi \fi \fi \fi \fi
+\fi	\fi \fi \fi \fi
 
-\if@setfonsizesc % 設置 正文字號基準為 9 pt（fake）
-
+\if@setfonsizeix % 設置 正文字號基準為 9 pt（real）
 %% 定義正文字號
 \renewcommand{\normalsize}{% \normalsize=10pt@18pt
-    \@setfontsize\normalsize\@xpt{18}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-   \belowdisplayskip \abovedisplayskip
-   \let\@listi\@listI}
+		\@setfontsize\normalsize\@ixpt{15}%
+	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+	\belowdisplayskip \abovedisplayskip
+	\let\@listi\@listI}
 
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
@@ -158,8 +161,8 @@
 
 % 字號設定
 \newcommand{\small}{%
-  \@setfontsize\small\@ixpt{11}%
-  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+  \@setfontsize\small{8pt}{10}%
+  \abovedisplayskip 6\p@ \@plus3\p@ \@minus2\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
   \def\@listi{\leftmargin\leftmargini
@@ -169,7 +172,7 @@
   \belowdisplayskip \abovedisplayskip}
 
 \newcommand{\footnotesize}{%
-  \@setfontsize\footnotesize\@viiipt{10}%
+  \@setfontsize\footnotesize\@viipt{9.5}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -180,98 +183,38 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny\@viipt\@ixpt}					    %\tiny= 7pt@9pt
-\newcommand{\scriptsize}{\@setfontsize\scriptsize\@xipt\@xiipt} %\scriptsize=11pt@12pt
-\newcommand{\large}{\@setfontsize\large\@xiipt{18}}				      %\large= 12pt@18pt
-\newcommand{\Large}{\@setfontsize\Large\@xivpt{22}}				      %\Large= 14pt@22pt
-%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{30}}  			    %\LARGE= 17pt@30pt
+\newcommand{\tiny}{\@setfontsize\tiny\@vipt\@ixpt}			%\tiny= 7pt@9pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{10pt}{12}}	%\scriptsize=10pt@12pt
+\newcommand{\large}{\@setfontsize\large{11pt}{18}}			%\large= 11pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{13pt}{22.5}}		%\Large= 13pt@22pt
+\newcommand{\LARGE}{\@setfontsize\LARGE{15pt}{26}}			%\LARGE= 15pt@26pt
+      % 因正文夾注排版需要，特將此設定爲1.8~2倍行距为宜
+\newcommand{\huge}{\@setfontsize\huge{17pt}{30}}			%\huge= 17pt@30pt
+\newcommand{\Huge}{\@setfontsize\Huge\@xxpt{30}}			%\Huge= 20pt@30pt
 
-	%		因正文夾注排版需要特將此設定爲2倍行距为宜
-
-%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
-\newcommand{\huge}{\@setfontsize\huge\@xxpt{30}}    				    %\huge= 20pt@30pt
-%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
-\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{36}}   				    %\Huge= 25pt@36pt
-
-\fi % from \if@setfonsizesc % 設置 正文字號基準為 9 pt(fake)
-
-\if@setfonsizeix % 設置 正文字號基準為 9 pt(real)
-%% 定義正文字號
-\renewcommand{\normalsize}{% \normalsize = 9pt@18pt
-    \@setfontsize\normalsize{9.86pt}{19.715}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-   \belowdisplayskip \abovedisplayskip
-   \let\@listi\@listI}
-
-\normalsize
-\setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{1.09529\ht0}
-\setlength\Cdp{1.09529\dp0}
-\setlength\Cwd{1.09529\wd0}
-\setlength\Cvs{1.09529\baselineskip}
-\setlength\Chs{1.09529\wd0}
-
-% 字號設定
-\newcommand{\small}{%  \small = 8 pt @12pt
-  \@setfontsize\small{8.76pt}{13.143}%
-  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
-  \abovedisplayshortskip \z@ \@plus2\p@
-  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-  \def\@listi{\leftmargin\leftmargini
-              \topsep 4\p@ \@plus2\p@ \@minus2\p@
-              \parsep 2\p@ \@plus\p@ \@minus\p@
-              \itemsep \parsep}%
-  \belowdisplayskip \abovedisplayskip}
-
-\newcommand{\footnotesize}{% \footnotesize = 7 pt@12pt
-  \@setfontsize\footnotesize{7.667pt}{13.143}%
-  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
-  \abovedisplayshortskip \z@ \@plus\p@
-  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
-  \def\@listi{\leftmargin\leftmargini
-              \topsep 3\p@ \@plus\p@ \@minus\p@
-              \parsep 2\p@ \@plus\p@ \@minus\p@
-              \itemsep \parsep}%
-  \belowdisplayskip \abovedisplayskip}
-
-% 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{9.858}}					    %\tiny = 6 pt@9pt
-\newcommand{\scriptsize}{\@setfontsize\scriptsize{10.95pt}{13.143}} %\scriptsize=10pt@12pt
-\newcommand{\large}{\@setfontsize\large{12.05pt}{19.715}}				      %\large = 11pt@18pt
-\newcommand{\Large}{\@setfontsize\Large{14.24pt}{24.096}}				      %\Large = 13pt@22pt
-%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE{16.43pt}{30.67}}  			    %\LARGE = 15pt@28pt
-%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
-\newcommand{\huge}{\@setfontsize\huge{18.62pt}{32.86}}    				    %\huge = 17pt@30pt
-%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
-\newcommand{\Huge}{\@setfontsize\Huge{21.91pt}{32.86}}   				    %\Huge = 20pt@30pt
-
-\fi % from \if@setfonsizeix % 設置 正文字號基準為 9 pt(real)
+\fi % from \if@setfonsizesc % 設置 正文字號基準為 9 pt(real)
 
 \if@setfonsizex % 設置 正文字號基準為 10 pt
 %% 定義正文字號
 \renewcommand{\normalsize}{% \normalsize = 10pt@18pt
-    \@setfontsize\normalsize{10.953pt}{19.715}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+    \@setfontsize\normalsize{10pt}{15}%
+	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    \belowdisplayskip \abovedisplayskip
    \let\@listi\@listI}
 
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{1.09529\ht0}
-\setlength\Cdp{1.09529\dp0}
-\setlength\Cwd{1.09529\wd0}
-\setlength\Cvs{1.09529\baselineskip}
-\setlength\Chs{1.09529\wd0}
+\setlength\Cht{1\ht0}
+\setlength\Cdp{1\dp0}
+\setlength\Cwd{1\wd0}
+\setlength\Cvs{1\baselineskip}
+\setlength\Chs{1\wd0}
 
 % 字號設定
 \newcommand{\small}{%  \small = 9 pt @12pt
-  \@setfontsize\small{9.86pt}{13.143}%
+  \@setfontsize\small{9pt}{12}%
   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -282,7 +225,7 @@
   \belowdisplayskip \abovedisplayskip}
 
 \newcommand{\footnotesize}{% \footnotesize = 8 pt@12pt
-  \@setfontsize\footnotesize{8.76pt}{13.143}%
+  \@setfontsize\footnotesize{8}{12}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -292,17 +235,15 @@
               \itemsep \parsep}%
   \belowdisplayskip \abovedisplayskip}
 
+
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{9.858}}					 			   %\tiny = 6 pt@9pt
-\newcommand{\scriptsize}{\@setfontsize\scriptsize{12.049pt}{13.143}}		 %\scriptsize=11pt@12pt
-\newcommand{\large}{\@setfontsize\large{13.143pt}{19.715}}				   	   %\large = 12pt@18pt
-\newcommand{\Large}{\@setfontsize\Large{15.334pt}{24.096}}				   	   %\Large = 14pt@22pt
-%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE{18.62pt}{32.86}}  			  			 %\LARGE = 17pt@30pt
-%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
-\newcommand{\huge}{\@setfontsize\huge{21.906pt}{32.86}}    				 			 %\huge = 20pt@30pt
-%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
-\newcommand{\Huge}{\@setfontsize\Huge{27.382pt}{39.43}}   						   %\Huge = 25pt@36pt
+\newcommand{\tiny}{\@setfontsize\tiny\@vipt\@ixpt}				%\tiny= 6pt@9pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{10pt}{12}}	%\scriptsize=10pt@12pt
+\newcommand{\large}{\@setfontsize\large\@xiipt{18}}				%\large= 12pt@18pt
+\newcommand{\Large}{\@setfontsize\Large\@xivpt{22.5}}			%\Large= 14pt@22pt
+\newcommand{\LARGE}{\@setfontsize\LARGE{17pt}{28}}  			%\LARGE= 16pt@26pt
+\newcommand{\huge}{\@setfontsize\huge{20pt}{30}}    			%\huge= 20pt@28pt
+\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{36}}   			%\Huge= 25pt@36pt
 
 \fi % from \if@setfonsizex % 設置 正文字號基準為 10 pt （默認）
 
@@ -310,24 +251,24 @@
 
 %% 定義正文字號
 \renewcommand{\normalsize}{% \normalsize = 11pt@18pt
-    \@setfontsize\normalsize{12.05pt}{19.715}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+    \@setfontsize\normalsize{11pt}{18}%
+	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    \belowdisplayskip \abovedisplayskip
    \let\@listi\@listI}
 
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{1.09529\ht0}
-\setlength\Cdp{1.09529\dp0}
-\setlength\Cwd{1.09529\wd0}
-\setlength\Cvs{1.09529\baselineskip}
-\setlength\Chs{1.09529\wd0}
+\setlength\Cht{1\ht0}
+\setlength\Cdp{1\dp0}
+\setlength\Cwd{1\wd0}
+\setlength\Cvs{1\baselineskip}
+\setlength\Chs{1\wd0}
 
 % 字號設定
 \newcommand{\small}{%  \small = 10 pt @12pt
-  \@setfontsize\small{10.953pt}{13.143}%
+  \@setfontsize\small{10pt}{12}%
   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -338,7 +279,7 @@
   \belowdisplayskip \abovedisplayskip}
 
 \newcommand{\footnotesize}{% \footnotesize = 9 pt@12pt
-  \@setfontsize\footnotesize{9.86pt}{13.143}%
+  \@setfontsize\footnotesize{9pt}{12}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -349,38 +290,37 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny{6.572pt}{10}}								    %\tiny = 6 pt@9.13pt
-\newcommand{\scriptsize}{\@setfontsize\scriptsize{13.143pt}{13.143}} 	%\scriptsize=12pt@12pt
-\newcommand{\large}{\@setfontsize\large{14.24pt}{19.715}}				      %\large = 13pt@18pt
-\newcommand{\Large}{\@setfontsize\Large{16.43pt}{24.096}}				      %\Large = 15pt@22pt
-%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE{18.62pt}{32.86}}  			 		  %\LARGE = 17pt@30pt
-\newcommand{\huge}{\@setfontsize\huge{21.906pt}{32.86}}    				    %\huge = 20pt@30pt
-\newcommand{\Huge}{\@setfontsize\Huge{27.382pt}{39.43}}   				    %\Huge = 25pt@36pt
+\newcommand{\tiny}{\@setfontsize\tiny\@viipt\@ixpt}				%\tiny= 7pt@9pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{11pt}{12}}	%\scriptsize=10pt@12pt
+\newcommand{\large}{\@setfontsize\large{13pt}{18}}				%\large= 12pt@18pt
+\newcommand{\Large}{\@setfontsize\Large\@xvpt{22.5}}			%\Large= 14pt@22pt
+\newcommand{\LARGE}{\@setfontsize\LARGE{17pt}{28}}  			%\LARGE= 16pt@26pt
+\newcommand{\huge}{\@setfontsize\huge{20pt}{30}}    			%\huge= 20pt@28pt
+\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{36}}   			%\Huge= 25pt@36pt
 
 \fi % from \if@setfonsizexi % 設置 正文字號基準為 11 pt
 
 \if@setfonsizexii  % 設置 正文字號基準為 12 pt
 %% 定義正文字號
 \renewcommand{\normalsize}{% \normalsize = 12pt@18pt
-    \@setfontsize\normalsize{13.143pt}{19.715}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+    \@setfontsize\normalsize{12pt}{18}%
+	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    \belowdisplayskip \abovedisplayskip
    \let\@listi\@listI}
 
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{1.09529\ht0}
-\setlength\Cdp{1.09529\dp0}
-\setlength\Cwd{1.09529\wd0}
-\setlength\Cvs{1.09529\baselineskip}
-\setlength\Chs{1.09529\wd0}
+\setlength\Cht{1\ht0}
+\setlength\Cdp{1\dp0}
+\setlength\Cwd{1\wd0}
+\setlength\Cvs{1\baselineskip}
+\setlength\Chs{1\wd0}
 
 % 字號設定
 \newcommand{\small}{%  \small = 11 pt @12pt
-  \@setfontsize\small{12.05pt}{13.143}%
+  \@setfontsize\small{11pt}{12}%
   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -391,7 +331,7 @@
   \belowdisplayskip \abovedisplayskip}
 
 \newcommand{\footnotesize}{% \footnotesize = 10 pt@12pt
-  \@setfontsize\footnotesize{10.95pt}{13.143}%
+  \@setfontsize\footnotesize{10pt}{12}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -402,14 +342,13 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny{8.76pt}{9.13}}					    %\tiny = 8 pt @ 10 pt
-\newcommand{\scriptsize}{\@setfontsize\scriptsize{14.24pt}{19.715}} %\scriptsize=13pt@18pt
-\newcommand{\large}{\@setfontsize\large{15.334pt}{19.715}}				      %\large = 14pt@18pt
-\newcommand{\Large}{\@setfontsize\Large{18.62pt}{30.67}}				      %\Large = 17pt@28pt
-%\newcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{25}}
-\newcommand{\LARGE}{\@setfontsize\LARGE{21.91pt}{32.86}}  			    %\LARGE = 20pt@30pt
-\newcommand{\huge}{\@setfontsize\huge{26.29pt}{32.86}}    				    %\huge = 24pt@30pt
-\newcommand{\Huge}{\@setfontsize\Huge{30.67pt}{39.43}}   				    %\Huge = 28pt@36pt
+\newcommand{\tiny}{\@setfontsize\tiny{8pt}{10pt}}				%\tiny= 8pt@10pt
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{11pt}{12}}	%\scriptsize=11pt@12pt
+\newcommand{\large}{\@setfontsize\large{14.4pt}{18}}			%\large= 14.4pt@18pt
+\newcommand{\Large}{\@setfontsize\Large{17pt}{22.5}}			%\Large= 17pt@22pt
+\newcommand{\LARGE}{\@setfontsize\LARGE{20pt}{26}}				%\LARGE= 20pt@26pt
+\newcommand{\huge}{\@setfontsize\huge{24pt}{30}}				%\huge= 24pt@30pt
+\newcommand{\Huge}{\@setfontsize\Huge{28pt}{36}}				%\Huge= 28pt@36pt
 
 \fi % from \if@setfonsizexii  % 設置 正文字號基準為 12 pt
 
@@ -417,24 +356,24 @@
 
 %% 定義正文字號
 \renewcommand{\normalsize}{% \normalsize = 10.53937pt@18pt（五號）
-    \@setfontsize\normalsize{11.544pt}{19.715}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+    \@setfontsize\normalsize{10.53937pt}{18}%
+	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
    \belowdisplayskip \abovedisplayskip
    \let\@listi\@listI}
 
 \normalsize
 \setbox0\hbox{\char\euc"A1A1}%
-\setlength\Cht{1.09529\ht0}
-\setlength\Cdp{1.09529\dp0}
-\setlength\Cwd{1.09529\wd0}
-\setlength\Cvs{1.09529\baselineskip}
-\setlength\Chs{1.09529\wd0}
+\setlength\Cht{1\ht0}
+\setlength\Cdp{1\dp0}
+\setlength\Cwd{1\wd0}
+\setlength\Cvs{1\baselineskip}
+\setlength\Chs{1\wd0}
 
 % 字號設定
 \newcommand{\small}{%  \small = 9.03374 pt @12pt （小五）
-  \@setfontsize\small{9.895pt}{13.143}%
+  \@setfontsize\small{9.03374pt}{12}%
   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -445,7 +384,7 @@
   \belowdisplayskip \abovedisplayskip}
 
 \newcommand{\footnotesize}{% \footnotesize = 8 pt@12pt
-  \@setfontsize\footnotesize{9pt}{13.143}%
+  \@setfontsize\footnotesize{8pt}{12}%
   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
@@ -456,47 +395,49 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny{8.245pt}{10.95}}					     %\tiny = 7.52812 pt@10pt（六號）
-\newcommand{\scriptsize}{\@setfontsize\scriptsize{8.762pt}{13.143}}	 %\scriptsize=8pt@12pt
-\newcommand{\large}{\@setfontsize\large{13.193pt}{24.644}}	  		   %\large = 12.045pt@22.5pt（小四）
-\newcommand{\Large}{\@setfontsize\Large{15.392pt}{24.644}}	  		   %\Large = 14.05249pt@22.5pt（四號）
-\newcommand{\LARGE}{\@setfontsize\LARGE{16.49pt}{24.644}}  				   %\LARGE = 15.05624pt@22.5pt（小三）
-%\newcommand{\huge}{\@setfontsize\huge\@xxpt{28}}
-\newcommand{\huge}{\@setfontsize\huge{17.59pt}{24.644}}    				   %\huge = 16.06pt@22.5pt（三號）
-%\newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{33}}
-\newcommand{\Huge}{\@setfontsize\Huge{19.789pt}{27.38}}   				   %\Huge = 18.06749pt@25pt（小二）
+\newcommand{\tiny}{\@setfontsize\tiny{7.52812pt}{10}}		%\tiny = 7.52812 pt@10pt（六號）
+\newcommand{\scriptsize}{\@setfontsize\scriptsize{8pt}{12}}	%\scriptsize=8pt@12pt
+\newcommand{\large}{\@setfontsize\large{12.045pt}{22.5}}	%\large = 12.045pt@22.5pt（小四）
+\newcommand{\Large}{\@setfontsize\Large{14.05249pt}{22.5}}	%\Large = 14.05249pt@22.5pt（四號）
+\newcommand{\LARGE}{\@setfontsize\LARGE{15.05624pt}{22.5}}	%\LARGE = 15.05624pt@22.5pt（小三）
+\newcommand{\huge}{\@setfontsize\huge{16.06pt}{22.5}}		%\huge = 16.06pt@22.5pt（三號）
+\newcommand{\Huge}{\@setfontsize\Huge{18.06749pt}{25}}		%\Huge = 18.06749pt@25pt（小二）
 
 \fi % from \if@setfonsizexz  % 設置 正文字號基準為 小四
 
-
-% 額外定義的 小四 基準
-\newcommand{\liuhao}{\@setfontsize\liuhao{6.572pt}{10}} % 六號
-\newcommand{\xiaowu}{\@setfontsize\xiaowu{9.895pt}{13.143}} % 小五
-\newcommand{\wuhao}{\@setfontsize\wuhao{11.544pt}{19.715}} % 五號
-\newcommand{\xiaosi}{\@setfontsize\xiaosi{13.193pt}{24.644}} % 小四
-\newcommand{\sihao}{\@setfontsize\sihao{15.392pt}{24.644}} % 四號
-\newcommand{\xiaosan}{\@setfontsize\xiaosan{16.49pt}{24.644}} % 小三
-\newcommand{\sanhao}{\@setfontsize\sanhao{17.59pt}{24.644}} % 三號
-\newcommand{\xiaoer}{\@setfontsize\xiaoer{19.789pt}{39.43}} % 小二
-\newcommand{\erhao}{\@setfontsize\erhao{24.187}{39.43}}  %（二號）
-\newcommand{\xiaoyi}{\@setfontsize\xiaoyi{26.386}{39.43}}  %（小一）
-\newcommand{\yihao}{\@setfontsize\yihao{28.584}{39.43}}  %（一號）
-\newcommand{\xiaochu}{\@setfontsize\xiaochu{39.578}{52.57}} %（小初）
-\newcommand{\chuhao}{\@setfontsize\chuhao{46.175}{52.57}} %（初號）
+\newcommand{\liuhao}{\@setfontsize\liuhao{7.52812pt}{10}} % 六號
+\newcommand{\xiaowu}{\@setfontsize\xiaowu{9.03374pt}{12}} % 小五
+\newcommand{\wuhao}{\@setfontsize\wuhao{10.53937pt}{18}} % 五號
+\newcommand{\xiaosi}{\@setfontsize\xiaosi{12.045pt}{22.5}} % 小四
+\newcommand{\sihao}{\@setfontsize\sihao{14.05249pt}{22.5}} % 四號
+\newcommand{\xiaosan}{\@setfontsize\xiaosan{15.05624pt}{22.5}} % 小三
+\newcommand{\sanhao}{\@setfontsize\sanhao{16.06pt}{22.5}} % 三號
+\newcommand{\xiaoer}{\@setfontsize\xiaoer{18.06749pt}{25}} % 小二
+\newcommand{\erhao}{\@setfontsize\erhao{22.08249}{36}}  %（二號）
+\newcommand{\xiaoyi}{\@setfontsize\xiaoyi{24.09}{36}}  %（小一）
+\newcommand{\yihao}{\@setfontsize\yihao{26.09749}{36}}  %（一號）
+\newcommand{\xiaochu}{\@setfontsize\xiaochu{39.578}{48}} %（小初）
+\newcommand{\chuhao}{\@setfontsize\chuhao{42.15749}{48}} %（初號）
 
 %自定義的字號
-\newcommand{\bthuge}{\@setfontsize\bthuge{65.72}{78.86}}
-\newcommand{\btlarge}{\@setfontsize\btlarge{52.57}{65.72}}
-\newcommand{\tlarge}{\@setfontsize\tlarge{39.43}{52.57}}
-\newcommand{\ularge}{\@setfontsize\ularge{32.86}{52.57}}
+\newcommand{\bthuge}{\@setfontsize\bthuge{60}{72}}
+\newcommand{\btlarge}{\@setfontsize\btlarge{48}{60}}
+\newcommand{\tlarge}{\@setfontsize\tlarge{36}{48}}
+\newcommand{\ularge}{\@setfontsize\ularge{30}{48}}
 
-\newcommand{\szlarge}{%  特定的兩倍行距正文基準， \szlarge = 17 pt @ 30 pt
-		\@setfontsize\szlarge{18.62pt}{32.86}%
-  	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  	\abovedisplayshortskip \z@ \@plus3\p@
-  	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-   	\belowdisplayskip \abovedisplayskip%
-   	\let\@listi\@listI}
+\newcommand{\szxi}{\@setfontsize\szxi{11}{11}}
+\newcommand{\szxii}{\@setfontsize\szxii{10}{10}}
+\newcommand{\szix}{\@setfontsize\szix{9}{10}}
+
+\newcommand{\zhy}{\@setfontsize\zhy{15pt}{22.5}}     %  葬花吟  \LARGE= 15pt@22.5pt
+
+\newcommand{\szlarge}{%
+		\@setfontsize\szlarge{15pt}{26}%
+	\abovedisplayskip 6\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+	\belowdisplayskip \abovedisplayskip%
+	\let\@listi\@listI}
 
 %%%古典字體設置
 \DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
@@ -511,10 +452,9 @@
 \DeclareRobustCommand*{\cal}{\@fontswitch\relax\mathcal}
 \DeclareRobustCommand*{\mit}{\@fontswitch\relax\mathnormal}
 
-
 \RequirePackage{multicol} %多欄
 \RequirePackage{type1cm} %字體
-\RequirePackage[expert,uplatex,deluxe]{otf} %字體包
+\RequirePackage[uplatex,deluxe,jis2004]{otf} %字體包
 
 \setlength\voffset{0mm}
 \setlength\hoffset{0mm}
@@ -653,18 +593,17 @@
   \let\cleardoublepage\pltx@cleartorightpage
 \fi\fi
 
-\RequirePackage{plext}					% 縱組顓用
-\RequirePackage{plautopatch}			% 為 platex 打補丁
-\RequirePackage{zhnumber}				% 將數字轉化為帶單位，如 \zhnumber{9999}，得九千九百九十九
-%\setlength\columnsep{3\Cwd}			% 欄間距
-\setlength\columnsep{2\Cwd}			% 中文縱書：欄間距 2 個全角字
-\setlength\columnseprule{0\p@}			% 雙欄 欄綫設定（無欄綫）
-\setlength\lineskip{1\p@}				% 行間距 1 pt
-\setlength\normallineskip{1\p@}			% 正文行間距 1 pt
-\renewcommand{\baselinestretch}{}		% 置空基綫距離縮放因子
-\setlength\parskip{0\p@ \@plus \p@}	% 段間距 1 pt
-\setlength\parindent{2\Cwd}				% 退格2個全角字
-\setlength\marginparsep{21.9pt}			% 中文縱書：頭注與正文之間應空格 2 個全角字(即 20 pt)
+\RequirePackage{plext}				%	縱組顓用
+\RequirePackage{plautopatch}		%	為 pLaTeX 打補丁
+\RequirePackage{zhnumber}
+\setlength\columnsep{2\Cwd}			%	欄間距 2 個全角字
+\setlength\columnseprule{0\p@}		%	雙欄 欄綫設定（無欄綫）
+\setlength\lineskip{0\p@}			%	行間距 1 pt
+\setlength\normallineskip{0\p@}		%	正文行間距 1 pt
+\renewcommand{\baselinestretch}{}	%	置空基綫距離縮放因子
+\setlength\parskip{0\p@ \@plus \p@}	%	段間距 0 pt
+\setlength\parindent{1\Cwd}			%	退格 1 個全角字(此處設定不會對全局縮進產生任何影響)
+\setlength\marginparsep{2\Cwd}		%	頭注與正文之間應空格 2 個全角字
 \@lowpenalty   51
 \@medpenalty  151
 \@highpenalty 301
@@ -688,7 +627,7 @@
 
 %頁眉、頁碼設置
 %PageStyle for dvipdfmx
-\if@pdfm
+%\if@pdfm
 %\RequirePackage[dvipdfm]{graphicx}%
 \RequirePackage[dvipdfmx]{graphicx}%
 \def\ps@plain{%
@@ -698,13 +637,15 @@
          \smash{%
             \dimen@.91\textheight \advance\dimen@\footskip
             \vbox to\dimen@{%
-%               \hbox{\tate \reset@font{\scriptsize\mcfamily \@maintitle （\@authorfn）}}%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \@maintitle%
+%               \hbox{\tate \reset@font{\scriptsize\gtfamily \@maintitle%
+%			（\@authorfn%
+%					）}}%
+               \hbox{\tate \reset@font{\szxii\gtfamily \@maintitle%
                （\@authorfn%
                			）}}%
                \vfill
 %               \hbox{\tate \reset@font{\small\mc \kansuji\c@page（第%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \kansuji\c@page%
+               \hbox{\tate \reset@font{\szxii\mgfamily \kansuji\c@page%
                （第\hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
 %               \hbox{\tate \reset@font{\scriptsize\mc \kansuji\c@page  %  此處刪去括號内頁碼
 			   \vspace{25mm}}}%
@@ -714,7 +655,7 @@
       \def\chaptermark##1{ \markright{%
    \ifnum \c@secnumdepth >\m@ne
      \if@mainmatter
-       \@chapapp\thechapter\@chappos\hskip1zw
+       \@chapapp~\thechapter~\@chappos\hskip1zw
      \fi
    \fi
    ##1 } }%
@@ -725,12 +666,12 @@
         \smash{%
           \dimen@.91\textheight \advance\dimen@\footskip
           \vbox to\dimen@{%
-%            \hbox{\tate \reset@font{\scriptsize\mcfamily \rightmark}}%}}% 右邊頁眉設置爲章標題
-            \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \rightmark}}%}}% 右邊頁眉設置爲章標題
+%            \hbox{\tate \reset@font{\scriptsize\gtfamily \rightmark}}%}}% 右邊頁眉設置爲章標題
+            \hbox{\tate \reset@font{\szxii\gtfamily \rightmark}}%}}% 右邊頁眉設置爲章標題
             \vfill
 %           \hbox{\tate \reset@font{\small\mc \kansuji\c@page（第%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily \kansuji\c@page%
-               （第\hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
+           \hbox{\tate \reset@font{\szxii\mgfamily \kansuji\c@page%
+           （第\hskip.5zw{\zhnumber{\@arabic\c@ppage}}\hskip.5zw頁）%
 %         \hbox{\tate \reset@font{\scriptsize\mc \kansuji\c@page  % 此處仍刪除括號内頁碼
 			   \vspace{25mm}}}}}}\stepcounter{ppage}}%
    \let\@oddhead\@empty
@@ -744,10 +685,12 @@
          \smash{%
             \dimen@.91\textheight \advance\dimen@\footskip
             \vbox to\dimen@{%
-%               \hbox{\tate \reset@font{\small\mc \@maintitle（\@authorfn）}}%
+%               \hbox{\tate \reset@font{\small\mc \@maintitle
+%			（\@authorfn%
+%					）}}%
                \vfill
 %               \hbox{\tate \reset@font{\small\mc （第\hskip.5zw{\kansuji\c@szpage}\hskip.5zw頁）%
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily%
+               \hbox{\tate \reset@font{\szxii\mgfamily%
                （第\hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁）%
 			   \vspace{25mm}}}%
 			   }}%
@@ -756,7 +699,7 @@
       \def\chaptermark##1{ \markright{%
    \ifnum \c@secnumdepth >\m@ne
      \if@mainmatter
-       \@chapapp\thechapter\@chappos\hskip1zw
+       \@chapapp~\thechapter~\@chappos\hskip1zw
      \fi
    \fi
    ##1 } }%
@@ -767,58 +710,15 @@
         \smash{%
           \dimen@.91\textheight \advance\dimen@\footskip
           \vbox to\dimen@{%
-%            \hbox{\tate \reset@font{\small\mc \rightmark}}%}} % 右邊頁眉設置爲章標題
+%            \hbox{\tate \reset@font{\small\mc \rightmark}}%}}% 右邊頁眉設置爲章標題
             \vfill
-%           \hbox{\tate \reset@font{\small\mc （第\hskip.5zw{\kansuji\c@szpage}\hskip.5zw頁） %
-               \hbox{\tate \reset@font{\fontsize{12pt}{14}\selectfont\gtfamily%
-               （第\hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁）%
+%           \hbox{\tate \reset@font{\small\mc （第\hskip.5zw{\kansuji\c@szpage}\hskip.5zw頁）%
+           \hbox{\tate \reset@font{\szxii\mgfamily%
+           （第\hskip.5zw{\zhnumber{\@arabic\c@szpage}}\hskip.5zw頁）%
 			   \vspace{25mm}}}}}}\stepcounter{szpage}}%
    \let\@oddhead\@empty
-   \let\@evenhead\@empty
-        }
-%PageStyle for dvips
-	\else
-\RequirePackage[dvips]{graphicx}%
-\def\ps@plain{%
-   \let\@mkboth\markboth
-   \def\@oddfoot{%
-      \llap{%
-         \smash{%
-            \dimen@.91\textheight \advance\dimen@\footskip
-            \vbox to\dimen@{%
-               \hbox{\tate \reset@font{\scriptsize\mc \@maintitle%
-               （\@authorfn%
-               			）}}%
-               \vfill
-               \hbox{\tate \reset@font{\small\mc \kansuji\c@page%
-               （第\hskip.5zw\scalebox{0.5}[1]{\kansuji\c@ppage}\hskip.5zw頁）%
-			   \vspace{25mm}}}%
-			   }}%
-         \hskip5mm}%
-      \hfil\stepcounter{ppage}}%
-   \def\chaptermark##1{ \markright{%
-   \ifnum \c@secnumdepth >\m@ne
-     \if@mainmatter
-       \@chapapp\thechapter\@chappos\hskip1zw
-     \fi
-   \fi
-   ##1 } }%
-   \def\@evenfoot{%
-      \hfil
-      \rlap{%
-         \hskip5mm
-         \smash{%
-            \dimen@.91\textheight \advance\dimen@\footskip
-            \vbox to\dimen@{%
-               \hbox{\tate \reset@font{\scriptsize\mc \rightmark}}%
-               \vfill
-               \hbox{\tate \reset@font{\small\mc \kansuji\c@page%
-               （第\hskip.5zw\scalebox{0.5}[1]{\kansuji\c@ppage}\hskip.5zw頁）%
-			   \vspace{25mm}}}}}}\stepcounter{ppage}}%
-   \let\@oddhead\@empty
-   \let\@evenhead\@empty
-        }
-\fi
+   \let\@evenhead\@empty}
+%\fi
 
 \let\ps@jpl@in\ps@plain
 
@@ -844,7 +744,7 @@
     \else
       \newpage
       \global\@topnum\z@
-      \@maketitle  \cleardoublepage
+      \@maketitle
     \fi
 
   \thispagestyle{jpl@in}\@thanks
@@ -871,14 +771,14 @@
  \thispagestyle{empty}%
  \fboxsep5pt
     \newpage\null
-  	\hspace{-1zw}{\large\mgfamily\fbox{\CID{4070}\hskip4zw\CID{3592}} \par}
-     																				   	% \CID{4070}\CID{3592} 論文
+  	\hspace{-1zw}{\large\gtfamily\fbox{\CID{4070}\hskip4zw\CID{3592}} \par}
+     						   	% \CID{4070}\CID{3592} 論文
     \vskip 4.5zw%
     \hspace{2zw}{\LARGE \@maintitle \par}%
     \vskip .5zw%
 	\ifx\@subtitle\empty%
   	\hspace{6.7zw}{\large \par}%
-	\else\hspace{6.7zw}{\large \dash \@subtitle\dash \par}\fi%
+	\else\hspace{6.7zw}{\large ------\@subtitle------ \par}\fi%
   	\vskip 4zw%
     \rightline{{\Large \@author}\hspace{4zw}}%
     \par\vskip 2zw%
@@ -961,67 +861,68 @@
   \if@openright \cleardoublepage \else \clearpage \fi \fi
   \global\@topnum\z@
   \@afterindenttrue
-  \secdef\@chapter\@schapter  }
+  \secdef\@chapter\@schapter}
 
 %%% 定義不翻頁的 章、回
 \newcommand{\szchapter}{%
   \global\@topnum\z@
   \@afterindenttrue
-  \secdef\@chapter\@schapter  }
+  \secdef\@chapter\@schapter}
 
 %%% 章、回内部定義
 \def\@chapter[#1]#2{%
-  \ifnum \c@secnumdepth >\m@ne
-    \if@mainmatter
-    \refstepcounter{chapter}%
-    \typeout{\@chapapp\space\thechapter\space\@chappos}%
-    \addcontentsline{toc}{chapter}%
-      {\protect\numberline{\@chapapp~\thechapter~\@chappos}#1}%
-    \else\addcontentsline{toc}{chapter}{#1}\fi
-  \else
-    \addcontentsline{toc}{chapter}{#1}%
-  \fi
-  \chaptermark{#1}%
-  \addtocontents{lof}{\protect\addvspace{10\p@}}%
-  \addtocontents{lot}{\protect\addvspace{10\p@}}%
-  \@makechapterhead{#2}\@afterheading}
+	\ifnum\c@secnumdepth>\m@ne
+		\if@mainmatter
+			\refstepcounter{chapter}%
+			\typeout{\@chapapp\space\thechapter\space\@chappos}%
+			\addcontentsline{toc}{chapter}%
+			{\protect\numberline{\@chapapp\thechapter\@chappos}#1}%
+		\else
+			\addcontentsline{toc}{chapter}{#1}\fi
+	\else
+		\addcontentsline{toc}{chapter}{#1}%
+	\fi
+		\chaptermark{#1}%
+		\addtocontents{lof}{\protect\addvspace{10\p@}}%
+		\addtocontents{lot}{\protect\addvspace{10\p@}}%
+		\@makechapterhead{#2}\@afterheading}
+
 \def\@makechapterhead#1{\hbox{}%
-  \vskip.5\Cvs
-  {  \hbox{\huge\textcolor{purple}{\mcfamily\bfseries  \@maintitle 巻之} }
-    		 % 在此處加入書籍名稱 \CID{1512}\CID{3309}  巻之；
-   \vskip1\Cvs
-     \par \noindent \huge\mcfamily\bfseries
-   \raggedright
-   \leavevmode
-   \ifnum \c@secnumdepth >\m@ne
-     \setlength\@tempdima{\linewidth}%
-    \if@mainmatter
-     \setbox\z@\hbox{\@chapapp~\thechapter~\@chappos\hskip1zw}
-     \addtolength\@tempdima{-\wd\z@}%
-     \unhbox\z@\nobreak
-    \fi
-     \vtop{\hsize\@tempdima#1}%
-   \else
-     #1\relax
-   \fi}\nobreak\vskip2\Cvs%
-   \setcounter{ppage}{1}}
+	\vskip.5\Cvs
+	{\hbox{\huge\textcolor{purple}{\mgfamily\@maintitle{巻之}}}
+%在此處加入書籍名稱\CID{1512}\CID{3309}巻之
+	%!!此處使用了自定義字體
+		\vskip0.5\Cvs	\huge	\mcfamily\bfseries
+		\par\noindent	\raggedright	\leavevmode
+	\ifnum\c@secnumdepth>\m@ne
+		\setlength\@tempdima{0.96\linewidth}%
+		\if@mainmatter
+			\setbox\z@\hbox{\@chapapp\thechapter\@chappos\hskip1zw}%
+			\addtolength\@tempdima{-\wd\z@}%
+			\unhbox\z@\nobreak%
+		\fi
+		\vtop{\hsize\@tempdima#1}%
+	\else
+		#1\relax%
+	\fi}
+	\nobreak\vskip2\Cvs%
+	\setcounter{ppage}{1}}
 \def\@schapter#1{%
-  \@makeschapterhead{#1}\@afterheading
-}
+	\@makeschapterhead{#1}\@afterheading}
+
 \def\@makeschapterhead#1{\hbox{}%
-  \vskip1\Cvs
-  {\parindent\z@
-   \raggedright
-   \normalfont\huge\bfseries
-   \leavevmode
-   \setlength\@tempdima{\linewidth}%
-   \vtop{\hsize\@tempdima#1}}\vskip2\Cvs}
+	\vskip1\Cvs
+	{\parindent\z@	\normalfont	\huge	\mcfamily\bfseries
+		\raggedright	\leavevmode
+		\setlength\@tempdima{\linewidth}%
+		\vtop{\hsize\@tempdima#1}}
+	\vskip1\Cvs}
 
 
 \newcommand{\section}{\@startsection{section}{1}{\z@}%
    {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
    {.5\Cvs \@plus.3\Cvs}%
-   {\normalfont\Large\bfseries}}
+   {\normalfont\xiaoer\mcfamily\bfseries}}
 \newcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
    {1.5\Cvs \@plus.5\Cvs \@minus.2\Cvs}%
    {.5\Cvs \@plus.3\Cvs}%
@@ -1153,25 +1054,17 @@
 %詩歌環境（懸挂縮進）
 \newenvironment{verse}
   {\let\\\@centercr
-   \list{}{\itemsep\z@ \itemindent -1.5em%
-           \listparindent\itemindent \mcfamily %注意！！
-           \rightmargin\leftmargin \advance\leftmargin 1.5em}%
+   \list{}{\itemsep\z@ \itemindent -1.0zw%
+           \listparindent\itemindent \mcfamily %注意！！此處使用了自定義字體的設置
+           \rightmargin\leftmargin \advance\leftmargin 1.0zw}%
            \item\relax}{\endlist}
 %引文環境（前後均有縮進、首行縮進）
 \newenvironment{quotation}
-  {\list{}{ \mcfamily %注意！！
-  				 \listparindent 1.5em%
+  {\list{}{ \mcfamily %注意！！此處使用了自定義字體的設置
+  				 \listparindent 0zw%
            \itemindent\listparindent
            \rightmargin\leftmargin
            \parsep\z@ \@plus\p@}%
-           \item\relax}{\endlist}
-
-%引文（懸挂縮進）
-\newenvironment{hanging}
-  {\let\\\@centercr
-   \list{}{\itemsep\z@ \itemindent -5em%
-           \listparindent\itemindent \mcfamily %注意！！
-           \rightmargin\leftmargin \advance\leftmargin 1.5em}%
            \item\relax}{\endlist}
 
 \newenvironment{quote}
@@ -1274,18 +1167,12 @@
      \@lnumwidth #3\relax
      \advance\leftskip \@lnumwidth \hbox{}\hskip -\leftskip
      {#4}\nobreak
-     %\leaders\hbox{$\m@th \mkern \@dotsep mu.\mkern \@dotsep mu$}
-     % 下面這一句將半角傍點改成全角
+     %\leaders\hbox{$\m@th \mkern \@dotsep mu.\mkern \@dotsep mu$}% 這一句將半角傍點改成全角
      \leaders\hbox{$\m@th\mkern \@dotsep mu$\null\inhibitglue \CID{119}\inhibitglue\null$\m@th\mkern \@dotsep mu$}%
      \hfill\nobreak
      \hb@xt@\@pnumwidth{\hss\normalfont \normalcolor #5} %
      \par}%
   \fi}
-
-% 在 class 里把关于页码的内容放到  \AtBeginDocument 里（见class末尾）
-%\def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\rensuji{#3}}}
-%\def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\@Kanji{#3}}}
-%\def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\zhnumber{#3}}}
 
 \def\addcontentsline#1#2#3{%
   \protected@write\@auxout
@@ -1301,7 +1188,9 @@
   \else\@restonecolfalse\fi
   \chapter*{\contentsname
     \@mkboth{\contentsname}{\contentsname}%
-  }\@starttoc{toc}%
+  }%
+  \bookmark[dest=\@currentHref, level=1]{返回目錄}%
+	\@starttoc{toc}%
   \if@restonecol\twocolumn\fi
 }
 \newcommand*{\l@part}[2]{%
@@ -1326,9 +1215,9 @@
     \addvspace{1.0em \@plus\p@}%
     \begingroup
       \parindent\z@ \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\bfseries
-      \setlength\@lnumwidth{6zw}%	章號小於20時采用
-%      \setlength\@lnumwidth{7zw}%	章號大於21時采用
+      \leavevmode\mcfamily\bfseries
+%          \setlength\@lnumwidth{6zw}%
+          \setlength\@lnumwidth{7zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
       #1\nobreak\hfil\nobreak\hb@xt@\@pnumwidth{\hss#2}\par
       \penalty\@highpenalty
@@ -1336,7 +1225,7 @@
   \fi}
 
 % 目錄加點串連
-\newcommand*{\l@section}       {\@dottedtocline{2}{2zw}{2zw}}
+\newcommand*{\l@section}       {\@dottedtocline{2}{2.5zw}{2zw}}
 \newcommand*{\l@subsection}    {\@dottedtocline{3}{3zw}{3zw}}
 \newcommand*{\l@subsubsection} {\@dottedtocline{4}{4zw}{4zw}}
 \newcommand*{\l@paragraph}     {\@dottedtocline{5}{5zw}{5zw}}
@@ -1371,6 +1260,18 @@
 \newcommand{\subitem}{\@idxitem \hspace*{20\p@}}
 \newcommand{\subsubitem}{\@idxitem \hspace*{30\p@}}
 \newcommand{\indexspace}{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
+
+% 定義的脚注
+\renewcommand{\footnoterule}{%
+ \leavevmode\kern-25pt\raise-1mm\hbox{\rule{.4\columnwidth}{.25pt} }}
+\@addtoreset{footnote}{chapter}
+\renewcommand\@makefnmark{
+\kern -1zw \raisebox{.8zh}%
+{\tiny \raise.1zh\hbox{(}\kern -.3zw%
+\hbox{\rensuji{\arabic{footnote}}}%
+\kern -.3zw\raise.1zh\hbox{)}}\kern .1zw}
+\long\def\@makefntext#1{\parindent 1zw\noindent
+    \lower .7zh \hb@xt@ 2zw{\hss\@makefnmark}#1}
 
 % 定義的西暦/和暦
 \newif\if西暦 \西暦false
@@ -1412,9 +1313,6 @@
 \newcommand{\contentsname}{目\quad 次}
 \newcommand{\listfigurename}{圖\quad 目\quad 次}
 \newcommand{\listtablename}{表\quad 目\quad 次}
-\newcommand{\refname}{参考文献}
-\newcommand{\bibname}{参考文献}
-\newcommand{\indexname}{索\quad 引}
 \newcommand{\figurename}{圖}
 \newcommand{\tablename}{表}
 \newcommand{\appendixname}{附\quad 録}
@@ -1431,18 +1329,6 @@
 \fi
 \normalmarginpar
 \@mparswitchfalse
-
-% 定義的脚注
-\renewcommand{\footnoterule}{%
- \leavevmode\kern-25pt\raise-1mm\hbox{\rule{.4\columnwidth}{.25pt} }}
-\@addtoreset{footnote}{chapter}
-\renewcommand\@makefnmark{
-\kern -1zw \raisebox{.8zh}%
-{\tiny \raise.1zh\hbox{(}\kern -.3zw%
-\hbox{\rensuji{\arabic{footnote}}}%
-\kern -.3zw\raise.1zh\hbox{)}}\kern .1zw}
-\long\def\@makefntext#1{\parindent 1zw\noindent
-    \lower .7zh \hb@xt@ 2zw{\hss\@makefnmark}#1}
 
 % 定義的章回後注
 \@definecounter{endnote}
@@ -1510,8 +1396,8 @@
 %\def\enoteformat{\parindent -1.3zw \leftskip 2.3zw %
 \def\enoteformat{\parindent -3zw \leftskip 4zw \rightskip 4zw%
 % \UTF{FE35}\hbox{\yoko\expandafter\ajTumesuji\expandafter*\expandafter{\number\@theenmark}}\UTF{FE36}}
- \UTF{FE35}\hbox{\kansuji\number\@theenmark}\UTF{FE36}\hskip3pt} %2019/01/25 \UTF{FE35}\UTF{FE36} 全角括號
-% \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt} %2019/04/02
+% \UTF{FE35}\hbox{\kansuji\number\@theenmark}\UTF{FE36}\hskip3pt} %2019/01/25 \UTF{FE35}\UTF{FE36} 全角括號
+ \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt} %2019/04/02
 %\def\enotesize{\normalsize}
 \def\enotesize{\large}
 
@@ -1531,7 +1417,8 @@
           \def\ETC.{\relax}}
 	\vspace{1zw}
 	\noindent
-     \hspace{0.5mm}{\Large\mcfamily\bfseries \CID{7740}}\vskip0pt%-\chuskip %%% \CID{7740} 註
+     \hspace{0.5mm}{\Large\mcfamily\bfseries \CID{2990}}\vskip0pt%-\chuskip
+      %%% \CID{7740} 註  \CID{2990} 註
 	\enotesize
     \@input{\jobname.ent}%
       \endgroup
@@ -1544,13 +1431,16 @@
 \@addtoreset{kcbango}{chapter}
 
 % 定義的破折號
-\def\dash{{\leavevmode\kern1mm\raise0.1zh\hbox{\mgfamily{------}}\kern1mm}}
+\def\dash{{\leavevmode\kern1mm\raise0.1zh\hbox{\mcfamily{-----}}\kern1mm}}
+
+\def\dott{\hbox{\mcfamily{……}}}
 
 % 定義的 目錄頁碼格式（非常重要！！）
 \AtBeginDocument{%
 %\def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\zhnumber{#3}}}
 \def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\@Kanji{#3}}}
 }
+
 
 \newcommand{\六號}{\liuhao}
 \newcommand{\六号}{\liuhao}
@@ -1573,7 +1463,101 @@
 \newcommand{\初號}{\chuhao}
 \newcommand{\初号}{\chuhao}
 
+% 居中标点 命名格式 \mxxx
+\def\dou{\leavevmode\kern -.35zw \raise.6zh\hbox{\mc{・}}\kern -.15zw}
+\def\dun{\leavevmode\kern -.35zw \raise.6zh\hbox{\mc{・}}\kern -.15zw}% 、
+%\def\mgou{\leavevmode\kern -.35zw \raise.6zh\hbox{\mc{。}}\kern -.15zw}
+% 非居中式标点
+%\def\dou{\leavevmode\kern -.35zw \raise.3zh\hbox{\mc{，}}\kern -.15zw} %，
+%\def\dun{\leavevmode\kern -.35zw \raise.3zh\hbox{\mc{、}}\kern -.15zw} % 、
+\def\gou{\leavevmode\kern -.35zw \raise.3zh\hbox{\mc{。}}\kern -.15zw}
+% 冒号、分号、叹号、问号替换为勾读。
+\newcommand{\mao}{\dou}
+\newcommand{\fen}{\gou}
+\newcommand{\mtan}{\gou}
+\newcommand{\wen}{\gou}
+%前引号、后引号、书名号、曲牌名号。
+\def\xqyh{\leavevmode\kern -.1zw\raise.1zh\hbox{\mc{『}}\kern-.1zw}
+\def\xhyh{\leavevmode\kern-.1zw\raise-.1zh\hbox{\mc{』}}\kern -.1zw }
+\def\qyh{\leavevmode\kern -.1zw\raise.1zh\hbox{\mc{「}}\kern-.1zw}
+\def\hyh{\leavevmode\kern-.1zw\raise-.1zh\hbox{\mc{」}}\kern -.1zw }
+\def\qsm{\leavevmode\kern -.1zw\hbox{\mc{〈}}}
+\def\hsm{\leavevmode\hbox{\mc{〉}}\kern -.1zw}
+\def\qqp{\leavevmode\kern -.1zw\hbox{\mc{〔}}}
+\def\hqp{\leavevmode\hbox{\mc{〕}}\kern -.1zw}
+\def\qkh{\leavevmode\kern -.1zw\hbox{\mc{（}}}
+\def\hkh{\leavevmode\hbox{\mc{）}}\kern -.1zw}
+
+\if@bfive
+% 页面调整
+%\setlength{\voffset}{-3 mm}
+\setlength{\hoffset}{0 mm}
+\setlength{\oddsidemargin}{-7 mm}  %奇数修正數據
+\setlength{\evensidemargin}{-3 mm}   %偶数修正數據
+\setlength{\textwidth}{216mm}
+\setlength{\textheight}{135 mm}
+\setlength{\columnsep}{8 mm}
+\fi
+
+\prebreakpenalty`︰=10000
+\kcatcode"FE30=18
+\newcommand{\vsbk}{\vskip\baselineskip}
+
+% 簡體中文 adobe 細宋體 & adobe 黑體
+\DeclareFontFamily{JY2}{upstsl}{}
+\DeclareFontFamily{JT2}{upstsl}{}
+
+\DeclareFontShape{JY2}{upstsl}{m}{n}{<->s*[0.924690]upstsl-h}{}
+\DeclareFontShape{JY2}{upstsl}{m}{it}{<->ssub*upstsl/m/n}{}
+\DeclareFontShape{JY2}{upstsl}{m}{sl}{<->ssub*upstsl/m/n}{}
+\DeclareFontShape{JY2}{upstsl}{m}{sc}{<->ssub*upstsl/m/n}{}
+
+\DeclareFontShape{JT2}{upstsl}{m}{n}{<->s*[0.924690]upstsl-v}{}
+\DeclareFontShape{JT2}{upstsl}{m}{it}{<->ssub*upstsl/m/n}{}
+\DeclareFontShape{JT2}{upstsl}{m}{sl}{<->ssub*upstsl/m/n}{}
+\DeclareFontShape{JT2}{upstsl}{m}{sc}{<->ssub*upstsl/m/n}{}
+
+\DeclareRobustCommand\upstsl{\kanjifamily{upstsl}\selectfont}
+
+\AtBeginDvi{%
+  \special{pdf:mapline upstsl-h	unicode		SourceHanSerifK-Medium.otf}
+  \special{pdf:mapline upstsl-v	unicode		SourceHanSerifK-Medium.otf	-w	1}
+}
+
+
+%  懸挂的標點符號 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ubzjlreq-h/v %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareFontFamily{JY2}{ubzjlreq}{}
+\DeclareFontFamily{JT2}{ubzjlreq}{}
+
+\DeclareFontShape{JY2}{ubzjlreq}{m}{n}{<->s*[0.924690]ubzjlreq}{}
+\DeclareFontShape{JY2}{ubzjlreq}{m}{it}{<->ssub*ubzjlreq/m/n}{}
+\DeclareFontShape{JY2}{ubzjlreq}{m}{sl}{<->ssub*ubzjlreq/m/n}{}
+\DeclareFontShape{JY2}{ubzjlreq}{m}{sc}{<->ssub*ubzjlreq/m/n}{}
+
+\DeclareFontShape{JT2}{ubzjlreq}{m}{n}{<->s*[0.924690]ubzjlreq-v}{}
+\DeclareFontShape{JT2}{ubzjlreq}{m}{it}{<->ssub*ubzjlreq/m/n}{}
+\DeclareFontShape{JT2}{ubzjlreq}{m}{sl}{<->ssub*ubzjlreq/m/n}{}
+\DeclareFontShape{JT2}{ubzjlreq}{m}{sc}{<->ssub*ubzjlreq/m/n}{}
+
+\DeclareRobustCommand\ubzjlreq{\kanjifamily{ubzjlreq}\selectfont}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ubzjlreq-h/v %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ubzjlreqg-h/v %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareFontFamily{JY2}{ubzjlreqg}{}
+\DeclareFontFamily{JT2}{ubzjlreqg}{}
+
+\DeclareFontShape{JY2}{ubzjlreqg}{m}{n}{<->s*[0.924690]ubzjlreqg}{}
+\DeclareFontShape{JY2}{ubzjlreqg}{m}{it}{<->ssub*ubzjlreqg/m/n}{}
+\DeclareFontShape{JY2}{ubzjlreqg}{m}{sl}{<->ssub*ubzjlreqg/m/n}{}
+\DeclareFontShape{JY2}{ubzjlreqg}{m}{sc}{<->ssub*ubzjlreqg/m/n}{}
+
+\DeclareFontShape{JT2}{ubzjlreqg}{m}{n}{<->s*[0.924690]ubzjlreqg-v}{}
+\DeclareFontShape{JT2}{ubzjlreqg}{m}{it}{<->ssub*ubzjlreqg/m/n}{}
+\DeclareFontShape{JT2}{ubzjlreqg}{m}{sl}{<->ssub*ubzjlreqg/m/n}{}
+\DeclareFontShape{JT2}{ubzjlreqg}{m}{sc}{<->ssub*ubzjlreqg/m/n}{}
+
+\DeclareRobustCommand\ubzjlreqg{\kanjifamily{ubzjlreqg}\selectfont}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ubzjlreqg-h/v %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \endinput
-
-
-
