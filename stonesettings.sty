@@ -12,159 +12,184 @@
 \ProvidesPackage{stonesettings}[2019/01/27 v1.0a SteveCheung]
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% フォント関連
-\usepackage[T1]{fontenc}                        % 西文字母T1
-\usepackage[utf8]{inputenc}                     % UTF8輸入
-\usepackage{pxbase}         									  % \UIを使用する，
-	% 使用\UI插入生僻汉字，和\UTF相同
-
-
-
-%\usepackage{unicode-math}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{metalogo}  %logo包
-
-% 使用 URW Palladio L 字族
-\usepackage{pxfonts}
-% exscaleパッケージを読み込むと、大型演算子のフォントもスケールするようになります。
-% 読み込むだけで OK
-\usepackage{exscale}
-
-
-%\usepackage{kunten2e}
-\setlength\chuskip{5mm}
-
+%
 %載入 頭注包
 \usepackage{furiknkt}
 \usepackage{tochu}
 \usepackage{uline--}
-
-%為頭注的使用， 設置文本寬度
-\setlength{\textwidth}{186 mm}
-\setlength{\handurawidth}{228 mm}
-
-\setlength{\hoffset}{5 mm}
-\setlength{\voffset}{-1 mm}
-\setlength{\oddsidemargin}{ -10 mm}
-\setlength{\evensidemargin}{-5 mm}
-%\setlength{\parskip}{2 mm}
-%\linespread{1.05} %使用割注時請勿修改文本行距，此處爲全局行距
+%%% 振假名（行间注）
+%\usepackage{okumacro}	 		% 奧村晴彥的ruby
+\usepackage{pxrubrica}			%八登崇之的ruby包
+\kentenmarkintate{bullet}		%\kenten{xxxx}字樣式
+\kentensubmarkintate{Bullet}	%\kenten[s]{xxxx}字樣式
+\kentenmarkinyoko{bullet}		%横着重号
+\kentensubmarkinyoko{Bullet}	%横附加着重号
+%\rubyfontsetup{\marum\small\selectfont} % 設置ruby字體及風格
+\rubyfontsetup{\ujmgrn\small\selectfont}
+%\rubysetup{<j>}  熟語ルビで、隣接文字に半角までかけるのを許可するのを既定とする
+  % \rubysetup 自体の(パッケージの)既定値は |cj| である
+%\rubyintergap{0.04} % ルビと親文字の間の空き(既定値は 0)
+\rubysetup{(gh>}% group && head
 
 %%% 建立割注的環境， 使用的是jlreq.cls中對割注的定義
 \usepackage{minijs}
 \usepackage[savepos]{zref}
 \usepackage{warichus}
 
-%%% 振假名
-%\usepackage{okumacro}         % jsclassesに同梱のパッケージ， 可以插入振假名
-\usepackage{pxrubrica}
-\kentenmarkintate{bullet}
-\kentensubmarkintate{Bullet}
+%為頭注的使用， 設置文本寬度
+\setlength{\textwidth}{172 mm}
+%版面寬度（即由版心上邉至底邉的距离）
+\setlength{\handurawidth}{216 mm}
+%頭注領域の計算，將頭注編號輸出為漢字
 
-%\rubyfontsetup{\mcfamily\ltseries\small\selectfont} % 設置ruby字體及風格
-\rubyfontsetup{\mgfamily\fontsize{9.31pt}{10}\selectfont}  % truely 8.500 pt in real dimen.
-
-
-%%顔色設定
-\usepackage{color}
-\usepackage{xcolor}
-\newcommand{\black}[1]{\textcolor{black}{#1}}
-\newcommand{\red}[1]{\textcolor{red}{#1}}
-\newcommand{\甲}[1]{\textcolor{red}{#1}}
-\newcommand{\庚側}[1]{\textcolor{red}{#1}}
-\newcommand{\blue}[1]{\textcolor{blue}{#1}}
-\newcommand{\green}[1]{\textcolor{green}{#1}}
-\newcommand{\yellow}[1]{\textcolor{yellow}{#1}}
-\newcommand{\庚}[1]{\textcolor{blue}{#1}}
-\newcommand{\戚}[1]{\textcolor{yellow!50!green}{#1}}
-\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
-\newcommand{\己}[1]{\textcolor{cyan}{#1}}
-\newcommand{\magenta}[1]{\textcolor{magenta}{#1}}
-\newcommand{\蒙}[1]{\textcolor{magenta}{#1}}
-\newcommand{\pink}[1]{\textcolor{pink}{#1}}
-\newcommand{\purple}[1]{\textcolor{purple}{#1}}
-\newcommand{\夢}[1]{\textcolor{purple}{#1}}
-\newcommand{\orange}[1]{\textcolor{orange}{#1}}
-\newcommand{\脫漏}[1]{\textcolor{orange}{#1}}
-\newcommand{\lime}[1]{\textcolor{lime}{#1}}
-\newcommand{\violet}[1]{\textcolor{violet}{#1}}
-\newcommand{\甲辰}[1]{\textcolor{violet}{#1}}
-\newcommand{\olive}[1]{\textcolor{olive}{#1}}
-\newcommand{\lightgray}[1]{\textcolor{lightgray}{#1}}
-\newcommand{\teal}[1]{\textcolor{teal}{#1}}
-\newcommand{\列}[1]{\textcolor{teal}{#1}}
-\newcommand{\gray}[1]{\textcolor{gray}{#1}}
-\newcommand{\brown}[1]{\textcolor{brown}{#1}}
-
+% 設置相鄰後注的間隔
+\setlength{\chuskip}{0mm}
 
 %% 図表など
 % 図の読みこみのために
 \usepackage[dvipdfmx]{graphicx}
-\DeclareGraphicsExtensions{.eps,.jpg,.png}
+\DeclareGraphicsExtensions{.eps,.jpg,.png,.pdf}
 \usepackage{float}   %使用浮動體
 \usepackage{booktabs} % 表の横罫線
+\usepackage{niceframe}
 
 %%%% PDF 作者信息及超鏈接設定
 \usepackage[dvipdfmx,
-    pdfdirection=R2L, % 開く方向，右綴書，從右往左翻頁，
-    colorlinks=true,   %設置超鏈接的顔色
+    pdfdirection=R2L, % 開く方向%從右往左翻頁
+    pdfstartview=FitV, % 页面适合高度
+    colorlinks=true,   % 設置超鏈接的顔色
     linkcolor=black,
     filecolor=black,
     urlcolor=black,
     citecolor=black,
+    pdftoolbar=false, % 显示工具栏
+    pdfmenubar=false, % 显示菜单栏
     bookmarks=true, % PDFにしおりをつける
     bookmarksnumbered=true, % しおりに節番号などをつける
-    bookmarksopen=true, %展開所有層級
+    bookmarksopen=true, % 展開所有層級
   ]{hyperref}
 \hypersetup{ %
-    pdftitle= {測試} , % PDFのタイトル
-    pdfauthor= {測試作者} , % PDFの作成者
-    pdfkeywords = {測試關鍵詞},  %関鍵詞
-    pdfsubject = {測試主題},    % 主題
-    pdfcreator  = {up\LaTeX\ with package  hyperref },    %工具
-    pdfproducer = {dvipdfmx(20180506)},   %製作軟件
+    pdftitle= {脂硯齋重評石頭記之庚辰本 （ the Tale of the Stone (GengChen Edition) ）} , % PDFのタイトル
+    pdfauthor= {曹雪芹（ Cao Xue Qin ）} , % PDFの作成者
+    pdfkeywords = {Chinese Classical Novel},  %関鍵詞
+    pdfsubject = {Chinese Classical Literature of the Tsing Dynasty (the Qing Dynasty)},    % 主題
+    pdfcreator  = {up\LaTeX\ with package  hyperref © 2019},    %工具
+    pdflang={zh-CN},
+%    pdfpagelayout={TwoPageLeft},%
+    pdfpagelayout={TwoPageRight}, % 首页对开。奇数頁が右側になるような見開きモードで開く
 }
 
 % PDFにしたときのしおりの文字化けを防ぐ  % 使書箋支持Unicode-CJK 内碼
 \usepackage{pxjahyper}
 
+%把目录加入书签
+\def\BookmarkDriverDefault{dvipdfm}
+\RequirePackage{bookmark}
 
 
-% 定義的縱書右小字，單行割注
-\def\dahange#1{\raise0.45ex\hbox{\fontsize{11pt}{12}\mc{}#1}}
+% 定義的單行割注
+\def\dahange#1{\raise0.35ex\hbox{\fontsize{10pt}{12}\ujlreq\selectfont#1}}
 
 % 定義的縱書涌字（正文17pt@30pt行距、重複字元17pt@18pt行距、以文字基綫對齊）
 
 %重複一個字，如：太太、老太太、説説笑笑
-\def\odora{\leavevmode\kern-.3zw\raise0.05zh\hbox{\mc ゝ}%
-    \kern-.69zw\raise.1zh\hbox{\mc ヽ} \kern-.3zw}
+\def\odora{\leavevmode\kern-.3zw\raise0.05zh\hbox{\mc\selectfont ゝ}%
+    \kern-.69zw\raise.1zh\hbox{\mc\selectfont ヽ} \kern-.3zw}
 
 %重複兩個字，如：商量商量、考慮考慮；好好好；是是是
-\def\odorb{\leavevmode\kern-.1zw\raise0.15zh\hbox{\mc ゝ}%
-    \kern-.69zw\raise.2zh\hbox{\mc ヽ} \kern-.3zw
-    \leavevmode\kern-.55zw\raise-0.15zh\hbox{\mc ゝ}%
-    \kern-.69zw\raise-.1zh\hbox{\mc ヽ}\kern.1zw
+\def\odorb{\leavevmode\kern-.1zw\raise0.12zh\hbox{\mc\selectfont ゝ}%
+    \kern-.69zw\raise.17zh\hbox{\mc\selectfont ヽ} \kern-.3zw
+    \leavevmode\kern-.55zw\raise-0.15zh\hbox{\mc\selectfont ゝ}%
+    \kern-.69zw\raise-.1zh\hbox{\mc\selectfont ヽ}\kern.1zw
     }
 
 %重複三個字，如：了不起，了不起、快請起，快請起；
-\def\odorc{\leavevmode\kern-.15zw\raise0.15zh\hbox{\mc ゝ}%
-    \kern-.69zw\raise.2zh\hbox{\mc ヽ}\kern.1zw
-    \leavevmode\kern-.5zw\raise-0.2zh\hbox{\mc ゝ}%
-    \kern-.69zw\raise-.1zh\hbox{\mc ヽ}\kern.1zw
-    \leavevmode\kern-.55zw\raise0.05zh\hbox{\mc ゝ}%
-    \kern-.69zw\raise.1zh\hbox{\mc ヽ}\kern.2zw
+\def\odorc{\leavevmode\kern-.15zw\raise0.15zh\hbox{\mc\selectfont ゝ}%
+    \kern-.69zw\raise.2zh\hbox{\mc\selectfont ヽ}\kern.1zw
+    \leavevmode\kern-.5zw\raise-0.2zh\hbox{\mc\selectfont ゝ}%
+    \kern-.69zw\raise-.1zh\hbox{\mc\selectfont ヽ}\kern.1zw
+    \leavevmode\kern-.55zw\raise0.05zh\hbox{\mc\selectfont ゝ}%
+    \kern-.69zw\raise.1zh\hbox{\mc\selectfont ヽ}\kern.2zw
     }
 
-%將 目錄中的頁碼數字正過來（此處只能設置數字頁碼，研究待改進爲漢數字）
-\makeatletter
-\def\contentsline#1#2#3#4{\csname l@#1\endcsname{\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\@Kanji{#3}}}
-\makeatother
+% 居中标点 命名格式 \mxxx
+\def\dou{\leavevmode\kern -.45zw \raise.65zh\hbox{\mc\smash{・}}\kern.10zw}
+\def\dun{\leavevmode\kern -.45zw \raise.65zh\hbox{\mc\smash{・}}\kern.10zw}
+
+\def\gou{\leavevmode\kern -.45zw \raise.33zh\hbox{\mc\smash{。}}\kern.10zw}
+\def\mgou{\leavevmode\kern -.45zw \raise.33zh\hbox{\mc\smash{。}}\kern.10zw}
+% 冒号、分号、叹号、问号替换为勾读。
+\def\mdou{\dou}
+\def\mdun{\dou}
+\def\mao{\dou}
+\def\dgou{\mgou}
+\def\fen{\mgou}
+\def\mtan{\mgou}
+\def\wen{\mgou}
+%前引号、后引号、书名号、曲牌名号。
+\def\xqyh{\leavevmode\kern.01zw\raise.05zh\hbox{\mc{『}}\kern.01zw}
+\def\xhyh{\leavevmode\kern-.10zw\raise-.05zh\hbox{\mc{』}}\kern.01zw }
+\def\qyh{\leavevmode\kern.01zw\raise.05zh\hbox{\mc{「}}\kern.01zw}
+\def\hyh{\leavevmode\kern-.10zw\raise-.05zh\hbox{\mc{」}}\kern.01zw }
+\def\mqyh{\qyh}
+\def\mhyh{\hyh}
+\def\qqp{\leavevmode\hbox{\mc{〔}}}
+\def\hqp{\leavevmode\hbox{\mc{〕}}}
+\def\qpm{\leavevmode\kern -.5zw\hbox{\mc{〔}}}
+\def\qkh{\leavevmode\kern.01zw\hbox{\mc{（}}}
+
+
+\usepackage{silence}
+\WarningFilter{hyperref}{Size substitutions}
+\WarningFilter{latex}{Token not allowed}
+\WarningsOff*
+
+
+\DeclareFontFamily{JY2}{ujlreq}{}
+\DeclareFontFamily{JT2}{ujlreq}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{n}{<->s*[0.924690]ujlreq}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{it}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{sl}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{sc}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{n}{<->s*[0.924690]ujlreq-v}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{it}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{sl}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{sc}{<->ssub*ujlreq/m/n}{}
+\DeclareRobustCommand\ujlreq{\kanjifamily{ujlreq}\selectfont}
+
+\DeclareFontFamily{JY2}{ujlreqg}{}
+\DeclareFontFamily{JT2}{ujlreqg}{}
+\DeclareFontShape{JY2}{ujlreqg}{m}{n}{<->s*[0.924690]ujlreqg}{}
+\DeclareFontShape{JY2}{ujlreqg}{m}{it}{<->ssub*ujlreqg/m/n}{}
+\DeclareFontShape{JY2}{ujlreqg}{m}{sl}{<->ssub*ujlreqg/m/n}{}
+\DeclareFontShape{JY2}{ujlreqg}{m}{sc}{<->ssub*ujlreqg/m/n}{}
+\DeclareFontShape{JT2}{ujlreqg}{m}{n}{<->s*[0.924690]ujlreqg-v}{}
+\DeclareFontShape{JT2}{ujlreqg}{m}{it}{<->ssub*ujlreqg/m/n}{}
+\DeclareFontShape{JT2}{ujlreqg}{m}{sl}{<->ssub*ujlreqg/m/n}{}
+\DeclareFontShape{JT2}{ujlreqg}{m}{sc}{<->ssub*ujlreqg/m/n}{}
+\DeclareRobustCommand\ujlreqg{\kanjifamily{ujlreqg}\selectfont}
+
+
+\DeclareFontFamily{JY2}{mg}{}
+\DeclareFontFamily{JT2}{mg}{}
+\DeclareFontShape{JY2}{mg}{m}{n}{<->s*[0.924690]otf-ujmgrn-h}{}
+\DeclareFontShape{JY2}{mg}{m}{it}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{n}{<->s*[0.924690]otf-ujmgrn-v}{}
+\DeclareFontShape{JT2}{mg}{m}{it}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
+\DeclareRobustCommand\ujmgrn{\kanjifamily{mg}\kanjiseries{m}\selectfont}
 
 
 
+%%顔色設定
+\usepackage{color}
+\usepackage{jcolor}
+\usepackage{xcolor}
+
+
+\newcommand{\red}[1]{\textcolor{shoujouhi}{#1}}
 
 \endinput
-
-

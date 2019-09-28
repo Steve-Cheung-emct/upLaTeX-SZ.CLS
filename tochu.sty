@@ -1,5 +1,5 @@
 ﻿% tochu.sty by Shinsaku Fujita 1998/08/30
-% Copyright (C) 1998 by Shinsaku Fujita, All rights reserved. 
+% Copyright (C) 1998 by Shinsaku Fujita, All rights reserved.
 %
 %  縦書における頭注命令
 %
@@ -15,7 +15,7 @@
 \def\versi@nno{ver1.00}
 \def\copyrighth@lder{SF} % Shinsaku Fujita
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\typeout{Option Style `\j@urnalname' (\versi@nno) <\versi@ndate>\space 
+\typeout{Option Style `\j@urnalname' (\versi@nno) <\versi@ndate>\space
 [\copyrighth@lder]}
 %
 % 頭注のレイアウト
@@ -25,6 +25,7 @@
 %  \marginparwidth (計算)
 %
 \RequirePackage{plext}
+\RequirePackage{zhnumber}
 \newdimen\handurawidth
 \def\settochuu{%
   \setlength\@tempdima{\handurawidth}
@@ -41,10 +42,11 @@
 \newif\ifchuukanjibango \chuukanjibangofalse
 %
 %漢数字を使うときのスイッチ
-%    
+%
 \def\kanjichuu{\chuukanjibangotrue
 %\def\thekcbango{{\gt\Kanji{kcbango}}}%
 \def\thekcbango{{\mcfamily\ltseries\Kanji{kcbango}}}%
+%\def\thekcbango{{\mcfamily\ltseries\zhnumber{\@arabic\c@kcbango}}}%
 \let\chuuRef=\ref}
 %
 % アラビア数字を使うときのスイッチ
@@ -61,9 +63,9 @@
 % 内部命令(本文中への脚注番号の出力形式)
 %
 \def\@maketatekcmark#1{%
-  \hbox to\z@{\hskip-.25zw\raise.9zh\hbox{%
+  \smash{\hbox to\z@{\hskip-.25zw\raise.8zh\hbox{%
   \kanjiskip=0pt plus.5pt minus.4pt%added by SF 1998/11/06
-  \hbox{\scriptsize \chuuRef{#1}}}\hss}}
+  \hbox{\scriptsize \chuuRef{#1}}}\hss}}} % 190913
 \def\@makeyokokcmark#1{\hbox{%
   \kanjiskip=0pt plus.5pt minus.4pt%added by SF 1998/11/06
   \@textsuperscript{\normalfont\chuuRef{#1}}}}
@@ -88,7 +90,7 @@
 %脚注(頭注)の内容
 % \kyakuchutext{参照キー}{内容}
 %
-\def\ztxt#1#2{\marginpar{\fontsize{10pt}{12pt}\mc\selectfont\@zbango{#1}#2}} 
+\def\ztxt#1#2{\marginpar{\linespread{1.05}\scriptsize\ujlreq\@zbango{#1}#2}}
 \reversemarginpar
 \endinput
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
