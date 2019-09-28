@@ -10,13 +10,25 @@ This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）�
 
 I pulled it on Github to share with upLaTeX users Now.
 
+## 字体安裝
+## install font
+
+拷貝 gerib10.mf 以及 300dpi 360dpi 600dpi 720dpi 四個文件夾，
+
+至 C:\texlive\texmf-local\fonts\source\genko 目錄下, 管理員執行 mktexlsr 刷新即可。
+
+Copy gerib10.mf and 4 file floder (300dpi 360dpi 600dpi 720dpi ) into `C:\texlive\texmf-local\fonts\source\genko `.
+
+And reflash by Administrator using command `mktexlsr` .
+
+
 ## 模板的編譯
 
 ## How to
 
-本模板使用{up\LaTeX}或者{Up\TeX}進行編譯。
+本模板使用 upLaTeX 進行編譯。
 
-It will compiled by {up\LaTeX} or {Up\TeX} on a Mac.
+It will compiled byupLaTeX on a Mac.
 
 ##  Example
 
@@ -24,7 +36,9 @@ It will compiled by {up\LaTeX} or {Up\TeX} on a Mac.
 
 ``uplatex main``
 
-``ptex2pdf -l -u -ot "-kanji=utf8 " -od "-p B5 " main``
+``uplatex main``
+
+``dvipdfmx  main``
 
 
 ## 模板來源
