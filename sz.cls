@@ -528,7 +528,7 @@
 	}
 \def\@ppageven{%
 	\node [below,]  at%
-		(17.0,19) {\hbox{\tate\mgfamily\small\@maintitle}};  % 書名
+		(17.0,18) {\hbox{\tate\mgfamily\small\@maintitle}};  % 書名
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
 		(17.0,5) {\hbox{\tate\mgfamily\small%
