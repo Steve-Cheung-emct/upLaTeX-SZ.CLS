@@ -41,6 +41,11 @@
 %版面寬度（即由版心上邉至底邉的距离）
 \setlength{\handurawidth}{216 mm}
 %頭注領域の計算，將頭注編號輸出為漢字
+% 页面调整
+\setlength{\textheight}{145 mm}
+\setlength{\voffset}{ 0 mm}
+\setlength{\hoffset}{ 0 mm}
+\setlength{\topmargin}{-10 mm}
 
 % 設置相鄰後注的間隔
 \setlength{\chuskip}{0mm}
@@ -75,8 +80,8 @@
     pdfsubject = {Chinese Classical Literature of the Tsing Dynasty (the Qing Dynasty)},    % 主題
     pdfcreator  = {up\LaTeX\ with package  hyperref © 2019},    %工具
     pdflang={zh-CN},
-%    pdfpagelayout={TwoPageLeft},%
-    pdfpagelayout={TwoPageRight}, % 首页对开。奇数頁が右側になるような見開きモードで開く
+    pdfpagelayout={TwoPageLeft},%
+%    pdfpagelayout={TwoPageRight}, % 首页对开。奇数頁が右側になるような見開きモードで開く
 }
 
 % PDFにしたときのしおりの文字化けを防ぐ  % 使書箋支持Unicode-CJK 内碼
@@ -183,13 +188,28 @@
 \DeclareRobustCommand\ujmgrn{\kanjifamily{mg}\kanjiseries{m}\selectfont}
 
 
-
-%%顔色設定
-\usepackage{color}
-\usepackage{jcolor}
-\usepackage{xcolor}
-
-
+\newcommand{\black}[1]{\textcolor{black}{#1}}
 \newcommand{\red}[1]{\textcolor{shoujouhi}{#1}}
+\newcommand{\甲}[1]{\textcolor{shoujouhi}{#1}}
+\newcommand{\庚側}[1]{\textcolor{shoujouhi}{#1}}
+\newcommand{\blue}[1]{\textcolor{ruriiro}{#1}}
+\newcommand{\庚}[1]{\textcolor{ruriiro}{#1}}
+\newcommand{\戚}[1]{\textcolor{ebiiro}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\己}[1]{\textcolor{cyan!50!blue}{#1}}
+\newcommand{\magenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\蒙}[1]{\textcolor{magenta}{#1}}
+\newcommand{\pink}[1]{\textcolor{pink}{#1}}
+\newcommand{\purple}[1]{\textcolor{purple}{#1}}
+\newcommand{\夢}[1]{\textcolor{enjiiro}{#1}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+\newcommand{\脫漏}[1]{\textcolor{orange}{#1}}
+\newcommand{\脱漏}[1]{\textcolor{orange}{#1}}
+\newcommand{\lime}[1]{\textcolor{lime}{#1}}
+\newcommand{\violet}[1]{\textcolor{violet}{#1}}
+\newcommand{\甲辰}[1]{\textcolor{violet}{#1}}
+\newcommand{\olive}[1]{\textcolor{olive}{#1}}
+\newcommand{\teal}[1]{\textcolor{teal}{#1}}
+\newcommand{\列}[1]{\textcolor{teal}{#1}}
 
 \endinput

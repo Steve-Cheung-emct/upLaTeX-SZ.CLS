@@ -34,11 +34,21 @@
 \begin{document}
 
 %%% 此處必須使用系統字體進行初始化，否則會產生蜜汁錯誤
-\mcfamily
+
+
+%%%%%% 封面 %%%%%%
+\pagecolor{konjou}
+\ujlreq
 \maketitle
 
 
-\cleardoublepage
+\cleardoublepage%
+
+%%%% 更改主色调
+%\pagecolor{kihadairo!60!yamabukiiro!40}
+\pagecolor{white}
+
+
 \pagestyle{my} 
 \setcounter{szpage}{3}
 \large\tableofcontents
@@ -46,16 +56,20 @@
 
 \pagestyle{plain}
 
-% 載入正文
-\LARGE
-\mc
+
+%%%%%% 正文 %%%%%%
+\LARGE 
+\ujlreq
 \pagestyle{plain}
 
 % 正文9pt 
-%\input{TESTTEXT/testtext}
+
+\input{TESTTEXT/testtext}
 
 %%%%%% 自定義的封底
-\cleardoublepage
+\cleardbpage
+\pagestyle{empty}
+\watermarkoff
 \input{TESTTEXT/endpage}
 
 \end{document}

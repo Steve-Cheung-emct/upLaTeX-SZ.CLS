@@ -825,9 +825,10 @@
       {\tlarge\mcfamily\bfseries \hspace{2zw}\color{yellow}\@maintitle \par}%
       \vskip 72pt%
       {\Large%
-      \begin{tabular}[t]{r}%
-        \verthuge\color{yellow}\@author\UTF{3000}\UTF{3000}\UTF{3000}%
-      \end{tabular}\par}%
+      %\begin{tabular}[t]{r}%
+       \hfill \verthuge\color{yellow}\@author\UTF{3000}\UTF{3000}\UTF{3000}%
+      %\end{tabular}\par
+      }%
 %      \vskip\baselineskip%
 %      {\large\@date\par}%
     \vskip \baselineskip%
@@ -971,7 +972,7 @@
         \hbox{\mgfamily{\@maintitle}巻之}}
    %\vskip0.8\Cvs
    \par{\hbox{}}\vskip-1pt%
-     \par \noindent \huge\symth
+     \par \noindent \huge\mcfamily\bfseries
    \raggedright
    \leavevmode
    \ifnum \c@secnumdepth >\m@ne
@@ -1317,7 +1318,7 @@
     \addvspace{\baselineskip}
     \begingroup
       \parindent\z@ \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\symth\large
+      \leavevmode\mcfamily\bfseries\large
 %          \setlength\@lnumwidth{6zw}%
           \setlength\@lnumwidth{7zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
@@ -1334,7 +1335,7 @@
     \begingroup
       \parindent=2zw %\parindent\z@
       \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\symtd\large
+      \leavevmode\mcfamily\bfseries\large
 %          \setlength\@lnumwidth{6zw}%
           \setlength\@lnumwidth{5zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
