@@ -2,10 +2,10 @@
 %   First released:   2004/03/12 v0.2  小川 弘和
 %       website:      http://www2.kumagaku.ac.jp/teacher/herogw/
 %   Modified by:      Steve Cheung 子 康
-%   Modified date:    2019/01/25 -- today 2019/09/28
+%   Modified date:    2019/01/25 -- today 2019/12/3
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/09/28 v1.6c ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2019/12/3 v1.6d ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -1380,13 +1380,19 @@
 \newcommand{\subitem}{\@idxitem \hspace*{20\p@}}
 \newcommand{\subsubitem}{\@idxitem \hspace*{30\p@}}
 \newcommand{\indexspace}{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
+
+
+% 定義的脚注
 \renewcommand{\footnoterule}{%
-  \kern-3\p@
-  \hrule width .4\columnwidth
-  \kern 2.6\p@}
+ \leavevmode\kern-25pt\raise-1mm\hbox{\rule{.4\columnwidth}{.25pt} }}
 \@addtoreset{footnote}{chapter}
-\newcommand\@makefntext[1]{\parindent 1zw
-  \noindent\hbox to 2zw{\hss\@makefnmark}#1}
+\renewcommand\@makefnmark{
+\kern -1.5zw \raisebox{.8zh}%
+{\small \hbox{\UTF{FE35}}\kern -.3zw%\UTF{FE35}\UTF{FE36}
+\hbox{\rensuji{\arabic{footnote}}}%
+\kern -.3zw\hbox{\UTF{FE36}}}\kern .1zw}
+\long\def\@makefntext#1{\noindent \rightskip 236pt%
+    \lower .7zh \hb@xt@ 2zw{\hss\@makefnmark}#1}
 
 % 定義的西暦/和暦
 \newif\if西暦 \西暦false

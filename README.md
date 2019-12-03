@@ -51,9 +51,6 @@ It will compiled by upLaTeX in Windows or UpTeX on a Mac.
 
 相鄰欄目，相差2pt 的可以公用一個内邉框寬度，如：14 欄30pt 和15 欄 28pt，可公用420pt 作爲内邉框寬度。
 
-當然啦，在實際設置中，内邉框寬度應比欄目寬度總和略大1 至2pt。
-
-在大行距時，這種差異不明顯。在小行距時，需要特別調整，使其基本吻合。
 
 ### 正文字號 16 pt 時，行距、欄距、版心約束、内外邉框的關係
 
@@ -125,7 +122,14 @@ U have to use onecolumn rather than twocolumn(multicols included).
 
 I am very glad to accept any advices.
 
+### 附：UpTeX入门帖子中文版
+
+https://zhuanlan.zhihu.com/p/81728243
+
 ## 更新履歷
+
+2019/12/3 ver.1.3b 调整傍注（footnote）位置。
+
 2019/09/28 ver.1.3a 發佈。移除字號選項。同時移除了許多特性，包括基於 `llap`  `rlap` 的頁面佈局。如今新增基於TikZ 的水印，同時修復了書眉。
 
 2019/08 ver.1.2a 發佈。新增字號選項。
@@ -134,6 +138,8 @@ I am very glad to accept any advices.
 
 
 ### chang log
+
+2019/12/3 ver.1.3b  Footnote position modified .
 
 2019/09/28 ver.1.3a released. removed  font size options. removed many old feathers, including pagestyle via `rlap` `llap`;
 now added watermark by TikZ , fixed pagestyle.  
