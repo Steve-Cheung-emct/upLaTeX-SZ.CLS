@@ -2,10 +2,10 @@
 %   First released:   2004/03/12 v0.2  小川 弘和
 %       website:      http://www2.kumagaku.ac.jp/teacher/herogw/
 %   Modified by:      Steve Cheung 子 康
-%   Modified date:    2019/01/25 -- today 2019/12/3
+%   Modified date:    2019/01/25 -- today 2019/09/28
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/12/3 v1.6d ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2019/12/18 v1.8 ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -158,7 +158,7 @@
   \belowdisplayskip \abovedisplayskip}
 
 % 字號設定
-\newcommand{\tiny}{\@setfontsize\tiny\@viipt\@ixpt}            %\tiny= 7pt@9pt
+\newcommand{\tiny}{\@setfontsize\tiny{3pt}{3pt}}            %\tiny= 7pt@9pt
 \newcommand{\scriptsize}{\@setfontsize\scriptsize{10pt}{12}}    %\scriptsize=10pt@12pt
 \newcommand{\large}{\@setfontsize\large\@xiipt{15.05}}         %\large= 12pt@18pt
 \newcommand{\Large}{\@setfontsize\Large\@xivpt{30}}        %\Large= 14pt@22pt
@@ -472,9 +472,9 @@
 		(0,19) {\hbox{\tate\@tfish}};
 %	\node [below,]  at%
 %		(0,9) {\hbox{\tate\@tfish}};
-	\node [below,]  at%
-		(0,6) {\hbox{\tate\makebox[3zw]{\verthuge\gtfamily\ebseries %
-		\color{\@columncolor}\zhnumber{\@arabic\c@ppage}}}};
+	\node [below,]  at%\makebox[3zw]
+		(0,6) {\hbox{\tate{\verthuge\gtfamily\ebseries%
+\color{\@columncolor}\zhnumber{\@arabic\c@ppage}}}};
 	\node [below,]  at%
 		(0,4) {\hbox{\tate\@bfish}};
 	}
@@ -487,9 +487,9 @@
 		(18.2,19) {\hbox{\tate\@tfish}};
 %	\node [below,]  at%
 %		(18.2,9) {\hbox{\tate\@tfish}};
-	\node [below,]  at%
-		(18.2,6) {\hbox{\tate\makebox[3zw]{\verthuge\gtfamily\ebseries %
-		\color{kakiiro!85}\zhnumber{\@arabic\c@ppage}}}};
+	\node [below,]  at%\makebox[3zw]
+		(18.2,6) {\hbox{\tate{\verthuge\gtfamily\ebseries%
+\color{kakiiro!85}\zhnumber{\@arabic\c@ppage}}}};
 	\node [below,]  at%
 		(18.2,4) {\hbox{\tate\@bfish}\stepcounter{ppage}};
 	}
@@ -501,8 +501,7 @@
 		(0.6,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@szpage~頁}%
 		\stepcounter{szpage}};}
 	{\node [right,]  at%
-		(0.6,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@page~頁%
-		\qquad\today\qquad{子~康}}};}
+		(0.6,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@page~頁}};}
 	}
 \def\@pdfmpageven{%
 \ifthenelse{\value{page} < 1}{%
@@ -510,8 +509,7 @@
 		(17.5,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@szpage~頁}%
 		\stepcounter{szpage}};}
 	{\node [left,]  at%
-		(17.5,1.7) {\hbox{\yoko\mgfamily\small~{子~康}\qquad\today\qquad%
-		第~\@arabic\c@page~頁}};}
+		(17.5,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@page~頁}};}
 	}
 
 % 定義奇數頁和偶數頁的垂直頁碼，pdfm 不啓用
@@ -538,11 +536,22 @@
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 
+\def\@pdfimg{%
+%	\node  at (9.1+rand*9.1,14.85+rand*14.85) {\includegraphics[width=9.17 pt,height=9.52 pt]{figures/green.pdf}};
+	\node at (259 pt, 365.5 pt) {\includegraphics[width=518 pt,height=731 pt]{figures/main.jpg}};
+%\foreach \x in {1,2,...,3}{	\node (node\x) at (9.1+rand*8,14.85+rand*13) {\includegraphics[width=5mm]{figures/EURion.pdf}};	}
+
+%\foreach \x in {1,2,...,3}{	\node (node\x) at (9.1+rand*8,14.85+rand*13) {\includegraphics[width=9.17 pt,height=9.52 pt]{figures/green.pdf}};	}
+}
+%  \ifodd\c@page
+%  \else
+%  \fi%
 %%%% 正兒八經的水印命令（開始）
 % 正文奇數頁、糸欄
 \newcommand{\watermarkodd}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有糸欄、有邉框
+	\@pdfimg
 	\@ribonodd\@kasenodd\@fishodd
 	\@pdfmpageodd % 水平頁碼
 	\node [below,]  at%
@@ -552,18 +561,21 @@
 		(16.4,18) {\hbox{\tate\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 \else % 無糸欄、無邉框
+	\@pdfimg
 	\node [right,]  at%
 		(1.2,1.7) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageodd
 \fi
-\end{tikzpicture}%
+%	\node at (146mm,17mm) {\includegraphics[width=28.14 mm,height=5 mm]{figures/sig.pdf}};
+	\end{tikzpicture}%
 }}
 
 % 正文偶數頁、糸欄
 \newcommand{\watermarkeven}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有糸欄、有邉框
+	\@pdfimg
 	\@riboneven\@kaseneven\@fisheven
 	\@pdfmpageven % 水平頁碼
 	\node [below,]  at%
@@ -573,11 +585,13 @@
 		(1.8,18) {\hbox{\tate\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 \else % 無糸欄、無邉框
+	\@pdfimg
 	\node [left,]  at%
 		(17,1.7) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageven
 \fi
+%	\node at (36mm, 17mm) {\includegraphics[width=28.14 mm,height=5 mm]{figures/sig.pdf}};
 	\end{tikzpicture}%
 }}
 
@@ -589,12 +603,14 @@
 \newcommand{\watermkkochueven}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kaseneven\@fisheven
 \node [below,]  at%
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{kakiiro!85}\@maintitle}};  % 書名
 \else % 無邉框
 %	\@ppageven
+	\@pdfimg
 \fi
 	\end{tikzpicture}%
 }}
@@ -603,6 +619,7 @@
 \newcommand{\mywatermkodd}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kasenodd%\@fishodd
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
@@ -612,6 +629,7 @@
 		(0.5,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}};}
 \else % 無邉框
+	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
 		(1.2,5) {\hbox{\tate\mgfamily\small%
@@ -627,6 +645,7 @@
 \newcommand{\mywatermkeven}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kaseneven%\@fisheven
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
@@ -636,6 +655,7 @@
 		(17.7,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \else % 無邉框
+	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
 		(17.0,5) {\hbox{\tate\mgfamily\small%
@@ -651,6 +671,7 @@
 \newcommand{\watermkmenuodd}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kasenodd\@fishodd\@pdfmpageodd
 \ifthenelse{\value{ppage} > 1}{%
 	\foreach \i in {420,390,...,60}{%
@@ -663,6 +684,7 @@
 		(0,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\qquad{目}\quad{次}}};
 \else % 無邉框
+	\@pdfimg
 	\@ppageodd
 \fi
 	\end{tikzpicture}%
@@ -672,11 +694,13 @@
 \newcommand{\watermkmenueven}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kaseneven\@fisheven\@riboneven\@pdfmpageven
 	\node [below,]  at%
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{kakiiro!85}\@maintitle\qquad{目}\quad{次}}};
 \else % 無邉框
+	\@pdfimg
 	\@ppageven
 \fi
 	\end{tikzpicture}%
@@ -686,12 +710,14 @@
 \newcommand{\myabstractodd}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kasenodd\@ribonodd\@fishodd
 	\@pdfmpageodd
 	\node [below,]  at%
 		(0,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\qquad{凡}\quad{例}}};
 \else % 無邉框
+	\@pdfimg
 	\@ppageodd
 \fi
 	\end{tikzpicture}%
@@ -701,12 +727,14 @@
 \newcommand{\myabstracteven}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kaseneven\@riboneven\@fisheven
 	\@pdfmpageven
 	\node [below,]  at%
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{kakiiro!85}\@maintitle\qquad{凡}\quad{例}}};
 \else % 無邉框
+	\@pdfimg
 	\@ppageven
 \fi
 	\end{tikzpicture}%
@@ -716,13 +744,19 @@
 \newcommand{\myappendixodd}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kasenodd\@ribonodd\@fishodd
 	\@pdfmpageodd
 	\node [below,]  at%
 		(0,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\qquad{附}\quad{錄}}};
 \else % 無邉框
-	\@ppageodd
+	\@pdfimg
+	\node [below,]  at%
+		(1.2,18) {\hbox{\tate\mgfamily\small{附}\qquad{錄}}};  % 章標題
+	\node [above,]  at%
+		(1.2,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
 }}
@@ -731,16 +765,31 @@
 \newcommand{\myappendixeven}{\AddToShipoutPictureBG{%
 	\begin{tikzpicture}[overlay]
 \if@pdfm % 有邉框
+	\@pdfimg
 	\@kaseneven\@riboneven\@fisheven
 	\@pdfmpageven
 	\node [below,]  at%
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{kakiiro!85}\@maintitle\qquad{附}\quad{錄}}};
 \else % 無邉框
-	\@ppageven
+	\@pdfimg
+	\node [below,]  at%
+		(17.0,18) {\hbox{\tate\mgfamily\small\@maintitle}};  % 書名
+	\node [above,]  at%
+		(17.0,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
 }}
+
+
+% 分冊目錄頁
+\newcommand{\watermarkpartodd}{\AddToShipoutPictureBG{%
+	\begin{tikzpicture}[overlay]
+	\@pdfimg
+\end{tikzpicture}%
+}}
+
 %%%% 正兒八經的水印命令（結束）
 \newcommand{\watermarkoff}{\ClearShipoutPictureBG}
 
@@ -793,6 +842,16 @@
    \let\@evenhead\@empty  }
 %PageStyle for dvips
 
+\def\ps@mypart{% 分冊目錄頁
+   \let\@mkboth\markboth
+   % 章標題
+ \def\@oddfoot{%
+      \watermarkoff\watermarkpartodd}%
+ \def\@evenfoot{%
+      \watermarkoff\watermarkpartodd}%
+   \let\@oddhead\@empty
+   \let\@evenhead\@empty  }
+
 \let\ps@jpl@in\ps@plain
 
 \def\p@thanks#1{\footnotemark
@@ -824,11 +883,10 @@
     \begin{flushleft}%
       {\tlarge\mcfamily\bfseries \hspace{2zw}\color{yellow}\@maintitle \par}%
       \vskip 72pt%
-      {\Large%
-      %\begin{tabular}[t]{r}%
-       \hfill \verthuge\color{yellow}\@author\UTF{3000}\UTF{3000}\UTF{3000}%
-      %\end{tabular}\par
-      }%
+      \hbox{}\hfill{\Large%
+      \begin{tabular}[t]{r}%
+        \verthuge\color{yellow}\@author\UTF{3000}\UTF{3000}\UTF{3000}%
+      \end{tabular}\par}%
 %      \vskip\baselineskip%
 %      {\large\@date\par}%
     \vskip \baselineskip%
@@ -969,7 +1027,7 @@
   \@makechapterhead{#2}\@afterheading}
 \def\@makechapterhead#1{%\hbox{}%
   {     \par\hbox{\huge\color{kakiiro!90}%
-        \hbox{\mgfamily{\@maintitle}巻之}}
+        \hbox{\gtfamily{\@maintitle}巻之}}
    %\vskip0.8\Cvs
    \par{\hbox{}}\vskip-1pt%
      \par \noindent \huge\mcfamily\bfseries
@@ -1002,12 +1060,12 @@
     \setcounter{ppage}{1}}
 
 \newcommand\section[1]{\@startsection{section}{1}{\z@}%
-   {1\Cvs }%
-   {1\Cvs }%
+   {0.0001\Cvs }%
+   {0.0001\Cvs }%
    {\normalfont\xiaoer\mcfamily\bfseries}{#1}\markright{\thesection\quad#1}}
 \newcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
-   {1\Cvs }%
-   {1\Cvs }%
+   {0.0001\Cvs }%
+   {0.0001\Cvs }%
    {\normalfont\large\bfseries}}
 \newcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
    {0.0001\Cvs }%
@@ -1287,7 +1345,7 @@
   \chapter*{\contentsname
     \@mkboth{\contentsname}{\contentsname}%
   }%
-%  \bookmark[dest=\@currentHref, level=1]{返回目錄}%
+  \bookmark[dest=\@currentHref, level=1]{返回目錄}%
   \setcounter{ppage}{1}
   \watermarkoff\pagestyle{mymenu}
     \@starttoc{toc}%
@@ -1315,12 +1373,12 @@
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
     %\addvspace{1.0em \@plus\p@}%
-    \addvspace{\baselineskip}
+    %\addvspace{\baselineskip}
     \begingroup
       \parindent\z@ \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\mcfamily\bfseries\large
+      \leavevmode\Large\mcfamily
 %          \setlength\@lnumwidth{6zw}%
-          \setlength\@lnumwidth{7zw}%
+          \setlength\@lnumwidth{6zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
       #1\nobreak\hfil\nobreak\hb@xt@\@pnumwidth{\hss#2}\par
       \penalty\@highpenalty
@@ -1331,13 +1389,13 @@
   \ifnum \c@tocdepth >\m@ne
     \addpenalty{-\@highpenalty}%
     %\addvspace{1.0em \@plus\p@}%
-    \addvspace{\baselineskip}
+    %\addvspace{\baselineskip}
     \begingroup
       \parindent=2zw %\parindent\z@
       \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\mcfamily\bfseries\large
+      \leavevmode\Large\mcfamily
 %          \setlength\@lnumwidth{6zw}%
-          \setlength\@lnumwidth{5zw}%
+          \setlength\@lnumwidth{4.35zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
       #1\nobreak\hfil\nobreak\hb@xt@\@pnumwidth{\hss#2}\par
       \penalty\@highpenalty
@@ -1380,19 +1438,13 @@
 \newcommand{\subitem}{\@idxitem \hspace*{20\p@}}
 \newcommand{\subsubitem}{\@idxitem \hspace*{30\p@}}
 \newcommand{\indexspace}{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
-
-
-% 定義的脚注
 \renewcommand{\footnoterule}{%
- \leavevmode\kern-25pt\raise-1mm\hbox{\rule{.4\columnwidth}{.25pt} }}
+  \kern-3\p@
+  \hrule width .4\columnwidth
+  \kern 2.6\p@}
 \@addtoreset{footnote}{chapter}
-\renewcommand\@makefnmark{
-\kern -1.5zw \raisebox{.8zh}%
-{\small \hbox{\UTF{FE35}}\kern -.3zw%\UTF{FE35}\UTF{FE36}
-\hbox{\rensuji{\arabic{footnote}}}%
-\kern -.3zw\hbox{\UTF{FE36}}}\kern .1zw}
-\long\def\@makefntext#1{\noindent \rightskip 236pt%
-    \lower .7zh \hb@xt@ 2zw{\hss\@makefnmark}#1}
+\newcommand\@makefntext[1]{\parindent 1zw
+  \noindent\hbox to 2zw{\hss\@makefnmark}#1}
 
 % 定義的西暦/和暦
 \newif\if西暦 \西暦false
@@ -1553,7 +1605,7 @@
 
 % 定義的破折號
 %\def\dash{{\leavevmode\kern1mm\raise0.1zh\hbox{\mcfamily{------}}\kern1mm}}
-\def\dash{~{\leavevmode\raise0zh\hbox{\rule{1.8zw}{1pt}}}~}
+\def\dash{{\leavevmode\kern1mm\raise0zh\hbox{\rule{1.8zw}{1pt}}\kern1mm}}
 
 \def\dott{\hbox{\mcfamily{……}}}
 
@@ -1578,27 +1630,29 @@
 \newcommand{\初號}{\chuhao}
 \newcommand{\初号}{\chuhao}
 
-% 定義的偽粗體示例
-%\def\textZan{\kern0.22zw\makebox[\Cwd]{{\fzkts%
-%\hbox{\scalebox{0.993}[1]{𩯳}}\kern-1zw%
-%\hbox{\scalebox{1}[1]{𩯳}}}}\kern0.22zw}
-%
-%\def\textBang{\kern0.15zw\makebox[\Cwd]{{\fzkts%
-%\hbox{\scalebox{0.993}[1]{𠳐}}\kern-1zw%
-%\hbox{\scalebox{1}[1]{𠳐}}}}\kern0.15zw}
-%
-%\def\textMJi{\kern0.15zw\makebox[\Cwd]{{\fzkts%
-%\hbox{\scalebox{0.993}[1]{𣬠}}\kern-1zw%
-%\hbox{\scalebox{1}[1]{𣬠}}}}\kern0.15zw}
-%
-%\def\textMBa{\kern0.15zw\makebox[\Cwd]{{\fzkts%
-%\hbox{\scalebox{0.993}[1]{𣬶}}\kern-1zw%
-%\hbox{\scalebox{1}[1]{𣬶}}}}\kern0.15zw}
-%
-%\def\textLiu{\kern0.2zw\makebox[\Cwd]{{\mcfamily\kern-0.32zw%
-%\hbox{\scalebox{1.1}[1.15]{丷}}\kern-0.5zw%
-%\hbox{\scalebox{0.64}[0.9]{田}}\kern-0.65zw%
-%\hbox{\scalebox{0.65}[0.9]{田}}}}\kern0.2zw}
+\DeclareFontFamily{JY2}{ujlreq}{}
+\DeclareFontFamily{JT2}{ujlreq}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{n}{<->s*[0.924690]ujlreq}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{it}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{sl}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JY2}{ujlreq}{m}{sc}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{n}{<->s*[0.924690]ujlreq-v}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{it}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{sl}{<->ssub*ujlreq/m/n}{}
+\DeclareFontShape{JT2}{ujlreq}{m}{sc}{<->ssub*ujlreq/m/n}{}
+\DeclareRobustCommand\ujlreq{\kanjifamily{ujlreq}\selectfont}
+
+\DeclareFontFamily{JY2}{mg}{}
+\DeclareFontFamily{JT2}{mg}{}
+\DeclareFontShape{JY2}{mg}{m}{n}{<->s*[0.924690]otf-ujmgrn-h}{}
+\DeclareFontShape{JY2}{mg}{m}{it}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{n}{<->s*[0.924690]otf-ujmgrn-v}{}
+\DeclareFontShape{JT2}{mg}{m}{it}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
+\DeclareRobustCommand\ujmgrn{\kanjifamily{mg}\kanjiseries{m}\selectfont}
 
 
 % 定義的 目錄頁碼格式（非常重要！！）
