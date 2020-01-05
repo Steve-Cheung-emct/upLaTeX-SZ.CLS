@@ -4,7 +4,7 @@
 
 本模板曾經被我用於《石頭記》垂直排版之用。現如今，將代碼托管到 GitHub ，
 
-以供愛好者們克隆使用。
+以供愛好者們克隆使用。（欢迎加入UpTeX直書交流QQ群：887970677）
 
 This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）。
 
@@ -41,7 +41,7 @@ It will compiled by upLaTeX in Windows or UpTeX on a Mac.
 ``dvipdfmx  main``
 
 ### 関于欄目的修改
-### about how many column does best?
+### How many columns fit best?
 
 根據此表進行欄目整形，追加或減少欄目個數，并且控制内外邉框終點。
 
