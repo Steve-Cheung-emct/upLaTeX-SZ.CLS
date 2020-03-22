@@ -38,6 +38,8 @@ It will compiled by upLaTeX in Windows or UpTeX on a Mac.
 
 ``uplatex main``
 
+``uplatex main``
+
 ``dvipdfmx  main``
 
 ### 関于欄目的修改
