@@ -16,7 +16,14 @@
 %載入 頭注包
 \usepackage{furiknkt}
 \usepackage{tochu}
-\usepackage{uline--}
+
+% 下畫線斷線
+\usepackage{ulem}
+\newcommand\Noun[1]{\hskip.1em\uline{\kern-.1em#1\kern-.1em}\hskip.1em} 
+\newcommand\smallwave{\bgroup \markoverwith{\lower3.5pt\hbox{\wavefont \char58}}\ULon}
+\font\wavefont=lasy5 at 4pt
+\newcommand\Book[1]{\hskip.15em\smallwave{\kern-.15em#1\kern-.15em}\hskip.15em}
+
 %%% 振假名（行间注）
 %\usepackage{okumacro}	 		% 奧村晴彥的ruby
 \usepackage{pxrubrica}			%八登崇之的ruby包
