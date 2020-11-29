@@ -43,19 +43,28 @@
 \usepackage[savepos]{zref}
 \usepackage{warichus}
 
-%為頭注的使用， 設置文本寬度
-\setlength{\textwidth}{172 mm}
-%版面寬度（即由版心上邉至底邉的距离）
-\setlength{\handurawidth}{216 mm}
-%頭注領域の計算，將頭注編號輸出為漢字
 % 页面调整
-\setlength{\textheight}{145 mm}
+%為頭注的使用， 設置文本寬度
+\setlength{\textwidth}{488 pt}
+%版面寬度（即由版心上邉至底邉的距离）
+\setlength{\handurawidth}{615 pt}
+%頭注領域の計算，將頭注編號輸出為漢字
+
+% 邉注与正文的间距
+\setlength{\marginparsep}{16 pt}
+
+% 设定版面宽
+\setlength{\textheight}{420 pt}
+
+% 校订坐标的水平、垂直偏移
 \setlength{\voffset}{ 0 mm}
 \setlength{\hoffset}{ 0 mm}
-\setlength{\topmargin}{-10 mm}
 
-% 設置相鄰後注的間隔
-\setlength{\chuskip}{0mm}
+% 垂直顶端偏移
+\setlength{\topmargin}{-18 pt}
+
+% 尾注的间隔
+\setlength{\parskip}{0mm}
 
 %% 図表など
 % 図の読みこみのために
@@ -85,7 +94,7 @@
     pdfauthor= {曹雪芹（ Cao Xue Qin ）} , % PDFの作成者
     pdfkeywords = {Chinese Classical Novel},  %関鍵詞
     pdfsubject = {Chinese Classical Literature of the Tsing Dynasty (the Qing Dynasty)},    % 主題
-    pdfcreator  = {up\LaTeX\ with package  hyperref © 2019},    %工具
+    pdfcreator  = {up\LaTeX\ with package  hyperref © 2020},    %工具
     pdflang={zh-CN},
     pdfpagelayout={TwoPageLeft},%
 %    pdfpagelayout={TwoPageRight}, % 首页对开。奇数頁が右側になるような見開きモードで開く
@@ -101,54 +110,6 @@
 
 % 定義的單行割注
 \def\dahange#1{\raise0.35ex\hbox{\fontsize{10pt}{12}\ujlreq\selectfont#1}}
-
-% 定義的縱書涌字（正文17pt@30pt行距、重複字元17pt@18pt行距、以文字基綫對齊）
-
-%重複一個字，如：太太、老太太、説説笑笑
-\def\odora{\leavevmode\kern-.3zw\raise0.05zh\hbox{\mc\selectfont ゝ}%
-    \kern-.69zw\raise.1zh\hbox{\mc\selectfont ヽ} \kern-.3zw}
-
-%重複兩個字，如：商量商量、考慮考慮；好好好；是是是
-\def\odorb{\leavevmode\kern-.1zw\raise0.12zh\hbox{\mc\selectfont ゝ}%
-    \kern-.69zw\raise.17zh\hbox{\mc\selectfont ヽ} \kern-.3zw
-    \leavevmode\kern-.55zw\raise-0.15zh\hbox{\mc\selectfont ゝ}%
-    \kern-.69zw\raise-.1zh\hbox{\mc\selectfont ヽ}\kern.1zw
-    }
-
-%重複三個字，如：了不起，了不起、快請起，快請起；
-\def\odorc{\leavevmode\kern-.15zw\raise0.15zh\hbox{\mc\selectfont ゝ}%
-    \kern-.69zw\raise.2zh\hbox{\mc\selectfont ヽ}\kern.1zw
-    \leavevmode\kern-.5zw\raise-0.2zh\hbox{\mc\selectfont ゝ}%
-    \kern-.69zw\raise-.1zh\hbox{\mc\selectfont ヽ}\kern.1zw
-    \leavevmode\kern-.55zw\raise0.05zh\hbox{\mc\selectfont ゝ}%
-    \kern-.69zw\raise.1zh\hbox{\mc\selectfont ヽ}\kern.2zw
-    }
-
-% 居中标点 命名格式 \mxxx
-\def\dou{\leavevmode\kern -.45zw \raise.65zh\hbox{\mc\smash{・}}\kern.10zw}
-\def\dun{\leavevmode\kern -.45zw \raise.65zh\hbox{\mc\smash{・}}\kern.10zw}
-
-\def\gou{\leavevmode\kern -.45zw \raise.33zh\hbox{\mc\smash{。}}\kern.10zw}
-\def\mgou{\leavevmode\kern -.45zw \raise.33zh\hbox{\mc\smash{。}}\kern.10zw}
-% 冒号、分号、叹号、问号替换为勾读。
-\def\mdou{\dou}
-\def\mdun{\dou}
-\def\mao{\dou}
-\def\dgou{\mgou}
-\def\fen{\mgou}
-\def\mtan{\mgou}
-\def\wen{\mgou}
-%前引号、后引号、书名号、曲牌名号。
-\def\xqyh{\leavevmode\kern.01zw\raise.05zh\hbox{\mc{『}}\kern.01zw}
-\def\xhyh{\leavevmode\kern-.10zw\raise-.05zh\hbox{\mc{』}}\kern.01zw }
-\def\qyh{\leavevmode\kern.01zw\raise.05zh\hbox{\mc{「}}\kern.01zw}
-\def\hyh{\leavevmode\kern-.10zw\raise-.05zh\hbox{\mc{」}}\kern.01zw }
-\def\mqyh{\qyh}
-\def\mhyh{\hyh}
-\def\qqp{\leavevmode\hbox{\mc{〔}}}
-\def\hqp{\leavevmode\hbox{\mc{〕}}}
-\def\qpm{\leavevmode\kern -.5zw\hbox{\mc{〔}}}
-\def\qkh{\leavevmode\kern.01zw\hbox{\mc{（}}}
 
 
 \usepackage{silence}

@@ -5,7 +5,7 @@
 %   Modified date:    2019/01/25 -- today 2019/09/28
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2019/12/18 v1.8 ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2020/11/29 v1.8a ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -85,7 +85,12 @@
   \AtBeginDocument{\tate\message{《縦組モード》}%
                    \adjustbaseline}%
 }
+\newif\if@watermarked \@watermarkedfalse
+\DeclareOption{水印}{\@watermarkedtrue}
+\newif\if@backgrounged \@backgroungedfalse
+\DeclareOption{背景}{\@backgroungedtrue}
 
+\DeclareOption{watermark}{\@watermarkedtrue}
 \DeclareOption{pdfm}{\@pdfmtrue \input{colordef.tex}} % 打開糸欄開關，竝引入顔色定義。
 \DeclareOption{openright}{\@openrighttrue\@openleftfalse}
 \DeclareOption{openleft}{\@openlefttrue\@openrightfalse}
@@ -136,7 +141,7 @@
 
 % 字號設定
 \newcommand{\small}{%
-  \@setfontsize\small{8pt}{10}%
+  \@setfontsize\small{8}{10}%
   \abovedisplayskip 8\p@ \@plus3\p@ \@minus2\p@
   \abovedisplayshortskip \z@ \@plus2\p@
   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
@@ -152,8 +157,8 @@
   \abovedisplayshortskip \z@ \@plus\p@
   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
   \def\@listi{\leftmargin\leftmargini
-              \topsep 3\p@ \@plus\p@ \@minus\p@
-              \parsep 2\p@ \@plus\p@ \@minus\p@
+              \topsep 0\p@
+              \parsep 0\p@
               \itemsep \parsep}%
   \belowdisplayskip \abovedisplayskip}
 
@@ -193,10 +198,7 @@
 \newcommand{\szxi}{\@setfontsize\szxi{11}{12}}
 \newcommand{\szxii}{\@setfontsize\szxii{12}{12}}
 
-\newcommand{\szad}{\@setfontsize\szad{16pt}{28.5}}   %  带割注诗歌的调整行距
 \newcommand{\zhy}{\@setfontsize\zhy{16pt}{30}}     %  葬花吟
-\newcommand{\szlarge}{\@setfontsize\szlarge{16pt}{26}} % 思源明體生僻字
-\newcommand{\szlgkai}{\@setfontsize\szlgkai{16pt}{26}} % 诗歌中的生僻字
 \newcommand{\szhuge}{\@setfontsize\szhuge{16pt}{30}}  %  好了歌
 
 \newcommand{\szverse}{%  詩歌環境 每20行余1pt
@@ -222,13 +224,15 @@
 
 \RequirePackage{multicol} %多欄
 \RequirePackage{type1cm} %字體
-\RequirePackage[expert,uplatex,deluxe,jis2004]{otf} %字體包
+\RequirePackage[uplatex,deluxe,jis2004]{otf} %字體包
 \RequirePackage[usenames]{color}
 \RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{jcolor}
 \RequirePackage{plext}       %   縱組顓用增强包
 \RequirePackage{plautopatch} %   為 pLaTeX 打補丁
+\plautopatchdisable{eso-pic}
 \RequirePackage{zhnumber}
+\zhnumsetup{style=Ancient}
 
 \setlength\voffset{0mm}
 \setlength\hoffset{0mm}
@@ -237,9 +241,11 @@
 \setlength\headsep{0mm}
 
 %\setlength\topskip{1\Cht} % 千萬不要動這里，眞的會炸的。
-\setlength\footskip{10mm}
+\setlength\topskip{14 pt} 
+\setlength\footskip{14 pt}
 
-\setlength\maxdepth{.5\topskip}
+\setlength\maxdepth{0 pt}
+
 
 \if@twocolumn
 \setlength\textwidth{.8\paperheight}
@@ -286,24 +292,24 @@
  \setlength\marginparwidth{0mm}
  \@settopoint\marginparwidth
 
-\setlength\footnotesep{6.65\p@}
-\setlength{\skip\footins}{9\p@ \@plus 4\p@ \@minus 2\p@}
-\setlength\floatsep    {12\p@ \@plus 2\p@ \@minus 2\p@}
-\setlength\textfloatsep{20\p@ \@plus 2\p@ \@minus 4\p@}
-\setlength\intextsep   {12\p@ \@plus 2\p@ \@minus 2\p@}
-\setlength\dblfloatsep    {12\p@ \@plus 2\p@ \@minus 2\p@}
-\setlength\dbltextfloatsep{20\p@ \@plus 2\p@ \@minus 4\p@}
-\setlength\@fptop{0\p@ \@plus 1fil}
-\setlength\@fpsep{8\p@ \@plus 2fil}
-\setlength\@fpbot{0\p@ \@plus 1fil}
-\setlength\@dblfptop{0\p@ \@plus 1fil}
-\setlength\@dblfpsep{8\p@ \@plus 2fil}
-\setlength\@dblfpbot{0\p@ \@plus 1fil}
-\setlength\partopsep{2\p@ \@plus 1\p@ \@minus 1\p@}
-\def\@listi{\leftmargin\leftmargini
-  \parsep 0 pt % 4\p@ \@plus2\p@ \@minus\p@
-  \topsep 0 pt % 8\p@ \@plus2\p@ \@minus4\p@
-  \itemsep 0 pt % 4\p@ \@plus2\p@ \@minus\p@
+\setlength\footnotesep{10\p@ }
+\setlength{\skip\footins}{10\p@ }
+\setlength\floatsep    {6\p@ }
+\setlength\textfloatsep{6\p@ }
+\setlength\intextsep   {6\p@ }
+\setlength\dblfloatsep    {6\p@ }
+\setlength\dbltextfloatsep{6\p@ }
+\setlength\@fptop{0\p@}
+\setlength\@fpsep{0\p@}
+\setlength\@fpbot{0\p@}
+\setlength\@dblfptop{0\p@}
+\setlength\@dblfpsep{0\p@}
+\setlength\@dblfpbot{0\p@}
+\setlength\partopsep{0\p@}
+\def\@listi{\leftmargin 30pt
+  \parsep 0 pt
+  \topsep 0 pt
+  \itemsep 0 pt
   	}
 \let\@listI\@listi
 \@listi
@@ -498,51 +504,54 @@
 \def\@pdfmpageodd{%
 \ifthenelse{\value{page} < 1}{%
 	\node [right,]  at%
-		(0.6,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@szpage~頁}%
+		(0.6,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@szpage~頁}%
 		\stepcounter{szpage}};}
 	{\node [right,]  at%
-		(0.6,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@page~頁}};}
+		(0.6,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@page~頁}};}
 	}
 \def\@pdfmpageven{%
 \ifthenelse{\value{page} < 1}{%
 	\node [left,]  at%
-		(17.5,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@szpage~頁}%
+		(17.5,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@szpage~頁}%
 		\stepcounter{szpage}};}
 	{\node [left,]  at%
-		(17.5,1.7) {\hbox{\yoko\mgfamily\small~第~\@arabic\c@page~頁}};}
+		(17.5,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@page~頁}};}
 	}
 
 % 定義奇數頁和偶數頁的垂直頁碼，pdfm 不啓用
 \def\@ppageodd{%
 	\node [below,]  at%
-		(1.2,18) {\hbox{\tate\mgfamily\small\leftmark}};  % 章標題
+		(1.2,18) {\hbox{\tate\mgfamily\scriptsize\leftmark}};  % 章標題
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(1.2,5) {\hbox{\tate\mgfamily\small%
+		(1.2,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\zhnumber{\@arabic\c@szpage}~{頁}）}\stepcounter{szpage}};}
 	{\node [above,]  at%
-		(1.2,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(1.2,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 \def\@ppageven{%
 	\node [below,]  at%
-		(17.0,18) {\hbox{\tate\mgfamily\small\@maintitle}};  % 書名
+		(17.0,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(17.0,5) {\hbox{\tate\mgfamily\small%
+		(17.0,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\zhnumber{\@arabic\c@szpage}~{頁}）}\stepcounter{szpage}};}
 	{\node [above,]  at%
-		(17.0,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(17.0,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 
 \def\@pdfimg{%
-%	\node  at (9.1+rand*9.1,14.85+rand*14.85) {\includegraphics[width=9.17 pt,height=9.52 pt]{figures/green.pdf}};
+\if@watermarked
+%	\node at (259 pt, 365.5 pt) {\includegraphics[width=140.7 mm,height=25 mm,angle=18]{figures/sig.pdf}};
+	\node at (259 pt, 365.5 pt) {\includegraphics[width=125.575 mm,height=14.99 mm,angle=18]{figures/sig.pdf}};
+	\node at (9.1+rand*8.1,12.85+rand*10.85) {\includegraphics[width=38 mm,height=38 mm,angle=36]{figures/EURion.pdf}};
+\fi
+\if@backgrounged
 	\node at (259 pt, 365.5 pt) {\includegraphics[width=518 pt,height=731 pt]{figures/main.jpg}};
-%\foreach \x in {1,2,...,3}{	\node (node\x) at (9.1+rand*8,14.85+rand*13) {\includegraphics[width=5mm]{figures/EURion.pdf}};	}
-
-%\foreach \x in {1,2,...,3}{	\node (node\x) at (9.1+rand*8,14.85+rand*13) {\includegraphics[width=9.17 pt,height=9.52 pt]{figures/green.pdf}};	}
-}
+\fi
+	}
 %  \ifodd\c@page
 %  \else
 %  \fi%
@@ -558,16 +567,25 @@
 		(0,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\quad{巻}\thechapter}};  % 書名+ 卷號
 	\node [below,rectangle,]  at%
-		(16.4,18) {\hbox{\tate\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
+		(16.4,18) {\hbox{\tate\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 \else % 無糸欄、無邉框
 	\@pdfimg
 	\node [right,]  at%
-		(1.2,1.7) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
+		(1.2,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageodd
+%\foreach \i in {62,76.795,...,551}{\draw [line width=0.1pt, color=cyan ] (42.680 pt,\i pt) -- (462.680 pt,\i pt);}
+%\foreach \j in {42.680,72.680,...,462.680}{\draw [line width=0.1pt, color=cyan ] (\j pt, 62 pt) -- (\j pt, 550.236 pt);}
+%\node [right,]  at (463 pt,507 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
+%\node [right,]  at (463 pt,433 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
+%\node [right,]  at (463 pt,359 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
+%\node [right,]  at (463 pt,285 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
+%\node [right,]  at (463 pt,211 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
+%\node [right,]  at (463 pt,137 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
 \fi
 %	\node at (146mm,17mm) {\includegraphics[width=28.14 mm,height=5 mm]{figures/sig.pdf}};
+%	\node at (146mm,17mm) {\includegraphics[width=50.23 mm,height=5.996  mm]{figures/sig.pdf}};
 	\end{tikzpicture}%
 }}
 
@@ -582,16 +600,24 @@
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\quad{巻}\thechapter}};  % 書名+ 卷號
 	\node [below,rectangle,]  at%
-		(1.8,18) {\hbox{\tate\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
+		(1.8,18) {\hbox{\tate\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 \else % 無糸欄、無邉框
 	\@pdfimg
 	\node [left,]  at%
-		(17,1.7) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt版權所有}%
+		(17,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageven
+%\foreach \i in {62,76.795,...,551}{\draw [line width=0.1pt, color=cyan ] (55.160 pt,\i pt) -- (475.160 pt,\i pt);}
+%\foreach \j in {55.160,85.160,...,475.160}{\draw [line width=0.1pt, color=cyan ] (\j pt, 62 pt) -- (\j pt, 550.236 pt);}
+%\node [left,]  at (55 pt,507 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
+%\node [left,]  at (55 pt,433 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
+%\node [left,]  at (55 pt,359 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
+%\node [left,]  at (55 pt,285 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
+%\node [left,]  at (55 pt,211 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
+%\node [left,]  at (55 pt,137 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
 \fi
-%	\node at (36mm, 17mm) {\includegraphics[width=28.14 mm,height=5 mm]{figures/sig.pdf}};
+%	\node at (36mm, 17mm) {\includegraphics[width=50.23 mm,height=5.996 mm]{figures/sig.pdf}};
 	\end{tikzpicture}%
 }}
 
@@ -623,19 +649,19 @@
 	\@kasenodd%\@fishodd
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(0.5,5) {\hbox{\tate\mgfamily\small%
+		(0.5,5) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(0.5,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(0.5,5) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}};}
 \else % 無邉框
 	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(1.2,5) {\hbox{\tate\mgfamily\small%
+		(1.2,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(1.2,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(1.2,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \fi
 	\end{tikzpicture}%
@@ -649,19 +675,19 @@
 	\@kaseneven%\@fisheven
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(17.7,5) {\hbox{\tate\mgfamily\small%
+		(17.7,5) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(17.7,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(17.7,5) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \else % 無邉框
 	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(17.0,5) {\hbox{\tate\mgfamily\small%
+		(17.0,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(17.0,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(17.0,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \fi
 	\end{tikzpicture}%
@@ -753,9 +779,9 @@
 \else % 無邉框
 	\@pdfimg
 	\node [below,]  at%
-		(1.2,18) {\hbox{\tate\mgfamily\small{附}\qquad{錄}}};  % 章標題
+		(1.2,18) {\hbox{\tate\mgfamily\scriptsize{附}\qquad{錄}}};  % 章標題
 	\node [above,]  at%
-		(1.2,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(1.2,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
@@ -774,9 +800,9 @@
 \else % 無邉框
 	\@pdfimg
 	\node [below,]  at%
-		(17.0,18) {\hbox{\tate\mgfamily\small\@maintitle}};  % 書名
+		(17.0,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
 	\node [above,]  at%
-		(17.0,5) {\hbox{\tate\mgfamily\small~\kansuji\c@page~%
+		(17.0,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
@@ -800,9 +826,9 @@
    \let\@mkboth\markboth
    % 章標題
  \def\@oddfoot{%
-      \watermarkoff\watermarkodd}%
+      \watermarkoff\mgfamily\scriptsize\watermarkodd}%
  \def\@evenfoot{%
-      \watermarkoff\watermarkeven}%
+      \watermarkoff\mgfamily\scriptsize\watermarkeven}%
    \let\@oddhead\@empty
    \let\@evenhead\@empty  }
 \def\ps@my{ % 定義前言使用的頁碼
@@ -883,10 +909,9 @@
     \begin{flushleft}%
       {\tlarge\mcfamily\bfseries \hspace{2zw}\color{yellow}\@maintitle \par}%
       \vskip 72pt%
-      \hbox{}\hfill{\Large%
-      \begin{tabular}[t]{r}%
-        \verthuge\color{yellow}\@author\UTF{3000}\UTF{3000}\UTF{3000}%
-      \end{tabular}\par}%
+      {\Large%
+        \verthuge\color{yellow}\hbox{}\hfill\@author\UTF{3000}\UTF{3000}\UTF{3000}%
+      \par}%
 %      \vskip\baselineskip%
 %      {\large\@date\par}%
     \vskip \baselineskip%
@@ -946,6 +971,7 @@
   \if@openleft \cleardoublepage \else
   \if@openright \cleardoublepage \else \clearpage \fi \fi
   \thispagestyle{empty}%
+  \watermarkoff
   \if@twocolumn\onecolumn\@tempswatrue\else\@tempswafalse\fi
   \null\vfil
   \secdef\@part\@spart}
@@ -1021,32 +1047,19 @@
   \else
     \addcontentsline{toc}{chapter}{#1}%
   \fi
-  \markboth{\@chapapp\thechapter\@chappos\hskip1zw#1}{}%
+  \markboth{\@chapapp\thechapter\@chappos\hskip2zw#1}{}%
   \addtocontents{lof}{\protect\addvspace{10\p@}}%
   \addtocontents{lot}{\protect\addvspace{10\p@}}%
   \@makechapterhead{#2}\@afterheading}
 \def\@makechapterhead#1{%\hbox{}%
   {     \par\hbox{\huge\color{kakiiro!90}%
-        \hbox{\gtfamily{\@maintitle}巻之}}
-   %\vskip0.8\Cvs
-   \par{\hbox{}}\vskip-1pt%
+        \hbox{\gtfamily\ebseries{\@maintitle}巻之\thechapter}}
+        \par{\hbox{}}%
      \par \noindent \huge\mcfamily\bfseries
-   \raggedright
-   \leavevmode
-   \ifnum \c@secnumdepth >\m@ne
-     \setlength\@tempdima{\linewidth}%
-    \if@mainmatter
-     \setbox\z@\hbox{\@chapapp\thechapter\@chappos\hskip1zw}
-     \addtolength\@tempdima{-\wd\z@}%
-     \unhbox\z@\nobreak
-    \fi
-     \vtop{\hsize\@tempdima#1}%
-   \else
-     #1\relax
-   \fi}\nobreak \par{\hbox{}}\vskip1pt%
-    \setcounter{ppage}{1} }
-\def\@schapter#1{%
-  \@makeschapterhead{#1}\@afterheading}
+     \hskip3zw #1\relax}
+   \par{\hbox{}}%
+   \setcounter{ppage}{1} \nobreak }
+\def\@schapter#1{ \@makeschapterhead{#1}\@afterheading}
 
 \def\@makeschapterhead#1{%\hbox{}%
    \par{\hbox{}}
@@ -1087,9 +1100,9 @@
   \renewcommand{\thechapter}{\@Kanji\c@chapter}}
 
 \if@twocolumn
-  \setlength\leftmargini {2em}
+  \setlength\leftmargini {2 zw}
 \else
-  \setlength\leftmargini {2.5em}
+  \setlength\leftmargini {2 zw}
 \fi
 \setlength\leftmarginii  {2.2em}
 \setlength\leftmarginiii {1.87em}
@@ -1205,10 +1218,12 @@
 \newenvironment{quotation}
   {\list{}{\itemsep 0 pt%
            \topsep 0 pt %
-           \gtfamily\szverse \listparindent 1zw%
-           \itemindent\listparindent%
-           \rightmargin\leftmargin%
-           \parsep 0 pt}%
+           \parsep 0 pt%
+           \listparindent 0 zw%
+           \itemindent 0 pt%
+           \leftmargin 30 pt %
+           \rightmargin 30 pt
+           \gtfamily\szverse}%
            \item\relax}{\endlist}
 
 %引文（懸挂縮進）
@@ -1216,9 +1231,11 @@
   {\let\\\@centercr
    \list{}{\itemsep 0 pt%
            \topsep 0 pt %
-           \itemindent -2.25zw%
-           \listparindent\itemindent \gtfamily \szverse
-           \rightmargin\leftmargin \advance\leftmargin 0.5zw}%
+           \listparindent -30 pt%
+           \itemindent -30pt%
+           \leftmargin 30 pt %
+           \rightmargin 30 pt%
+           \gtfamily \szverse}%
            \item\relax}{\endlist}
 
 \newenvironment{quote}
@@ -1232,7 +1249,7 @@
 \def\ext@figure{lof}
 \def\fnum@figure{\figurename\thefigure}
 \newenvironment{figure}
-               {\@float{figure}}
+               {\LARGE\@float{figure}}
                {\end@float}
 \newenvironment{figure*}
                {\@dblfloat{figure}}
@@ -1349,7 +1366,7 @@
   \setcounter{ppage}{1}
   \watermarkoff\pagestyle{mymenu}
     \@starttoc{toc}%
-    \ifodd\value{page}{\clearpage\par{\UTF{3000}}}\fi
+    \ifodd\value{page}{\clearpage\par{\UTF{3000}}  }\fi
   \if@restonecol\twocolumn\fi
 }
 \newcommand*{\l@part}[2]{%
@@ -1376,7 +1393,7 @@
     %\addvspace{\baselineskip}
     \begingroup
       \parindent\z@ \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\Large\mcfamily
+      \leavevmode\Large\mcfamily\bfseries%\symth
 %          \setlength\@lnumwidth{6zw}%
           \setlength\@lnumwidth{6zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
@@ -1393,7 +1410,7 @@
     \begingroup
       \parindent=2zw %\parindent\z@
       \rightskip\@pnumwidth \parfillskip-\rightskip
-      \leavevmode\Large\mcfamily
+      \leavevmode\Large\mcfamily%\symtd
 %          \setlength\@lnumwidth{6zw}%
           \setlength\@lnumwidth{4.35zw}%
       \advance\leftskip\@lnumwidth \hskip-\leftskip
@@ -1510,9 +1527,9 @@
 
 %\def\@makeenmark{\kern -1.2zw \raisebox{.8zh}{\tiny （{\hbox{\yoko\expandafter\ajTsumesuji\expandafter*\expandafter{\number\@theenmark}}}）}}
 
-\def\@makeenmark{\kern -1.7zw \raisebox{.8zh}{\szix %
-            \smash{\hbox{（{\zhnumber{\@theenmark}}）}}}\kern .2zw}
-            %\UTF{FE35}\UTF{FE36} 全角括號
+\def\@makeenmark{\smash{\hbox to\z@{\kern -1.5zw \raisebox{.8zh}{ %
+            \smash{\hbox{\small\mcfamily\ltseries （{\zhnumber{\@theenmark}}）}}}\kern .2zw}}}
+
 
 \newdimen\endnotesep
 
@@ -1566,18 +1583,14 @@
 \def\@xendnotenext[#1]{\begingroup \c@endnote=#1\relax
    \xdef\@theenmark{\theendnote}\endgroup \@endnotetext}
 
-%\def\enoteformat{\parindent -1.3zw \leftskip 2.3zw %
-\def\enoteformat{\parindent -3.25zw \leftskip 4zw \rightskip 2zw%
-% \UTF{FE35}\hbox{\yoko\expandafter\ajTumesuji\expandafter*\expandafter{\number\@theenmark}}\UTF{FE36}}
-% \UTF{FE35}\hbox{\kansuji\number\@theenmark}\UTF{FE36}\hskip3pt} %2019/01/25 \UTF{FE35}\UTF{FE36} 全角括號
- \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt} %2019/04/02
-%\def\enotesize{\normalsize}
-\def\enotesize{\large\ujlreq}
+\def\enoteformat{\topskip 0 pt   \parindent -36pt \leftskip 45pt \rightskip 15 pt%
+          \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt } %2020/09/26
+\def\enotesize{\large\mcfamily}
 
 \newlength\chuskip
 \setlength{\chuskip}{0mm}       %在正文中設置可覆蓋此句
 
-\def\theendnotes{\vskip2\baselineskip%\begin{multicols}{2}% 修改分欄欄目數不會起作用，嘗試直接屏蔽多欄
+\def\theendnotes{\vskip2\baselineskip%
  \immediate\closeout\@enotes \global\@enotesopenfalse
   \begingroup
     \makeatletter
@@ -1589,13 +1602,13 @@
                             use BIGLATEX to avoid this}%
           \def\ETC.{\relax}}
     \par\noindent
-     {\LARGE\mcfamily\bfseries \CID{12869}}\vskip6pt%-\chuskip
+     {\LARGE\mcfamily\CID{12869}}\vskip6pt%
       %%% \CID{7740} 註;直点  \CID{2990} 註;斜点
       %%% \CID{2987} 注;斜点  \CID{10419} 注;圏注
       %%% \CID{12869} 注;粗体 \CID{13926} 注;直点
     \enotesize %
     \@input{\jobname.ent}%
-      \endgroup %\end{multicols}
+      \endgroup %
              } %\def\theendnotes
 % 定義的章回後注（結束）
 
@@ -1630,35 +1643,15 @@
 \newcommand{\初號}{\chuhao}
 \newcommand{\初号}{\chuhao}
 
-\DeclareFontFamily{JY2}{ujlreq}{}
-\DeclareFontFamily{JT2}{ujlreq}{}
-\DeclareFontShape{JY2}{ujlreq}{m}{n}{<->s*[0.924690]ujlreq}{}
-\DeclareFontShape{JY2}{ujlreq}{m}{it}{<->ssub*ujlreq/m/n}{}
-\DeclareFontShape{JY2}{ujlreq}{m}{sl}{<->ssub*ujlreq/m/n}{}
-\DeclareFontShape{JY2}{ujlreq}{m}{sc}{<->ssub*ujlreq/m/n}{}
-\DeclareFontShape{JT2}{ujlreq}{m}{n}{<->s*[0.924690]ujlreq-v}{}
-\DeclareFontShape{JT2}{ujlreq}{m}{it}{<->ssub*ujlreq/m/n}{}
-\DeclareFontShape{JT2}{ujlreq}{m}{sl}{<->ssub*ujlreq/m/n}{}
-\DeclareFontShape{JT2}{ujlreq}{m}{sc}{<->ssub*ujlreq/m/n}{}
-\DeclareRobustCommand\ujlreq{\kanjifamily{ujlreq}\selectfont}
 
-\DeclareFontFamily{JY2}{mg}{}
-\DeclareFontFamily{JT2}{mg}{}
-\DeclareFontShape{JY2}{mg}{m}{n}{<->s*[0.924690]otf-ujmgrn-h}{}
-\DeclareFontShape{JY2}{mg}{m}{it}{<->ssub*mg/m/n}{}
-\DeclareFontShape{JY2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
-\DeclareFontShape{JY2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
-\DeclareFontShape{JT2}{mg}{m}{n}{<->s*[0.924690]otf-ujmgrn-v}{}
-\DeclareFontShape{JT2}{mg}{m}{it}{<->ssub*mg/m/n}{}
-\DeclareFontShape{JT2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
-\DeclareFontShape{JT2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
-\DeclareRobustCommand\ujmgrn{\kanjifamily{mg}\kanjiseries{m}\selectfont}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 定義的 目錄頁碼格式（非常重要！！）
 \AtBeginDocument{%
-%\def\contentsline#1#2#3#4{\csname l@#1\endcsname{%
-%\hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\zhnumber{#3}}}%
 \def\contentsline#1#2#3#4{\csname l@#1\endcsname{%
 \hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\@Kanji{#3}}}%
 \if@pdfm
@@ -1666,8 +1659,8 @@
 \setlength{\evensidemargin}{- 3 pt}   %修正數據
 %
 \else
-\setlength{\oddsidemargin} {-28 pt}   %修正數據
-\setlength{\evensidemargin}{-16 pt}   %修正數據
+\setlength{\oddsidemargin} {-31 pt}   %修正數據
+\setlength{\evensidemargin}{-18 pt}   %修正數據
 \fi
 }
 
