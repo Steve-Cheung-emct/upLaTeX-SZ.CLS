@@ -1655,8 +1655,8 @@
 \def\contentsline#1#2#3#4{\csname l@#1\endcsname{%
 \hyper@linkstart{link}{#4}{#2}\hyper@linkend}{\@Kanji{#3}}}%
 \if@pdfm
-\setlength{\oddsidemargin}{- 41 pt}   %修正數據
-\setlength{\evensidemargin}{- 3 pt}   %修正數據
+\setlength{\oddsidemargin}{- 44 pt}   %修正數據
+\setlength{\evensidemargin}{- 6 pt}   %修正數據
 %
 \else
 \setlength{\oddsidemargin} {-31 pt}   %修正數據
