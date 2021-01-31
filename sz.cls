@@ -5,7 +5,7 @@
 %   Modified date:    2019/01/25 -- today 2019/09/28
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2020/11/29 v1.8a ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2021/01/31 v1.8b ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -374,31 +374,22 @@
   \let\cleardoublepage\pltx@cleartorightpage
 \fi\fi
 
-\if@pdfm
 % 正文翻页，空白页采用糸栏
-\def\pltx@mycleartoleftpage{\clearpage\if@twoside
+\def\pltx@mycleartoleftpage{\clearpage
   \ifodd\c@page \else
-    \iftdir
       \hbox{}\thispagestyle{plain}\watermarkoff\watermarkeven\newpage
       \if@twocolumn\hbox{}\newpage\fi
-    \fi
-  \fi\fi}
-\def\cleardbpage{\pltx@mycleartoleftpage}
+  \fi}
+\def\mycleardbpage{\pltx@mycleartoleftpage}
 
 % 前言翻页和附录翻页。使用 kochu 模式
-\def\pltx@kochucleartoleftpage{\clearpage\if@twoside
+\def\pltx@kochucleartoleftpage{\clearpage
   \ifodd\c@page \else
-    \iftdir
       \hbox{}\thispagestyle{empty}\watermarkoff\watermkkochueven\newpage
       \if@twocolumn\hbox{}\newpage\fi
-    \fi
-  \fi\fi}
-\def\mycleardbpage{\pltx@kochucleartoleftpage}
+    \fi}
+\def\cleardbpage{\pltx@kochucleartoleftpage}
 
-\else
-\def\cleardbpage{\pltx@cleartooddpage}
-\def\mycleardbpage{\pltx@cleartooddpage}
-\fi
 
 \setlength{\columnsep}{2\Cwd}           %    中文縱書：欄間距 2 個全角字
 \setlength{\columnseprule}{0\p@}        %    雙欄 欄綫設定（無欄綫）
@@ -1014,8 +1005,8 @@
 \newcommand{\@chappos}{\postchaptername}
 
 \newcommand{\chapter}{%
-  \if@openleft\if@pdfm \cleardbpage \else \cleardoublepage \fi \else
-  \if@openright \if@pdfm \cleardbpage \else \cleardoublepage \fi
+  \if@openleft\if@pdfm \mycleardbpage \else \cleardoublepage \fi \else
+  \if@openright \if@pdfm \mycleardbpage \else \cleardoublepage \fi
     \else \clearpage \fi \fi
     \global\@topnum\z@
     \@afterindenttrue
@@ -1030,7 +1021,7 @@
 
 %%% 定義不翻頁的 章、回
 \newcommand{\szchapter}{%
-  \if@pdfm \cleardbpage \else \cleardoublepage \fi
+  \if@pdfm \mycleardbpage \else \cleardoublepage \fi
   \global\@topnum\z@
   \@afterindenttrue
   \secdef\@chapter\@schapter  }
@@ -1366,9 +1357,14 @@
   \setcounter{ppage}{1}
   \watermarkoff\pagestyle{mymenu}
     \@starttoc{toc}%
-    \ifodd\value{page}{\clearpage\par{\UTF{3000}}  }\fi
+    \ifodd\value{page}{\clearpage\par{\UTF{3000}} %
+          \watermarkoff\myabstracteven }\fi
+            % 判断，如果目录结束的页是奇數頁就产生一个空白页，
+    		% 空白页書眉为空
+    		% 如果目录结束的页是偶数页则直接翻页。
   \if@restonecol\twocolumn\fi
 }
+
 \newcommand*{\l@part}[2]{%
   \ifnum \c@tocdepth >-2\relax
     \addpenalty{-\@highpenalty}%
@@ -1602,7 +1598,7 @@
                             use BIGLATEX to avoid this}%
           \def\ETC.{\relax}}
     \par\noindent
-     {\LARGE\mcfamily\CID{12869}}\vskip6pt%
+     {\LARGE\mcfamily\CID{2990}}\vskip6pt%
       %%% \CID{7740} 註;直点  \CID{2990} 註;斜点
       %%% \CID{2987} 注;斜点  \CID{10419} 注;圏注
       %%% \CID{12869} 注;粗体 \CID{13926} 注;直点
