@@ -2,11 +2,11 @@
 
 ### A Template of Chinese/Japan vertical book style.
 
-本模板曾經被我用於《石頭記》垂直排版之用。現如今，將代碼托管到 GitHub ，
+本模板曾經被我用於《石頭記》（you can get it by the link: https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug ）垂直排版之用。現如今，將代碼托管到 GitHub ，
 
 以供愛好者們克隆使用。（欢迎加入UpTeX直書交流QQ群：887970677）
 
-This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）。
+This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）, you can get it by the link: https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug 
 
 I pulled it on Github to share with upLaTeX users Now.
 
@@ -42,40 +42,6 @@ It will compiled by upLaTeX in Windows or UpTeX on a Mac.
 
 ``dvipdfmx  main``
 
-### 関于欄目的修改
-### How many columns fit best?
-
-根據此表進行欄目整形，追加或減少欄目個數，并且控制内外邉框終點。
-
-此表格在換算欄目関係時非常有用。
-
-
-相鄰欄目，相差2pt 的可以公用一個内邉框寬度，如：14 欄30pt 和15 欄 28pt，可公用420pt 作爲内邉框寬度。
-
-
-### 正文字號 16 pt 時，行距、欄距、版心約束、内外邉框的關係
-
-| 序號 | 欄目个数 | 正文行距 | 版心宽度 | 内邉框寬度 |
-|----|------|------|------|-------|
-| 1  | 14   | 25   | 350  | 350   |
-| 2  | 14   | 26   | 364  | 364   |
-| 3  | 14   | 27   | 378  | 378   |
-| 4  | 14   | 28   | 392  | 392   |
-| 5  | 14   | 29   | 406  | 406   |
-| 6  | 14   | 30   | 420  | 420   |
-| 7  | 15   | 25   | 375  | 375   |
-| 8  | 15   | 26   | 390  | 390   |
-| 9  | 15   | 27   | 405  | 405   |
-| 10 | 15   | 28   | 420  | 420   |
-| 11 | 15   | 29   | 435  | 435   |
-| 12 | 15   | 30   | 450  | 450   |
-| 13 | 16   | 25   | 400  | 400   |
-| 14 | 16   | 26   | 416  | 416   |
-| 15 | 16   | 27   | 432  | 432   |
-| 16 | 16   | 28   | 448  | 448   |
-| 17 | 16   | 29   | 464  | 464   |
-| 18 | 16   | 30   | 480  | 480   |
-
 
 
 
@@ -110,7 +76,7 @@ https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
 ## 注意事項
 
-該模板雙欄下割注必出錯。雙欄下頭注也必出錯。
+該模板雙欄下割注要出錯。雙欄中使用頭注（tochu）也會出錯。
 
 欲排割注及頭注請使用單欄模式。
 
@@ -118,7 +84,7 @@ https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
 Do not use ``twocolumn`` or ``\begin{multicols}{2}`` to produce tochu(headnote) or warichu(a kind of note which cut off lines).
 
-U have to use onecolumn rather than twocolumn(multicols included).
+You have to use onecolumn rather than twocolumn(multicols included).
 
 關於該模板及説明書的疏漏之處，敬請愛好者們積極反饋，不吝賜教。
 
