@@ -4,7 +4,9 @@
 
 本模板曾經被我用於《石頭記》垂直排版之用（下載訪問: [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) ）。
 
-現如今，將代碼托管到 GitHub ，以供愛好者們克隆使用。（欢迎加入UpTeX直書交流QQ群：887970677）
+現如今，將代碼托管到 GitHub ，以供愛好者們克隆使用。
+
+（欢迎加入UpTeX直書交流QQ群：887970677）
 
 This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）, you can get it by the link:  [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) 
 
@@ -65,7 +67,7 @@ I have made only a version of Chinese manual.
 ### 許可
 ### Copyright
 
-商用允許(保留署名)；轉載自由。
+商用允許（保留署名）；轉載自由。
 
 Commercial allowed (signature reserved); copy freely.
 
@@ -76,9 +78,7 @@ https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
 ## 注意事項
 
-該模板雙欄下割注要出錯。雙欄中使用頭注（tochu）也會出錯。
-
-欲排割注及頭注請使用單欄模式。
+該模板雙欄下割注會出錯。雙欄中使用頭注（tochu）也會出錯。排割注及頭注請使用單欄模式。
 
 ## Notice:
 
@@ -108,6 +108,8 @@ https://zhuanlan.zhihu.com/p/81728243
 
 
 ### chang log
+
+2020/11/29 ver.1.8a fixed one bug by updating of eso-pic.
 
 2019/12/3 ver.1.3b  Footnote position modified .
 
