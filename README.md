@@ -2,9 +2,9 @@
 
 ### A Template of Chinese/Japan vertical book style.
 
-本模板曾經被我用於《石頭記》（you can get it by the link: [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) ）垂直排版之用。現如今，將代碼托管到 GitHub ，
+本模板曾經被我用於《石頭記》垂直排版之用（下載訪問: [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) ）。
 
-以供愛好者們克隆使用。（欢迎加入UpTeX直書交流QQ群：887970677）
+現如今，將代碼托管到 GitHub ，以供愛好者們克隆使用。（欢迎加入UpTeX直書交流QQ群：887970677）
 
 This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）, you can get it by the link:  [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) 
 
