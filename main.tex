@@ -4,13 +4,40 @@
 % dvipdfmx main 
 
 %\documentclass[b5paper,背景,水印]{sz}
-\documentclass[b5paper,pdfm,背景]{sz} % 调用糸欄，绘制网格。注：糸欄修改需要精确计算。
+%\documentclass[b5paper,pdfm,背景]{sz} % 调用糸欄，绘制网格。注：糸欄修改需要精确计算。
 %\documentclass[b5paper,背景]{sz} % 不使用糸欄。没有网格。
-%\documentclass[b5paper]{sz}
+\documentclass[b5paper,网格]{sz}
 
 %	pdfm 為非必選參數
 % 紙張默認為 JIS B5
 % 詳見 説明書：https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
+
+
+
+% 页面调整
+%為頭注的使用， 設置文本寬度
+\setlength{\textwidth}{491 pt}
+%版面寬度（即由版心上邉至底邉的距离）
+\setlength{\handurawidth}{618 pt}
+%頭注領域の計算，將頭注編號輸出為漢字
+
+% 邉注与正文的间距
+\setlength{\marginparsep}{15 pt}
+
+% 设定版面宽
+\setlength{\textheight}{392 pt}
+
+% 校订坐标的水平、垂直偏移
+\setlength{\voffset}{ 0 mm}
+\setlength{\hoffset}{ 0 mm}
+
+% 垂直顶端偏移
+\setlength{\topmargin}{-19 pt}
+
+% 尾注的间隔
+\setlength{\parskip}{0mm}
+
+
 
 % 載入自定義的字體包及設定
 \usepackage{stonesettings}
@@ -64,8 +91,6 @@
 \LARGE 
 \ujlreq
 \pagestyle{plain}
-
-% 正文9pt 
 
 \input{TESTTEXT/testtext}
 

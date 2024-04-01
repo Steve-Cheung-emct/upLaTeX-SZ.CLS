@@ -5,7 +5,7 @@
 %   Modified date:    2019/01/25 -- today 2019/09/28
 %
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesClass{sz}[2021/01/31 v1.8b ShigakuZasshi type pLaTeX class]
+\ProvidesClass{sz}[2024/04/01 v1.8c ShigakuZasshi type pLaTeX class]
 
 % 定義的紙張
 \newcounter{@paper}
@@ -89,6 +89,8 @@
 \DeclareOption{水印}{\@watermarkedtrue}
 \newif\if@backgrounged \@backgroungedfalse
 \DeclareOption{背景}{\@backgroungedtrue}
+\newif\if@kasened \@kasenedfalse
+\DeclareOption{网格}{\@kasenedtrue}
 
 \DeclareOption{watermark}{\@watermarkedtrue}
 \DeclareOption{pdfm}{\@pdfmtrue \input{colordef.tex}} % 打開糸欄開關，竝引入顔色定義。
@@ -115,7 +117,7 @@
 %  \mag 913 % formerly 900
 %  \setlength\paperwidth{1.09529\paperwidth}%
 %  \setlength\paperheight{1.09529\paperheight}%
-  \def\n@baseline{30}%
+  \def\n@baseline{28}%
   \def\Cjascale{0.924690}
 %
 %定義的編碼方式：JT2表示縱書字體
@@ -166,10 +168,10 @@
 \newcommand{\tiny}{\@setfontsize\tiny{3pt}{3pt}}            %\tiny= 7pt@9pt
 \newcommand{\scriptsize}{\@setfontsize\scriptsize{10pt}{12}}    %\scriptsize=10pt@12pt
 \newcommand{\large}{\@setfontsize\large\@xiipt{15.05}}         %\large= 12pt@18pt
-\newcommand{\Large}{\@setfontsize\Large\@xivpt{30}}        %\Large= 14pt@22pt
-\newcommand{\LARGE}{\@setfontsize\LARGE{16pt}{30}}          %\LARGE= 16pt@26pt
+\newcommand{\Large}{\@setfontsize\Large{12}{28}}        %\Large= 14pt@22pt
+\newcommand{\LARGE}{\@setfontsize\LARGE{15.14}{28}}          %\LARGE= 16pt@26pt
       % 因正文夾注排版需要，特將此設定爲2倍行距为宜
-\newcommand{\huge}{\@setfontsize\huge{20pt}{30}}            %\huge= 20pt@28pt
+\newcommand{\huge}{\@setfontsize\huge{20pt}{28}}            %\huge= 20pt@28pt
 \newcommand{\Huge}{\@setfontsize\Huge\@xxvpt{42}}            %\Huge= 25pt@36pt
 
 \newcommand{\liuhao}{\@setfontsize\liuhao{7.52812pt}{10}} % 六號
@@ -190,7 +192,7 @@
 \newcommand{\bthuge}{\@setfontsize\bthuge{60}{72}}
 \newcommand{\btlarge}{\@setfontsize\btlarge{48}{60}}
 \newcommand{\tlarge}{\@setfontsize\tlarge{36}{48}}
-\newcommand{\ularge}{\@setfontsize\ularge{30}{48}}
+\newcommand{\ularge}{\@setfontsize\ularge{28}{48}}
 \newcommand{\verthuge}{\@setfontsize\verthuge{25}{25}}
 
 \newcommand{\szix}{\@setfontsize\szix{9}{12}}
@@ -198,16 +200,9 @@
 \newcommand{\szxi}{\@setfontsize\szxi{11}{12}}
 \newcommand{\szxii}{\@setfontsize\szxii{12}{12}}
 
-\newcommand{\zhy}{\@setfontsize\zhy{16pt}{30}}     %  葬花吟
-\newcommand{\szhuge}{\@setfontsize\szhuge{16pt}{30}}  %  好了歌
+\newcommand{\zhy}{\@setfontsize\zhy{15.14}{28}}     %  葬花吟
+\newcommand{\szhuge}{\@setfontsize\szhuge{15.14}{28}}  %  好了歌
 
-\newcommand{\szverse}{%  詩歌環境 每20行余1pt
-        \@setfontsize\szverse{16pt}{30}%
-    \abovedisplayskip 6\p@ \@plus3\p@ \@minus3\p@
-    \abovedisplayshortskip \z@ \@plus3\p@
-    \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-    \belowdisplayskip \abovedisplayskip%
-    \let\@listi\@listI}
 
 %%%古典字體設置
 \DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
@@ -241,8 +236,8 @@
 \setlength\headsep{0mm}
 
 %\setlength\topskip{1\Cht} % 千萬不要動這里，眞的會炸的。
-\setlength\topskip{14 pt} 
-\setlength\footskip{14 pt}
+\setlength\topskip{12 pt}
+\setlength\footskip{12 pt}
 
 \setlength\maxdepth{0 pt}
 
@@ -512,24 +507,24 @@
 % 定義奇數頁和偶數頁的垂直頁碼，pdfm 不啓用
 \def\@ppageodd{%
 	\node [below,]  at%
-		(1.2,18) {\hbox{\tate\mgfamily\scriptsize\leftmark}};  % 章標題
+		(1.6,18) {\hbox{\tate\mgfamily\scriptsize\leftmark}};  % 章標題
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(1.2,4) {\hbox{\tate\mgfamily\scriptsize%
+		(1.6,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\zhnumber{\@arabic\c@szpage}~{頁}）}\stepcounter{szpage}};}
 	{\node [above,]  at%
-		(1.2,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(1.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 \def\@ppageven{%
 	\node [below,]  at%
-		(17.0,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
+		(16.6,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(17.0,4) {\hbox{\tate\mgfamily\scriptsize%
+		(16.6,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\zhnumber{\@arabic\c@szpage}~{頁}）}\stepcounter{szpage}};}
 	{\node [above,]  at%
-		(17.0,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(16.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 
@@ -563,17 +558,20 @@
 \else % 無糸欄、無邉框
 	\@pdfimg
 	\node [right,]  at%
-		(1.2,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
+		(1.8,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageodd
-%\foreach \i in {62,76.795,...,551}{\draw [line width=0.1pt, color=cyan ] (42.680 pt,\i pt) -- (462.680 pt,\i pt);}
-%\foreach \j in {42.680,72.680,...,462.680}{\draw [line width=0.1pt, color=cyan ] (\j pt, 62 pt) -- (\j pt, 550.236 pt);}
-%\node [right,]  at (463 pt,507 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
-%\node [right,]  at (463 pt,433 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
-%\node [right,]  at (463 pt,359 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
-%\node [right,]  at (463 pt,285 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
-%\node [right,]  at (463 pt,211 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
-%\node [right,]  at (463 pt,137 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
+\if@kasened
+\foreach \i in {60,74,...,550}{\draw [line width=0.1pt, color=cyan ] (55 pt,\i pt) -- (447 pt,\i pt);}
+\foreach \j in {55,83,...,447}{\draw [line width=0.1pt, color=cyan ] (\j pt, 60 pt) -- (\j pt, 550 pt);}
+\node [right,]  at (450 pt,550 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 35}}};
+\node [right,]  at (450 pt,480 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
+\node [right,]  at (450 pt,410 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
+\node [right,]  at (450 pt,340 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
+\node [right,]  at (450 pt,270 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
+\node [right,]  at (450 pt,200 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
+\node [right,]  at (450 pt,130 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
+\fi
 \fi
 %	\node at (146mm,17mm) {\includegraphics[width=28.14 mm,height=5 mm]{figures/sig.pdf}};
 %	\node at (146mm,17mm) {\includegraphics[width=50.23 mm,height=5.996  mm]{figures/sig.pdf}};
@@ -596,17 +594,20 @@
 \else % 無糸欄、無邉框
 	\@pdfimg
 	\node [left,]  at%
-		(17,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
+		(16.4,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageven
-%\foreach \i in {62,76.795,...,551}{\draw [line width=0.1pt, color=cyan ] (55.160 pt,\i pt) -- (475.160 pt,\i pt);}
-%\foreach \j in {55.160,85.160,...,475.160}{\draw [line width=0.1pt, color=cyan ] (\j pt, 62 pt) -- (\j pt, 550.236 pt);}
-%\node [left,]  at (55 pt,507 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
-%\node [left,]  at (55 pt,433 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
-%\node [left,]  at (55 pt,359 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
-%\node [left,]  at (55 pt,285 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
-%\node [left,]  at (55 pt,211 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
-%\node [left,]  at (55 pt,137 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
+\if@kasened
+\foreach \i in {60,74,...,550}{\draw [line width=0.1pt, color=cyan ] (70.840 pt,\i pt) -- (462.840 pt,\i pt);}
+\foreach \j in {70.840,98.840,...,462.840}{\draw [line width=0.1pt, color=cyan ] (\j pt, 60 pt) -- (\j pt, 550 pt);}
+\node [left,]  at (68 pt,550 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 35}}};
+\node [left,]  at (68 pt,480 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
+\node [left,]  at (68 pt,410 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
+\node [left,]  at (68 pt,340 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
+\node [left,]  at (68 pt,270 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
+\node [left,]  at (68 pt,200 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
+\node [left,]  at (68 pt,130 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
+\fi
 \fi
 %	\node at (36mm, 17mm) {\includegraphics[width=50.23 mm,height=5.996 mm]{figures/sig.pdf}};
 	\end{tikzpicture}%
@@ -649,10 +650,10 @@
 	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(1.2,4) {\hbox{\tate\mgfamily\scriptsize%
+		(1.6,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(1.2,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(1.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \fi
 	\end{tikzpicture}%
@@ -675,10 +676,10 @@
 	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(17.0,4) {\hbox{\tate\mgfamily\scriptsize%
+		(16.6,4) {\hbox{\tate\mgfamily\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(17.0,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(16.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \fi
 	\end{tikzpicture}%
@@ -770,9 +771,9 @@
 \else % 無邉框
 	\@pdfimg
 	\node [below,]  at%
-		(1.2,18) {\hbox{\tate\mgfamily\scriptsize{附}\qquad{錄}}};  % 章標題
+		(1.6,18) {\hbox{\tate\mgfamily\scriptsize{附}\qquad{錄}}};  % 章標題
 	\node [above,]  at%
-		(1.2,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(1.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
@@ -791,9 +792,9 @@
 \else % 無邉框
 	\@pdfimg
 	\node [below,]  at%
-		(17.0,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
+		(16.6,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
 	\node [above,]  at%
-		(17.0,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(16.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
@@ -895,17 +896,16 @@
     \let\footnotesize\small
     \let\footnoterule\relax
     \let\footnote\thanks
-    \newpage\null\vfil
-    \vskip .6\baselineskip%
+    \newpage\null\vspace*{45mm}
     \begin{flushleft}%
-      {\tlarge\mcfamily\bfseries \hspace{2zw}\color{yellow}\@maintitle \par}%
-      \vskip 72pt%
+      {\tlarge\mcfamily\bfseries \hspace{20pt}\color{yellow}\@maintitle \par}%
+      \vskip 20pt%
       {\Large%
         \verthuge\color{yellow}\hbox{}\hfill\@author\UTF{3000}\UTF{3000}\UTF{3000}%
       \par}%
 %      \vskip\baselineskip%
 %      {\large\@date\par}%
-    \vskip \baselineskip%
+    \vfil \hbox{}%
     \end{flushleft}%
     \end{titlepage}%
   \jlreq@endofmaketitle%
@@ -1044,7 +1044,7 @@
   \@makechapterhead{#2}\@afterheading}
 \def\@makechapterhead#1{%\hbox{}%
   {     \par\hbox{\huge\color{kakiiro!90}%
-        \hbox{\gtfamily\ebseries{\@maintitle}巻之\thechapter}}
+        \hbox{\gtfamily\ebseries{\@maintitle}卷之\thechapter}}
         \par{\hbox{}}%
      \par \noindent \huge\mcfamily\bfseries
      \hskip3zw #1\relax}
@@ -1060,7 +1060,7 @@
    \normalfont\huge\mcfamily\bfseries
    \leavevmode
    \setlength\@tempdima{\linewidth}%
-   \vtop{\hsize\@tempdima#1}}\nobreak\par{\hbox{}}%\vskip-2pt%\vskip\baselineskip%
+   \vtop{\hsize\@tempdima#1}}\nobreak\par{\hbox{}}%
     \setcounter{ppage}{1}}
 
 \newcommand\section[1]{\@startsection{section}{1}{\z@}%
@@ -1614,7 +1614,7 @@
 
 % 定義的破折號
 %\def\dash{{\leavevmode\kern1mm\raise0.1zh\hbox{\mcfamily{------}}\kern1mm}}
-\def\dash{{\leavevmode\kern1mm\raise0zh\hbox{\rule{1.8zw}{1pt}}\kern1mm}}
+\def\dash{{\leavevmode\kern2pt\raise0zh\hbox{\rule{1.8zw}{1pt}}\kern2pt}}
 
 \def\dott{\hbox{\mcfamily{……}}}
 
@@ -1655,8 +1655,8 @@
 \setlength{\evensidemargin}{- 6 pt}   %修正數據
 %
 \else
-\setlength{\oddsidemargin} {-31 pt}   %修正數據
-\setlength{\evensidemargin}{-18 pt}   %修正數據
+\setlength{\oddsidemargin} {-19 pt}   %修正數據
+\setlength{\evensidemargin}{- 4 pt}   %修正數據
 \fi
 }
 

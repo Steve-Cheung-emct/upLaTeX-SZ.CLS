@@ -13,6 +13,7 @@ This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）, 
 I pulled it on Github to share with upLaTeX users Now.
 
 ### 字体安裝
+
 ### install font
 
 拷貝 gerib10.mf 以及 300dpi 360dpi 600dpi 720dpi 四個文件夾，
@@ -22,7 +23,6 @@ I pulled it on Github to share with upLaTeX users Now.
 Copy gerib10.mf and 4 file floder (300dpi 360dpi 600dpi 720dpi ) into `C:\texlive\texmf-local\fonts\source\genko `.
 
 And reflash by Administrator using command `mktexlsr` .
-
 
 ### 模板的編譯
 
@@ -40,12 +40,7 @@ It will compiled by upLaTeX in Windows or UpTeX on a Mac.
 
 ``uplatex main``
 
-``uplatex main``
-
 ``dvipdfmx  main``
-
-
-
 
 ### 模板來源
 
@@ -55,9 +50,10 @@ It will compiled by upLaTeX in Windows or UpTeX on a Mac.
 
 This Template origined from Shigaku Zasshi（小川 弘和）, Department of Economics, Kumamoto Gakuen University.
 
-Website:	http://www2.kumagaku.ac.jp/teacher/herogw/
+Website:	[熊本學園大學院經濟學部小川 弘和](http://www2.kumagaku.ac.jp/teacher/herogw/)
 
 ### 言語
+
 ### Language
 
 目前説明文件僅有一套中文版。
@@ -65,6 +61,7 @@ Website:	http://www2.kumagaku.ac.jp/teacher/herogw/
 I have made only a version of Chinese manual.
 
 ### 許可
+
 ### Copyright
 
 商用允許（保留署名）；轉載自由。
@@ -72,11 +69,14 @@ I have made only a version of Chinese manual.
 Commercial allowed (signature reserved); copy freely.
 
 ### 説明書下載
+
 ### Manual of SZ.CLS
 
 https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
 ## 注意事項
+
+2024/04/01 更新之下，修改了正文的漢字尺寸，與舊模型不再兼容。試用前請務必備份。
 
 該模板雙欄下割注會出錯。雙欄中使用頭注（tochu）也會出錯。排割注及頭注請使用單欄模式。
 
@@ -96,6 +96,8 @@ https://zhuanlan.zhihu.com/p/81728243
 
 ## 更新履歷
 
+2024/04/01 ver.1.8c 更新最近以來的一些新特性，改善奇偶頁偏移向量、書眉位置，正文漢字尺寸等等。
+
 2020/11/29 ver.1.8a 修復eso-pic更新引起的問題。
 
 2019/12/3 ver.1.3b 调整傍注（footnote）位置。
@@ -106,16 +108,591 @@ https://zhuanlan.zhihu.com/p/81728243
 
 2019/06  ver.1.0 發佈。
 
-
 ### chang log
+
+2024/04/01 ver.1.8c fixed many bugs and modified the hoffset(s) of pages.
 
 2020/11/29 ver.1.8a fixed one bug by updating of eso-pic.
 
 2019/12/3 ver.1.3b  Footnote position modified .
 
 2019/09/28 ver.1.3a released. removed  font size options. removed many old feathers, including pagestyle via `rlap` `llap`;
+
 now added watermark by TikZ , fixed pagestyle.  
 
 2019/08 ver.1.2a released. added font size options.
 
 2019/06  ver.1.0 released.
+
+## 閑話
+
+### 漢字的 fallback
+
+參考見 [jfmutilで和文VFをカスタマイズする話(1)](https://zrbabbler.hatenablog.com/entry/2019/03/03/234646)
+
+只説思路。
+
+在 my-v.zvp （亦即 my-v.jvf）中，新增一個字體映射列 `MAPFONT` ，`MAPFONT` 是用作外部映射的頭文件，可以使用 urmlv.tfm 複製得到。
+
+```my-jvf
+(MAPFONT D 3
+   (FONTNAME symt-at)
+   (FONTCHECKSUM O 0)
+   (FONTAT R 1.0)
+   (FONTDSIZE R 10.0)
+   )
+
+```
+
+然後在後續的正文中，定義你要映射去思源明體字符的域。這裏放不下，見附件 （`思源明朝体的字符的域.txt `）：
+
+這之後，在置位時，使用以下語句塊為需要映射去思源字體的字符域置位（全局特性；不需要單個字符單獨置位）。
+
+```my-jvf
+(SUBTYPE D 0 D 1
+   (MAP
+      (SELECTFONT D 3)
+      (SETCHAR)
+      )
+   )
+
+```
+
+`SUBTYPE D 0 D 1` 是（`CHARSINSUBTYPE D 0 D 1`）所在的域在置位時使用的語句塊。
+
+以上就是做Adobe Japan 1-6 在 Unicode-BMP 的補集的 font fallback 了。
+
+如果在實際使用中需要用到 CJK-B、CJK-C 的漢字，則在字符空間中隨意引申，額外配置 `MAPFONT D X` 並使用全局置位即可。
+
+### Adobe Japan 1-6 之康熙字形
+
+如果你直接使用系統配置之 `ujlreq-v.jvf` 那麽很多漢字映射出來都不是康熙字形。很顯然的，想要得到康熙字形，這是一個非自發的修改，不論你使用 cmap 魔改工具，還是 Adobe InDesign 或者 Photoshop 等可以讀取 IVS 數據切換 CID 的工具。
+
+那麽我們依然可以通過字體内置的 IVD 數據，得到異體字的相關信息。
+
+直接使用結果吧，見附件 （AJ16CID替換 SETCHAR.txt）
+
+在 my-v.jvf 中寫入
+
+```my-jvf
+(MAPFONT D 9
+   (FONTNAME otf-cjmr-v)
+   (FONTCHECKSUM O 0)
+   (FONTAT R 1.0)
+   (FONTDSIZE R 10.0)
+   )
+
+```
+
+並在置位時使用 （AJ16CID替換 SETCHAR.txt）
+```my-jvf
+(CHARACTER H F957
+   (MAP
+      (SELECTFONT D 9)
+      (SETCHAR H 481)
+      )
+   )
+
+```
+
+對於 CID 字形的切換是一一對應的，不可能批量置位。因此它每一條表示切換一個字符的 CID。
+
+示例即是將 U+F957 置位為 ISO-2022-JP 表形式的 Adobe-Identity-V 的子表0 所對應的 0x481 位置，這個16進制數轉爲10進制後表示  `cid01153` 即 1153 所存放的字形。是不是超級簡單。
+
+這些映射關係，可以通過讀取 opentype 的表 `cmap` 查找，不過，表上的也僅僅是 Adobe 默認的映射。所以想要讓他輸出 康熙字形，得花費一些巧思。留待以後展開陳述吧。
+
+### 標點的擠壓方式
+我寫了一個新模型的JVF，暫未放上GitHub，大意是用 ZR 的工具，將 ujlreq-v.vf 做了一些修改，標點符號之 glue-kern 表中，將成對標點（D1、D2）組，與之相關的漢字之間的交互關係，其彈性 ``glue`` 由 ``(GLUE D 1 R 0.5 R 0.0 R 0.5)`` 改爲 ``(GLUE D 1 R 0.0 R 0.5 R 0.0)`` ， 必然的，全角標點間距就會變成半角的標點間距。這種修改不涉及字符本身的映射，只會改變標點與標點、標點與漢字的交互關係。
+
+參考見第2.3、2.9節。（[UpTeX虚拟字体与直書排版要素-20220310](https://github.com/Steve-Cheung-emct/uptex-ebook/blob/master/UpTeX%E8%99%9A%E6%8B%9F%E5%AD%97%E4%BD%93%E4%B8%8E%E7%9B%B4%E6%9B%B8%E6%8E%92%E7%89%88%E8%A6%81%E7%B4%A0-20220310.pdf) ）：
+
+``ujlreq-v.jvf`` 其中的 GLUEKERN 表
+
+```gluekern
+(GLUEKERN
+   (LABEL D 0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 1)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 8 R 0.0 R 0.0 R 0.0)
+   (GLUE D 9 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 2)
+   (GLUE D 0 R 0.5 R 0.0 R 0.5)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.5 R 0.0 R 0.5)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.5 R 0.0 R 0.5)
+   (GLUE D 8 R 0.5 R 0.0 R 0.5)
+   (GLUE D 9 R 0.5 R 0.0 R 0.5)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.5 R 0.0 R 0.5)
+   (GLUE D 12 R 0.5 R 0.0 R 0.5)
+   (GLUE D 13 R 0.5 R 0.0 R 0.5)
+   (GLUE D 14 R 0.5 R 0.0 R 0.5)
+   (GLUE D 15 R 0.5 R 0.0 R 0.5)
+   (STOP)
+   (LABEL D 3)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 8 R 0.0 R 0.0 R 0.0)
+   (GLUE D 9 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 4)
+   (GLUE D 0 R 0.25 R 0.0 R 0.25)
+   (GLUE D 1 R 0.25 R 0.0 R 0.25)
+   (GLUE D 2 R 0.25 R 0.0 R 0.25)
+   (GLUE D 3 R 0.25 R 0.0 R 0.25)
+   (GLUE D 4 R 0.5 R 0.0 R 0.5)
+   (GLUE D 5 R 0.25 R 0.0 R 0.25)
+   (GLUE D 6 R 0.25 R 0.0 R 0.25)
+   (GLUE D 7 R 0.25 R 0.0 R 0.25)
+   (GLUE D 8 R 0.25 R 0.0 R 0.25)
+   (GLUE D 9 R 0.25 R 0.0 R 0.25)
+   (GLUE D 10 R 0.25 R 0.0 R 0.25)
+   (GLUE D 11 R 0.25 R 0.0 R 0.25)
+   (GLUE D 12 R 0.25 R 0.0 R 0.25)
+   (GLUE D 13 R 0.25 R 0.0 R 0.25)
+   (GLUE D 14 R 0.25 R 0.0 R 0.25)
+   (GLUE D 15 R 0.25 R 0.0 R 0.25)
+   (STOP)
+   (LABEL D 5)
+   (GLUE D 0 R 0.5 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.5 R 0.0 R 0.0)
+   (GLUE D 4 R 0.75 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.5 R 0.0 R 0.0)
+   (GLUE D 8 R 0.5 R 0.0 R 0.0)
+   (GLUE D 9 R 0.5 R 0.0 R 0.0)
+   (GLUE D 10 R 0.5 R 0.0 R 0.0)
+   (GLUE D 11 R 0.5 R 0.0 R 0.0)
+   (GLUE D 12 R 0.5 R 0.0 R 0.0)
+   (GLUE D 13 R 0.5 R 0.0 R 0.0)
+   (GLUE D 14 R 0.5 R 0.0 R 0.0)
+   (GLUE D 15 R 0.5 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 6)
+   (GLUE D 0 R 0.5 R 0.0 R 0.5)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.5 R 0.0 R 0.5)
+   (GLUE D 4 R 0.75 R 0.0 R 0.75)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.5 R 0.0 R 0.5)
+   (GLUE D 8 R 0.5 R 0.0 R 0.5)
+   (GLUE D 9 R 0.5 R 0.0 R 0.5)
+   (GLUE D 10 R 0.5 R 0.0 R 0.5)
+   (GLUE D 11 R 0.5 R 0.0 R 0.5)
+   (GLUE D 12 R 0.5 R 0.0 R 0.5)
+   (GLUE D 13 R 0.5 R 0.0 R 0.5)
+   (GLUE D 14 R 0.5 R 0.0 R 0.5)
+   (GLUE D 15 R 0.5 R 0.0 R 0.5)
+   (STOP)
+   (LABEL D 7)
+   (GLUE D 0 R 0.0 R 0.25 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 8)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 9)
+   (GLUE D 0 R 0.0 R 0.25 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 10)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 8 R 0.0 R 0.0 R 0.0)
+   (GLUE D 9 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 11)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 12)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 13)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 8 R 0.0 R 0.0 R 0.0)
+   (GLUE D 9 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 14)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 8 R 0.0 R 0.0 R 0.0)
+   (GLUE D 9 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 15)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.5)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.25)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 7 R 0.0 R 0.0 R 0.0)
+   (GLUE D 8 R 0.0 R 0.0 R 0.0)
+   (GLUE D 9 R 0.0 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   )
+```
+
+``utmr-apr.jvf`` 我自己的改版， 其中的 GLUEKERN 表
+
+```gluekern
+(GLUEKERN
+   (LABEL D 0)
+   (GLUE D 1 R 0.0 R 0.5 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 1)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.25 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 2)
+   (GLUE D 0 R 0.0 R 0.5 R 0.0)
+   (GLUE D 1 R 0.0 R 0.25 R 0.0)
+   (GLUE D 2 R 0.0 R 0.25 R 0.0)
+   (GLUE D 3 R 0.0 R 0.25 R 0.0)
+   (GLUE D 4 R 0.0 R 0.25 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.5 R 0.0 R 0.25)
+   (GLUE D 13 R 0.5 R 0.0 R 0.25)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.5 R 0.0 R 0.25)
+   (STOP)
+   (LABEL D 3)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 4)
+   (GLUE D 1 R 0.0 R 0.25 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 5)
+   (GLUE D 0 R 0.0 R 0.5 R 0.0)
+   (GLUE D 1 R 0.0 R 0.25 R 0.0)
+   (GLUE D 2 R 0.0 R 0.25 R 0.0)
+   (GLUE D 3 R 0.0 R 0.25 R 0.0)
+   (GLUE D 4 R 0.0 R 0.25 R 0.0)
+   (GLUE D 5 R 0.0 R 0.25 R 0.0)
+   (GLUE D 6 R 0.0 R 0.25 R 0.0)
+   (GLUE D 12 R 0.5 R 0.0 R 0.25)
+   (GLUE D 13 R 0.5 R 0.0 R 0.25)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.5 R 0.0 R 0.25)
+   (STOP)
+   (LABEL D 6)
+   (GLUE D 0 R 0.0 R 0.5 R 0.0)
+   (GLUE D 1 R 0.0 R 0.25 R 0.0)
+   (GLUE D 2 R 0.0 R 0.25 R 0.0)
+   (GLUE D 3 R 0.0 R 0.25 R 0.0)
+   (GLUE D 4 R 0.0 R 0.25 R 0.0)
+   (GLUE D 5 R 0.0 R 0.25 R 0.0)
+   (GLUE D 6 R 0.0 R 0.25 R 0.0)
+   (GLUE D 12 R 0.5 R 0.0 R 0.25)
+   (GLUE D 13 R 0.5 R 0.0 R 0.25)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.5 R 0.0 R 0.25)
+   (STOP)
+   (LABEL D 7)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 8)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 9)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 10)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 11)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 12)
+   (GLUE D 0 R 0.25 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.0)
+   (GLUE D 2 R 0.25 R 0.0 R 0.0)
+   (GLUE D 3 R 0.25 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.0)
+   (GLUE D 5 R 0.25 R 0.0 R 0.0)
+   (GLUE D 6 R 0.25 R 0.0 R 0.0)
+   (GLUE D 7 R 0.25 R 0.0 R 0.0)
+   (GLUE D 8 R 0.25 R 0.0 R 0.0)
+   (GLUE D 9 R 0.25 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.25 R 0.0 R 0.0)
+   (GLUE D 12 R 0.0 R 0.0 R 0.0)
+   (GLUE D 13 R 0.5 R 0.0 R 0.0)
+   (GLUE D 14 R 0.25 R 0.0 R 0.0)
+   (GLUE D 15 R 0.5 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 13)
+   (GLUE D 0 R 0.25 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.0)
+   (GLUE D 2 R 0.25 R 0.0 R 0.0)
+   (GLUE D 3 R 0.25 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.0)
+   (GLUE D 5 R 0.25 R 0.0 R 0.0)
+   (GLUE D 6 R 0.25 R 0.0 R 0.0)
+   (GLUE D 7 R 0.25 R 0.0 R 0.0)
+   (GLUE D 8 R 0.25 R 0.0 R 0.0)
+   (GLUE D 9 R 0.25 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.25 R 0.0 R 0.0)
+   (GLUE D 12 R 0.5 R 0.0 R 0.0)
+   (GLUE D 13 R 0.0 R 0.0 R 0.0)
+   (GLUE D 14 R 0.25 R 0.0 R 0.0)
+   (GLUE D 15 R 0.5 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 14)
+   (GLUE D 0 R 0.0 R 0.0 R 0.0)
+   (GLUE D 1 R 0.0 R 0.25 R 0.0)
+   (GLUE D 2 R 0.0 R 0.0 R 0.0)
+   (GLUE D 3 R 0.0 R 0.0 R 0.0)
+   (GLUE D 4 R 0.0 R 0.0 R 0.0)
+   (GLUE D 5 R 0.0 R 0.0 R 0.0)
+   (GLUE D 6 R 0.0 R 0.0 R 0.0)
+   (GLUE D 12 R 0.25 R 0.0 R 0.0)
+   (GLUE D 13 R 0.25 R 0.0 R 0.0)
+   (GLUE D 14 R 0.0 R 0.0 R 0.0)
+   (GLUE D 15 R 0.25 R 0.0 R 0.0)
+   (STOP)
+   (LABEL D 15)
+   (GLUE D 0 R 0.25 R 0.0 R 0.0)
+   (GLUE D 1 R 0.5 R 0.0 R 0.0)
+   (GLUE D 2 R 0.25 R 0.0 R 0.0)
+   (GLUE D 3 R 0.25 R 0.0 R 0.0)
+   (GLUE D 4 R 0.25 R 0.0 R 0.0)
+   (GLUE D 5 R 0.25 R 0.0 R 0.0)
+   (GLUE D 6 R 0.25 R 0.0 R 0.0)
+   (GLUE D 7 R 0.25 R 0.0 R 0.0)
+   (GLUE D 8 R 0.25 R 0.0 R 0.0)
+   (GLUE D 9 R 0.25 R 0.0 R 0.0)
+   (GLUE D 10 R 0.0 R 0.0 R 0.0)
+   (GLUE D 11 R 0.25 R 0.0 R 0.0)
+   (GLUE D 12 R 0.5 R 0.0 R 0.0)
+   (GLUE D 13 R 0.5 R 0.0 R 0.0)
+   (GLUE D 14 R 0.25 R 0.0 R 0.0)
+   (GLUE D 15 R 0.0 R 0.0 R 0.0)
+   (STOP)
+   )
+
+```
+
+子康
+
+2024年4月1日
+
