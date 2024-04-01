@@ -2,29 +2,52 @@
 \null\thispagestyle{empty}
 
 \clearpage
+\pagestyle{empty}
+\ClearShipoutPictureBG
+% 外封底
 
-\thispagestyle{empty}
 \begin{minipage}<y>[htpb]{.99\textheight}
-	\begin{center}
-  	\vspace{111mm} %奥付のページ上部からの位置
-  	\fontsize{11pt}{22pt}\mgfamily
-		\begin{tabular}{l}
-			\multicolumn{1}{c}{\LARGE\mcfamily\bfseries\makebox[10zw][s]{脂硯齋重評石頭記}}\\[0mm] %%タイトル
-				\hline
-				%\\[-3mm]
-			\hspace{2mm}\makebox[5zw][s]{著 者}\hspace{5mm}%
-			清\hspace{1mm}\CID{119}\kern-1mm曹\hskip.5zw雪芹、脂硯齋 \hskip.5zw等\\[0mm]  %%著者
-			\hspace{2mm}\makebox[5zw][s]{発 行 日}\hspace{5mm}\today\\[0mm] %%発行日。「（西元\number\year~年\number\month~月\number\day~日）」のところに任意の日付を入れてもいい。
-			\hspace{2mm}\makebox[5zw][s]{発 行 者}\hspace{5mm}%
-			{子\hskip.5zw 康（SteveCheung）}\\[0mm]  %%発行者
-			\hspace{2mm}\makebox[5zw][s]{聯 絡 方 式}\hspace{5mm}%
-			{dongfang0571@gmail.com} \hspace{8mm} %\\[0mm] \hspace{65mm}
-				\hfil		{\fontsize{10pt}{15pt}\gtfamily{\CID{734}商用禁止；轉載自由（保留署名） }}
-			 %\\[-3mm]  %%発行者
-				\\\hline
-		\end{tabular}
-	\end{center}
+\begin{center}
+\vspace*{80mm} %奥付のページ上部からの位置
+%\setlength\tabcolsep{3pt} %% 这个就是重点！！
+\fontsize{9}{15}\selectfont\mgfamily\mdseries
+	\begin{tabular}{cc}
+		\multicolumn{2}{c}{\color{black}\huge\mcfamily\bfseries%
+		\makebox[10zw][s]{脂硯齋重評石頭記}}
+			\\[0pt] %%タイトル
+		\multicolumn{2}{c}{\color{black}\rule{.99\textheight}{1pt}}
+			\\[8pt]
+		\hspace{5mm}\makebox[5zw][s]{\color{black}著 者}	&	%
+		\makebox[36zw][l]{\color{black}\hspace{-.5zw}〔清〕曹雪芹}\\[0mm]  %%著者
+		\hspace{5mm}\makebox[5zw][s]{\color{black}校者}	&	%
+		\makebox[36zw][l]{\color{black}逍遙公子（三校）、雷明（四校）}\\[0mm]  %%校訂
+		\hspace{5mm}\makebox[5zw][s]{\color{black}紙 張}	&	%
+		\makebox[36zw][l]{\color{black}JIS B5（182×257mm）}\\[0mm]  %%尺寸
+		\hspace{5mm}\makebox[5zw][s]{\color{black}行 款}	&	%
+		\makebox[36zw][l]{\color{black}每頁十四行；每行卅五字}\\[0mm]  %%尺寸
+		\hspace{5mm}\makebox[5zw][s]{\color{black}發 行 人}	&	%
+		\makebox[36zw][l]{\color{black}子 康（Steve Cheung）}\\[0mm]  %%發行人
+		\hspace{5mm}\makebox[5zw][s]{\color{black}聯 繫 方 式}	&	%
+		\makebox[36zw][l]{\color{black} 602644360@qq.com}\\[0mm]  %%發行者
+		\hspace{5mm}\makebox[5zw][s]{\color{black}當 前 版 本}	&	%
+		\makebox[36zw][l]{\color{black} v2.006-20240312}\\[0mm]  %%版本
+		\hspace{5mm}\makebox[5zw][s]{\color{black}發 行 日}	&	%
+		\makebox[36zw][l]{\color{black}{\number\year}~年~{\number\month}~月~{\number\day}~日 }%%發行日
+			\\[0pt] 
+		\multicolumn{2}{c}{\color{black}\rule{.99\textheight}{1pt}}
+			\\[3pt]
+		\multicolumn{2}{c}{\color{black}本書電子版僅提供屏幕試閱。請勿印刷傳播。 對於書中錯漏，鄙人不擔負任何責任及義務。}%%免責申明
+			\\[0mm]
+		\multicolumn{2}{c}{\color{black}本書不刻意追求完美，允許少量錯別字存在。 若是發現排版錯誤，敬請截圖發到我的信箱。}%%免責申明
+			\\[0pt] 
+		\multicolumn{2}{c}{\color{black}\rule{.99\textheight}{1pt}}
+			\\[3pt]
+		\multicolumn{2}{r}{\color{black}{\mgfamily\mdseries%
+			\hbox{}\hfill\CID{734}商用禁止；轉載自由（保留署名）}} 
+	\end{tabular}
+\end{center}
 \end{minipage}
+
 
 \endinput
 
