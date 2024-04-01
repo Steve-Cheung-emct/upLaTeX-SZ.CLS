@@ -201,6 +201,145 @@ now added watermark by TikZ , fixed pagestyle.
 
 這些映射關係，可以通過讀取 opentype 的表 `cmap` 查找，不過，表上的也僅僅是 Adobe 默認的映射。所以想要讓他輸出 康熙字形，得花費一些巧思。留待以後展開陳述吧。
 
+### map 的配置，以便不同模板中使用它
+
+在 map files 中寫入
+
+```map files
+symt-ah    unicode    SourceHanSerifK-Light.otf
+symt-aq    unicode    SourceHanSerifK-Light.otf
+symt-at    unicode    SourceHanSerifK-Light.otf    -w    1
+symt-bh    unicode    SourceHanSerifK-Regular.otf
+symt-bq    unicode    SourceHanSerifK-Regular.otf
+symt-bt    unicode    SourceHanSerifK-Regular.otf    -w    1
+symt-ch    unicode    SourceHanSerifK-Regular.otf
+symt-cq    unicode    SourceHanSerifK-Regular.otf
+symt-ct    unicode    SourceHanSerifK-Regular.otf    -w    1
+symt-dh    unicode    SourceHanSerifK-SemiBold.otf
+symt-dq    unicode    SourceHanSerifK-SemiBold.otf
+symt-dt    unicode    SourceHanSerifK-SemiBold.otf    -w    1
+symt-eh    unicode    SourceHanSerifK-Bold.otf
+symt-eq    unicode    SourceHanSerifK-Bold.otf
+symt-et    unicode    SourceHanSerifK-Bold.otf    -w    1
+symt-fh    unicode    SourceHanSerifK-Bold.otf
+symt-fq    unicode    SourceHanSerifK-Bold.otf
+symt-ft    unicode    SourceHanSerifK-Bold.otf    -w    1
+
+```
+
+自己做一個編碼映射方式，這裏要用到三種 tfm ，一種是橫向（xxx-h，相當於橫向 D0），一種是橫向參照用作UniJIS-UCS2-V映射在半角模式下輸出全角標點的蝌蚪引號（xxx-hq，相當於橫向 D2，這里雖然没用到他，但還是要配置上，以便日後使用全局橫向的思源字體時不出錯，雖然沒什麽卵用），一種是縱向（xxx-v，相當於縱向 D0）不管怎樣，你重新配置的時候，都會單獨使用一個zvp，不會和系統已有的字體衝突。
+
+注意，垂直（JT2）字形思源字體的映射，必須加上 `   -w    1` 參數，因爲思源是 Adobe-Identity-0 的字體，不是標準的Adobe CID。
+
+配完 map 之後複製到 TeX 的系統中（如 `C:\texlive\texmf-local\fonts\map\dvipdfmx`）， 再執行 系統命令 ``kanji-config-updmap-sys --jis2004 myfont`` ，``myfont`` 表示的是你為魔改字體配置的字族。否則沒法使用這些映射。
+
+
+
+#### NFSS 的配置
+
+（僅示例）
+
+``` LaTeX
+% mincho light; 明朝体，細
+\DeclareFontFamily{JY2}{utmc}{}
+\DeclareFontFamily{JT2}{utmc}{}
+
+\DeclareFontShape{JY2}{utmc}{l}{n}{<->s*[0.924690]upml-apr}{}
+\DeclareFontShape{JY2}{utmc}{l}{it}{<->ssub*utmc/l/n}{}
+\DeclareFontShape{JY2}{utmc}{l}{sl}{<->ssub*utmc/l/n}{}
+\DeclareFontShape{JY2}{utmc}{l}{sc}{<->ssub*utmc/l/n}{}
+\DeclareFontShape{JT2}{utmc}{l}{n}{<->s*[0.924690]utml-apr}{}
+\DeclareFontShape{JT2}{utmc}{l}{it}{<->ssub*utmc/l/n}{}
+\DeclareFontShape{JT2}{utmc}{l}{sl}{<->ssub*utmc/l/n}{}
+\DeclareFontShape{JT2}{utmc}{l}{sc}{<->ssub*utmc/l/n}{}
+
+\DeclareFontShape{JY2}{utmc}{m}{n}{<->s*[0.924690]upmr-apr}{}
+\DeclareFontShape{JY2}{utmc}{m}{it}{<->ssub*utmc/m/n}{}
+\DeclareFontShape{JY2}{utmc}{m}{sl}{<->ssub*utmc/m/n}{}
+\DeclareFontShape{JY2}{utmc}{m}{sc}{<->ssub*utmc/m/n}{}
+\DeclareFontShape{JT2}{utmc}{m}{n}{<->s*[0.924690]utmr-apr}{}
+\DeclareFontShape{JT2}{utmc}{m}{it}{<->ssub*utmc/m/n}{}
+\DeclareFontShape{JT2}{utmc}{m}{sl}{<->ssub*utmc/m/n}{}
+\DeclareFontShape{JT2}{utmc}{m}{sc}{<->ssub*utmc/m/n}{}
+
+\DeclareFontShape{JY2}{utmc}{bx}{n}{<->s*[0.924690]upmb-apr}{}
+\DeclareFontShape{JY2}{utmc}{bx}{it}{<->ssub*utmc/bx/n}{}
+\DeclareFontShape{JY2}{utmc}{bx}{sl}{<->ssub*utmc/bx/n}{}
+\DeclareFontShape{JY2}{utmc}{bx}{sc}{<->ssub*utmc/bx/n}{}
+\DeclareFontShape{JT2}{utmc}{bx}{n}{<->s*[0.924690]utmb-apr}{}
+\DeclareFontShape{JT2}{utmc}{bx}{it}{<->ssub*utmc/bx/n}{}
+\DeclareFontShape{JT2}{utmc}{bx}{sl}{<->ssub*utmc/bx/n}{}
+\DeclareFontShape{JT2}{utmc}{bx}{sc}{<->ssub*utmc/bx/n}{}
+
+% gothic regular; 黑体，常規
+\DeclareFontFamily{JY2}{utgt}{}
+\DeclareFontFamily{JT2}{utgt}{}
+
+\DeclareFontShape{JY2}{utgt}{m}{n}{<->s*[0.924690]upgr-apr}{}
+\DeclareFontShape{JY2}{utgt}{m}{it}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JY2}{utgt}{m}{sl}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JY2}{utgt}{m}{sc}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JY2}{utgt}{l}{n}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JT2}{utgt}{m}{n}{<->s*[0.924690]utgr-apr}{}
+\DeclareFontShape{JT2}{utgt}{m}{it}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JT2}{utgt}{m}{sl}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JT2}{utgt}{m}{sc}{<->ssub*utgt/m/n}{}
+\DeclareFontShape{JT2}{utgt}{l}{n}{<->ssub*utgt/m/n}{}
+
+\DeclareFontShape{JY2}{utgt}{bx}{n}{<->s*[0.924690]upgb-apr}{}
+\DeclareFontShape{JY2}{utgt}{bx}{it}{<->ssub*utgt/bx/n}{}
+\DeclareFontShape{JY2}{utgt}{bx}{sl}{<->ssub*utgt/bx/n}{}
+\DeclareFontShape{JY2}{utgt}{bx}{sc}{<->ssub*utgt/bx/n}{}
+\DeclareFontShape{JT2}{utgt}{bx}{n}{<->s*[0.924690]utgb-apr}{}
+\DeclareFontShape{JT2}{utgt}{bx}{it}{<->ssub*utgt/bx/n}{}
+\DeclareFontShape{JT2}{utgt}{bx}{sl}{<->ssub*utgt/bx/n}{}
+\DeclareFontShape{JT2}{utgt}{bx}{sc}{<->ssub*utgt/bx/n}{}
+
+\DeclareFontShape{JY2}{utgt}{eb}{n}{<->s*[0.924690]upge-apr}{}
+\DeclareFontShape{JY2}{utgt}{eb}{it}{<->ssub*utgt/eb/n}{}
+\DeclareFontShape{JY2}{utgt}{eb}{sl}{<->ssub*utgt/eb/n}{}
+\DeclareFontShape{JY2}{utgt}{eb}{sc}{<->ssub*utgt/eb/n}{}
+\DeclareFontShape{JT2}{utgt}{eb}{n}{<->s*[0.924690]utge-apr}{}
+\DeclareFontShape{JT2}{utgt}{eb}{it}{<->ssub*utgt/eb/n}{}
+\DeclareFontShape{JT2}{utgt}{eb}{sl}{<->ssub*utgt/eb/n}{}
+\DeclareFontShape{JT2}{utgt}{eb}{sc}{<->ssub*utgt/eb/n}{}
+
+% maru gothic, only one weight
+% 圓体，常規
+\DeclareFontFamily{JY2}{mg}{}
+\DeclareFontFamily{JT2}{mg}{}
+
+\DeclareFontShape{JY2}{mg}{m}{n}{<->s*[0.924690]upmg-apr}{}
+\DeclareFontShape{JY2}{mg}{m}{it}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{l}{n}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{bx}{n}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JY2}{mg}{b}{n}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{n}{<->s*[0.924690]utmg-apr}{}
+\DeclareFontShape{JT2}{mg}{m}{it}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{sl}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{m}{sc}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{l}{n}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{bx}{n}{<->ssub*mg/m/n}{}
+\DeclareFontShape{JT2}{mg}{b}{n}{<->ssub*mg/m/n}{}
+
+\DeclareRobustCommand\ujmgrn{\kanjifamily{mg}\kanjiseries{m}\selectfont}
+
+\renewcommand\mcdefault{utmc}
+\renewcommand\gtdefault{utgt}
+
+\renewcommand\kanjifamilydefault{\mcdefault}
+\renewcommand\kanjiseriesdefault{\mddefault}
+
+```
+
+
+
+
+
+
+
 ### 標點的擠壓方式
 我寫了一個新模型的JVF，暫未放上GitHub，大意是用 ZR 的工具，將 ujlreq-v.vf 做了一些修改，標點符號之 glue-kern 表中，將成對標點（D1、D2）組，與之相關的漢字之間的交互關係，其彈性 ``glue`` 由 ``(GLUE D 1 R 0.5 R 0.0 R 0.5)`` 改爲 ``(GLUE D 1 R 0.0 R 0.5 R 0.0)`` ， 必然的，全角標點間距就會變成半角的標點間距。這種修改不涉及字符本身的映射，只會改變標點與標點、標點與漢字的交互關係。
 
