@@ -2,13 +2,13 @@
 
 ### A Template of Chinese/Japan vertical book style.
 
-本模板曾經被我用於《石頭記》垂直排版之用（下載訪問: [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) ）。
+本模板曾經被我用於排版直排PDF之《石頭記》（下載訪問: [脂硯齋重評石頭記之庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) ）。
 
-現如今，將代碼托管到 GitHub ，以供愛好者們克隆使用。
+如今，將代碼托管到 GitHub ，以供愛好者們克隆使用。
 
 （欢迎加入UpTeX直書交流QQ群：887970677）
 
-This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）, you can get it by the link:  [庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) 
+This Template was used to make a vertical book of Hong Lou Meng（紅樓夢）, you can get it by the link:  [the Tale of the Stone（脂硯齋重評石頭記之庚辰本）](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) 
 
 I pulled it on Github to share with upLaTeX users Now.
 
@@ -76,7 +76,7 @@ https://github.com/Steve-Cheung-emct/Manual-of-SZ.CLS
 
 ## 注意事項
 
-2024/04/01 更新之下，修改了正文的漢字尺寸，與舊模型不再兼容。試用前請務必備份。
+#### 2024/04/01 更新之下，修改了正文的漢字尺寸，與舊模型不再兼容。試用前請務必備份。
 
 該模板雙欄下割注會出錯。雙欄中使用頭注（tochu）也會出錯。排割注及頭注請使用單欄模式。
 
@@ -197,7 +197,7 @@ now added watermark by TikZ , fixed pagestyle.
 
 對於 CID 字形的切換是一一對應的，不可能批量置位。因此它每一條表示切換一個字符的 CID。
 
-示例即是將 U+F957 置位為 ISO-2022-JP 表形式的 Adobe-Identity-V 的子表0 所對應的 0x481 位置，這個16進制數轉爲10進制後表示  `cid01153` 即 1153 所存放的字形。是不是超級簡單。
+示例即是將 U+F957 置位為 ISO-2022-JP 表形式的 Adobe-Identity-H／Adobe-Identity-V 的子表 0 所記錄的 0x0481 ，這個16進制數轉爲10進制後表示  `cid01153` 即 1153 所存放的字形。（每個ISO-2022-JP 子表内空間為 94×94，其編碼空間為 92×92，在齋藤修三郎老師的 otf.sty 中所使用的 CID 映射的子表，每個子表映射 4096 字（64×64），即 0x0FFF ，將CID 序號轉16進制後，最高位即為子表的序號。如 cid23057 → 16進制為 0x5A11 ，5即表示在第5子表，這個ISO-2022-JP 是虛擬映射的，它並不存在真實編碼關係，只要知道他們都是一一對應即可。）
 
 這些映射關係，可以通過讀取 opentype 的表 `cmap` 查找，不過，表上的也僅僅是 Adobe 默認的映射。所以想要讓他輸出 康熙字形，得花費一些巧思。留待以後展開陳述吧。
 
