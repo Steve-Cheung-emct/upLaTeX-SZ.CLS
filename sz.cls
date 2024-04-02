@@ -18,7 +18,7 @@
 \DeclareOption{b4paper}{\setcounter{@paper}{3}%
   \setlength\paperheight {354mm}
   \setlength\paperwidth  {250mm}}
-\DeclareOption{b5paper}{\setcounter{@paper}{4}% ISO B5
+\DeclareOption{b5paper}{\setcounter{@paper}{4}% JIS B5
   \setlength\paperheight {257mm}
   \setlength\paperwidth  {182mm}}
 \DeclareOption{A4}{\setcounter{@paper}{1}%
@@ -30,7 +30,7 @@
 \DeclareOption{B4}{\setcounter{@paper}{3}%
   \setlength\paperheight {354mm}
   \setlength\paperwidth  {250mm}}
-\DeclareOption{B5}{\setcounter{@paper}{4}% ISO B5
+\DeclareOption{B5}{\setcounter{@paper}{4}% JIS B5
   \setlength\paperheight {257mm}
   \setlength\paperwidth  {182mm}}
 \newif\if@test \@testfalse
@@ -203,7 +203,6 @@
 \newcommand{\zhy}{\@setfontsize\zhy{15.14}{28}}     %  葬花吟
 \newcommand{\szhuge}{\@setfontsize\szhuge{15.14}{28}}  %  好了歌
 
-
 %%%古典字體設置
 \DeclareOldFontCommand{\mc}{\normalfont\mcfamily}{\mathmc}
 \DeclareOldFontCommand{\gt}{\normalfont\gtfamily}{\mathgt}
@@ -219,7 +218,7 @@
 
 \RequirePackage{multicol} %多欄
 \RequirePackage{type1cm} %字體
-\RequirePackage[uplatex,deluxe,jis2004]{otf} %字體包
+\RequirePackage[expert,uplatex,deluxe,jis2004]{otf} %字體包
 \RequirePackage[usenames]{color}
 \RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{jcolor}
@@ -240,7 +239,6 @@
 \setlength\footskip{12 pt}
 
 \setlength\maxdepth{0 pt}
-
 
 \if@twocolumn
 \setlength\textwidth{.8\paperheight}
@@ -384,7 +382,6 @@
       \if@twocolumn\hbox{}\newpage\fi
     \fi}
 \def\cleardbpage{\pltx@kochucleartoleftpage}
-
 
 \setlength{\columnsep}{2\Cwd}           %    中文縱書：欄間距 2 個全角字
 \setlength{\columnseprule}{0\p@}        %    雙欄 欄綫設定（無欄綫）
@@ -551,7 +548,7 @@
 	\@pdfmpageodd % 水平頁碼
 	\node [below,]  at%
 		(0,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
-		\color{\@columncolor}\@maintitle\quad{巻}\thechapter}};  % 書名+ 卷號
+		\color{\@columncolor}\@maintitle\quad{卷}\thechapter}};  % 書名+ 卷號
 	\node [below,rectangle,]  at%
 		(16.4,18) {\hbox{\tate\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
@@ -587,7 +584,7 @@
 	\@pdfmpageven % 水平頁碼
 	\node [below,]  at%
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
-		\color{\@columncolor}\@maintitle\quad{巻}\thechapter}};  % 書名+ 卷號
+		\color{\@columncolor}\@maintitle\quad{卷}\thechapter}};  % 書名+ 卷號
 	\node [below,rectangle,]  at%
 		(1.8,18) {\hbox{\tate\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
@@ -799,7 +796,6 @@
 \fi
 	\end{tikzpicture}%
 }}
-
 
 % 分冊目錄頁
 \newcommand{\watermarkpartodd}{\AddToShipoutPictureBG{%
@@ -1212,8 +1208,8 @@
            \parsep 0 pt%
            \listparindent 0 zw%
            \itemindent 0 pt%
-           \leftmargin 30 pt %
-           \rightmargin 30 pt
+           \leftmargin 28 pt %
+           \rightmargin 0 pt
            \gtfamily\szverse}%
            \item\relax}{\endlist}
 
@@ -1222,10 +1218,10 @@
   {\let\\\@centercr
    \list{}{\itemsep 0 pt%
            \topsep 0 pt %
-           \listparindent -30 pt%
-           \itemindent -30pt%
-           \leftmargin 30 pt %
-           \rightmargin 30 pt%
+           \listparindent -28 pt%
+           \itemindent -28 pt%
+           \leftmargin 28 pt%
+           \rightmargin 0 pt%
            \gtfamily \szverse}%
            \item\relax}{\endlist}
 
@@ -1523,9 +1519,14 @@
 
 %\def\@makeenmark{\kern -1.2zw \raisebox{.8zh}{\tiny （{\hbox{\yoko\expandafter\ajTsumesuji\expandafter*\expandafter{\number\@theenmark}}}）}}
 
-\def\@makeenmark{\smash{\hbox to\z@{\kern -1.5zw \raisebox{.8zh}{ %
-            \smash{\hbox{\small\mcfamily\ltseries （{\zhnumber{\@theenmark}}）}}}\kern .2zw}}}
-
+\def\@makeenmark{%\leavevmode
+	\setbox5\hbox{\small\mcfamily\mdseries{（\@Kanji{\@theenmark}）}}%
+	%\setlength\Cht{\ht2}
+	%\setlength\Cdp{\dp2}
+	%\setlength\Cwd{\wd2}
+	\setlength\@tempdimc{\wd5} \addtolength\@tempdimc{12pt}%
+	\smash{\hbox to\z@{\kern -\@tempdimc\raisebox{.8zh}{%
+	\smash{\vbox{\small\mcfamily\mdseries{（\@Kanji{\@theenmark}）}}}}}}\kern-3pt}
 
 \newdimen\endnotesep
 
@@ -1579,8 +1580,10 @@
 \def\@xendnotenext[#1]{\begingroup \c@endnote=#1\relax
    \xdef\@theenmark{\theendnote}\endgroup \@endnotetext}
 
-\def\enoteformat{\topskip 0 pt   \parindent -36pt \leftskip 45pt \rightskip 15 pt%
-          \UTF{FE35}\hbox{\zhnumber{\@theenmark}}\UTF{FE36}\hskip3pt } %2020/09/26
+\def\@enoteformat{\topskip 0 pt %
+          \leftskip 42pt \rightskip 15 pt%
+          \parindent -33pt %
+          \makebox[3zw][s]{\mcfamily\ltseries\hbox{（\@Kanji{\@theenmark}）}}} %2020/09/26
 \def\enotesize{\large\mcfamily}
 
 \newlength\chuskip
@@ -1616,8 +1619,6 @@
 %\def\dash{{\leavevmode\kern1mm\raise0.1zh\hbox{\mcfamily{------}}\kern1mm}}
 \def\dash{{\leavevmode\kern2pt\raise0zh\hbox{\rule{1.8zw}{1pt}}\kern2pt}}
 
-\def\dott{\hbox{\mcfamily{……}}}
-
 \newcommand{\六號}{\liuhao}
 \newcommand{\六号}{\liuhao}
 \newcommand{\小五}{\xiaowu}
@@ -1639,10 +1640,7 @@
 \newcommand{\初號}{\chuhao}
 \newcommand{\初号}{\chuhao}
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
