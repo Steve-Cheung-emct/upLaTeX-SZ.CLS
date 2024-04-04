@@ -1,6 +1,6 @@
 # upLaTeX-SZ.CLS
 
-### A Template of Chinese/Japan vertical book style.
+### A Template of Chinese/Japanese vertical book style.
 
 本模板曾經被我用於排版直排PDF之《石頭記》（下載訪問: [脂硯齋重評石頭記之庚辰本](https://drive.google.com/drive/folders/1Ufhx1Nn3eoHrLbz-d3VSilL3Ek-Kyoug) ）。
 
