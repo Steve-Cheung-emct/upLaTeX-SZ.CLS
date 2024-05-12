@@ -487,41 +487,41 @@
 \def\@pdfmpageodd{%
 \ifthenelse{\value{page} < 1}{%
 	\node [right,]  at%
-		(0.6,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@szpage~頁}%
+		(0.6,1.7) {\hbox{\yoko\mgfamily\mdseries\scriptsize~第~\@arabic\c@szpage~頁}%
 		\stepcounter{szpage}};}
 	{\node [right,]  at%
-		(0.6,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@page~頁}};}
+		(0.6,1.7) {\hbox{\yoko\mgfamily\mdseries\scriptsize~第~\@arabic\c@page~頁}};}
 	}
 \def\@pdfmpageven{%
 \ifthenelse{\value{page} < 1}{%
 	\node [left,]  at%
-		(17.5,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@szpage~頁}%
+		(17.5,1.7) {\hbox{\yoko\mgfamily\mdseries\scriptsize~第~\@arabic\c@szpage~頁}%
 		\stepcounter{szpage}};}
 	{\node [left,]  at%
-		(17.5,1.7) {\hbox{\yoko\mgfamily\scriptsize~第~\@arabic\c@page~頁}};}
+		(17.5,1.7) {\hbox{\yoko\mgfamily\mdseries\scriptsize~第~\@arabic\c@page~頁}};}
 	}
 
 % 定義奇數頁和偶數頁的垂直頁碼，pdfm 不啓用
 \def\@ppageodd{%
 	\node [below,]  at%
-		(1.6,18) {\hbox{\tate\mgfamily\scriptsize\leftmark}};  % 章標題
+		(1.6,18) {\hbox{\tate\mgfamily\mdseries\scriptsize\leftmark}};  % 章標題
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(1.6,4) {\hbox{\tate\mgfamily\scriptsize%
+		(1.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize%
 		（{第}~\zhnumber{\@arabic\c@szpage}~{頁}）}\stepcounter{szpage}};}
 	{\node [above,]  at%
-		(1.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(1.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 \def\@ppageven{%
 	\node [below,]  at%
-		(16.6,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
+		(16.6,18) {\hbox{\tate\mgfamily\mdseries\scriptsize\@maintitle}};  % 書名
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(16.6,4) {\hbox{\tate\mgfamily\scriptsize%
+		(16.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize%
 		（{第}~\zhnumber{\@arabic\c@szpage}~{頁}）}\stepcounter{szpage}};}
 	{\node [above,]  at%
-		(16.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(16.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};}
 	}
 
@@ -550,24 +550,24 @@
 		(0,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\quad{卷}\thechapter}};  % 書名+ 卷號
 	\node [below,rectangle,]  at%
-		(16.4,18) {\hbox{\tate\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
+		(16.4,18) {\hbox{\tate\mgfamily\mdseries\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 \else % 無糸欄、無邉框
 	\@pdfimg
 	\node [right,]  at%
-		(1.8,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
+		(1.8,1.7) {\hbox{\yoko\mgfamily\mdseries\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageodd
 \if@kasened
 \foreach \i in {60,74,...,550}{\draw [line width=0.1pt, color=cyan ] (55 pt,\i pt) -- (447 pt,\i pt);}
 \foreach \j in {55,83,...,447}{\draw [line width=0.1pt, color=cyan ] (\j pt, 60 pt) -- (\j pt, 550 pt);}
-\node [right,]  at (450 pt,550 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 35}}};
-\node [right,]  at (450 pt,480 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
-\node [right,]  at (450 pt,410 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
-\node [right,]  at (450 pt,340 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
-\node [right,]  at (450 pt,270 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
-\node [right,]  at (450 pt,200 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
-\node [right,]  at (450 pt,130 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
+\node [right,]  at (450 pt,550 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 35}}};
+\node [right,]  at (450 pt,480 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 30}}};
+\node [right,]  at (450 pt,410 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 25}}};
+\node [right,]  at (450 pt,340 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 20}}};
+\node [right,]  at (450 pt,270 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 15}}};
+\node [right,]  at (450 pt,200 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 10}}};
+\node [right,]  at (450 pt,130 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 5}}};
 \fi
 \fi
 %	\node at (146mm,17mm) {\includegraphics[width=28.14 mm,height=5 mm]{figures/sig.pdf}};
@@ -586,24 +586,24 @@
 		(18.2,18) {\hbox{\tate\verthuge\gtfamily\ebseries%
 		\color{\@columncolor}\@maintitle\quad{卷}\thechapter}};  % 書名+ 卷號
 	\node [below,rectangle,]  at%
-		(1.8,18) {\hbox{\tate\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
+		(1.8,18) {\hbox{\tate\mgfamily\mdseries\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 \else % 無糸欄、無邉框
 	\@pdfimg
 	\node [left,]  at%
-		(16.4,1.7) {\hbox{\yoko\mgfamily\scriptsize\hbox{\kanjiskip=1pt版權所有}%
+		(16.4,1.7) {\hbox{\yoko\mgfamily\mdseries\scriptsize\hbox{\kanjiskip=1pt版權所有}%
 		\qquad\hbox{\kanjiskip=1pt翻印必究}}};
 	\@ppageven
 \if@kasened
 \foreach \i in {60,74,...,550}{\draw [line width=0.1pt, color=cyan ] (70.840 pt,\i pt) -- (462.840 pt,\i pt);}
 \foreach \j in {70.840,98.840,...,462.840}{\draw [line width=0.1pt, color=cyan ] (\j pt, 60 pt) -- (\j pt, 550 pt);}
-\node [left,]  at (68 pt,550 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 35}}};
-\node [left,]  at (68 pt,480 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 30}}};
-\node [left,]  at (68 pt,410 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 25}}};
-\node [left,]  at (68 pt,340 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 20}}};
-\node [left,]  at (68 pt,270 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 15}}};
-\node [left,]  at (68 pt,200 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 10}}};
-\node [left,]  at (68 pt,130 pt) {\hbox{\yoko\mgfamily\small\hbox{\kanjiskip=1pt 5}}};
+\node [left,]  at (68 pt,550 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 35}}};
+\node [left,]  at (68 pt,480 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 30}}};
+\node [left,]  at (68 pt,410 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 25}}};
+\node [left,]  at (68 pt,340 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 20}}};
+\node [left,]  at (68 pt,270 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 15}}};
+\node [left,]  at (68 pt,200 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 10}}};
+\node [left,]  at (68 pt,130 pt) {\hbox{\yoko\mgfamily\mdseries\small\hbox{\kanjiskip=1pt 5}}};
 \fi
 \fi
 %	\node at (36mm, 17mm) {\includegraphics[width=50.23 mm,height=5.996 mm]{figures/sig.pdf}};
@@ -638,19 +638,19 @@
 	\@kasenodd%\@fishodd
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(0.5,5) {\hbox{\tate\mgfamily\scriptsize%
+		(0.5,5) {\hbox{\tate\mgfamily\mdseries\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(0.5,5) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(0.5,5) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}};}
 \else % 無邉框
 	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(1.6,4) {\hbox{\tate\mgfamily\scriptsize%
+		(1.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(1.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(1.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \fi
 	\end{tikzpicture}%
@@ -664,19 +664,19 @@
 	\@kaseneven%\@fisheven
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(17.7,5) {\hbox{\tate\mgfamily\scriptsize%
+		(17.7,5) {\hbox{\tate\mgfamily\mdseries\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(17.7,5) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(17.7,5) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \else % 無邉框
 	\@pdfimg
 \ifthenelse{\value{page} < 1}{%
 	\node [above,]  at%
-		(16.6,4) {\hbox{\tate\mgfamily\scriptsize%
+		(16.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize%
 		（{第}~\kansuji\c@szpage~{頁}）\stepcounter{szpage}}};}
 	{\node [above,]  at%
-		(16.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(16.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\kansuji\c@ppage~{頁}）}\stepcounter{ppage}};}
 \fi
 	\end{tikzpicture}%
@@ -768,9 +768,9 @@
 \else % 無邉框
 	\@pdfimg
 	\node [below,]  at%
-		(1.6,18) {\hbox{\tate\mgfamily\scriptsize{附}\qquad{錄}}};  % 章標題
+		(1.6,18) {\hbox{\tate\mgfamily\mdseries\scriptsize{附}\qquad{錄}}};  % 章標題
 	\node [above,]  at%
-		(1.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(1.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
@@ -789,9 +789,9 @@
 \else % 無邉框
 	\@pdfimg
 	\node [below,]  at%
-		(16.6,18) {\hbox{\tate\mgfamily\scriptsize\@maintitle}};  % 書名
+		(16.6,18) {\hbox{\tate\mgfamily\mdseries\scriptsize\@maintitle}};  % 書名
 	\node [above,]  at%
-		(16.6,4) {\hbox{\tate\mgfamily\scriptsize~\kansuji\c@page~%
+		(16.6,4) {\hbox{\tate\mgfamily\mdseries\scriptsize~\kansuji\c@page~%
 		（{第}~\zhnumber{\@arabic\c@ppage}~{頁}）}\stepcounter{ppage}};
 \fi
 	\end{tikzpicture}%
@@ -814,9 +814,9 @@
    \let\@mkboth\markboth
    % 章標題
  \def\@oddfoot{%
-      \watermarkoff\mgfamily\scriptsize\watermarkodd}%
+      \watermarkoff\mgfamily\mdseries\scriptsize\watermarkodd}%
  \def\@evenfoot{%
-      \watermarkoff\mgfamily\scriptsize\watermarkeven}%
+      \watermarkoff\mgfamily\mdseries\scriptsize\watermarkeven}%
    \let\@oddhead\@empty
    \let\@evenhead\@empty  }
 \def\ps@my{ % 定義前言使用的頁碼
